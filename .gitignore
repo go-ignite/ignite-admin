@@ -3,3 +3,4 @@ ignite-admin.exe
 ignite-admin.exe~
 .DS_Store
 config.toml
+node_modules/
