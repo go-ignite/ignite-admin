@@ -61,8 +61,9 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 		"admin": "123",
 	}))
 
-	pg.GET("/status", self.PanelIndexHandler)
+	pg.GET("/", self.PanelIndexHandler)
+	pg.GET("/status", self.PanelStatusHandler)
 	pg.GET("/logout", self.LogoutHandler)
 
-	self.router.Run(":6000")
+	self.router.Run(":8000")
 }
