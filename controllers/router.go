@@ -42,6 +42,9 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 		password = config.Get("mysql.password").(string)
 		host     = config.Get("mysql.host").(string)
 		dbname   = config.Get("mysql.dbname").(string)
+
+		authUser = config.Get("auth.username").(string)
+		authPass = config.Get("auth.password").(string)
 	)
 
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", user, password, host, dbname)
@@ -58,7 +61,7 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	self.router = r
 
 	pg := self.router.Group("/", gin.BasicAuth(gin.Accounts{
-		"admin": "123",
+		authUser: authPass,
 	}))
 
 	pg.GET("/", self.PanelIndexHandler)
