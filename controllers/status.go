@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (router *MainRouter) IndexHandler(c *gin.Context) {
+func (router *MainRouter) StatusHandler(c *gin.Context) {
 	session := sessions.Default(c)
 	v := session.Get("userId")
 	var uInfo *models.UserInfo
@@ -20,7 +20,7 @@ func (router *MainRouter) IndexHandler(c *gin.Context) {
 		}
 	}
 
-	c.HTML(http.StatusOK, "index.html", gin.H{
+	c.HTML(http.StatusOK, "status.html", gin.H{
 		"uInfo": uInfo,
 	})
 }

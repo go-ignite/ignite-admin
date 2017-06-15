@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ignite/controllers"
+	"ignite-admin/controllers"
 
 	"github.com/gin-gonic/gin"
 )
