@@ -1,26 +1,24 @@
 package controllers
 
 import (
-	"ignite/models"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
-func (router *MainRouter) StatusHandler(c *gin.Context) {
-	session := sessions.Default(c)
-	v := session.Get("userId")
-	var uInfo *models.UserInfo
-	if v != nil {
-		if uId, ok := v.(int64); ok {
-			uInfo = &models.UserInfo{
-				Id: uId,
-			}
-		}
-	}
+func (router *MainRouter) PanelStatusHandler(c *gin.Context) {
+	c.HTML(http.StatusOK, "status.html", nil)
+}
 
-	c.HTML(http.StatusOK, "status.html", gin.H{
-		"uInfo": uInfo,
-	})
+func (router *MainRouter) PanelIndexHandler(c *gin.Context) {
+	c.Redirect(http.StatusMovedPermanently, "/status")
+}
+
+func (router *MainRouter) LogoutHandler(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Delete("userId")
+	session.Save()
+
+	c.Redirect(http.StatusFound, "/")
 }
