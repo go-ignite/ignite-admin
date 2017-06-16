@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer navbar-fixed-bottom">
+    <footer class="footer">
         <div class="container">
             <div class="content has-text-centered">
                 <p>
@@ -23,3 +23,13 @@ module.exports = {
   }
 }
 </script>
+
+<style>
+.footer {
+    position:fixed;
+    left:0px;
+    bottom:0px;
+    height:30px;
+    width:100%;
+}
+</style>

@@ -5,26 +5,13 @@
 </head>
 
 <body>
-    <nav class="nav has-shadow">
-        <div class="container">
-            <div class="nav-left">
-                <a class="nav-item">
-        <img src="/static/images/favicon-96x96.png" alt="ignite">
-      </a>
-                <a class="nav-item is-tab is-hidden-mobile is-active">首页</a>
-                <a class="nav-item is-tab is-hidden-mobile">关于</a>
-            </div>
-            <span class="nav-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-            </span>
-        </div>
-    </nav>
+    <div id="nav">
+        <nav-bar></nav-bar>
+    </div>
 
-    <div class="container">
+    <div class="container" id="ut">
         <div class="columns">
-            <div class="column is-10 is-offset-1" id="ut">
+            <div class="column is-10 is-offset-1">
                 <user-table></user-table>
                 </div>
             </div>
@@ -32,10 +19,8 @@
     </div>
 
     <div id="footer">
-        <ft></ft>
+        <foot></foot>
     </div>
-
-
 
     <!-- JS -->
     <script src="/static/js/bundle.js"></script>
