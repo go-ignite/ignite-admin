@@ -15,7 +15,7 @@ func (router *MainRouter) PanelStatusHandler(c *gin.Context) {
 }
 
 func (router *MainRouter) PanelIndexHandler(c *gin.Context) {
-	c.Redirect(http.StatusMovedPermanently, "/status")
+	c.HTML(http.StatusOK, "index.html", nil)
 }
 
 func (router *MainRouter) PanelLoginHandler(c *gin.Context) {
