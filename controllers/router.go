@@ -64,6 +64,7 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	self.db = engine
 	self.router = r
 	self.router.GET("/", self.PanelIndexHandler)
+	self.router.POST("/login", self.PanelLoginHandler)
 
 	pg := self.router.Group("/panel")
 	pg.GET("/status", self.PanelStatusHandler)
