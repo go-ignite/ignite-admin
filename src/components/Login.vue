@@ -13,7 +13,9 @@
 </template>
 
 <script>
-module.exports = {
+import axios from 'axios';
+
+export default {
     data: function () {
         return {
             username: '',
@@ -23,6 +25,20 @@ module.exports = {
     methods: {
         onLogin: function (event) {
             console.log('Username:' + this.username + ' Password:' + this.password);
+
+            axios.post("/login", {
+                "username": this.username,
+                "password": this.password
+            })
+            .then(function (response) {
+                if(response.success) {
+                    console.log(response.message);
+                    window.location.href = '/panel/status';
+                }
+            })
+            .cache(function(error){
+                console.log(error);
+            });
         }
     }
 }

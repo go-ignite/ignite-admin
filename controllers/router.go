@@ -49,6 +49,10 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 
 	authUser = config.Get("auth.username").(string)
 	authPass = config.Get("auth.password").(string)
+
+	fmt.Printf("auth username:%s \r\n", authUser)
+	fmt.Printf("auth password:%s \r\n", authPass)
+
 	secret = config.Get("auth.secret").(string)
 
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", user, password, host, dbname)

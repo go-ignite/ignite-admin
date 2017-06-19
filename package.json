@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "axios": "^0.16.2",
     "css-loader": "^0.28.4",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.3",

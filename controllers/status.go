@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"ignite/models"
 	"net/http"
 	"time"
@@ -19,10 +20,24 @@ func (router *MainRouter) PanelIndexHandler(c *gin.Context) {
 }
 
 func (router *MainRouter) PanelLoginHandler(c *gin.Context) {
-	username := c.PostForm("username")
-	pwd := c.PostForm("password")
+	loginEntity := struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}{}
 
-	if username == authPass && pwd == authPass {
+	if err := c.BindJSON(&loginEntity); err != nil {
+		resp := models.Response{Success: false, Message: "Could not parse username & password..."}
+		c.JSON(http.StatusInternalServerError, &resp)
+		return
+	}
+
+	fmt.Println("username:", loginEntity.Username)
+	fmt.Println("pwd:", loginEntity.Password)
+
+	fmt.Println("authUser:", authUser)
+	fmt.Println("authPass:", authPass)
+
+	if loginEntity.Username == authUser && loginEntity.Password == authPass {
 		// Create the token
 		token := jwt.New(jwt.GetSigningMethod("HS256"))
 		// Set some claims
@@ -37,11 +52,16 @@ func (router *MainRouter) PanelLoginHandler(c *gin.Context) {
 			resp.Success = false
 			resp.Message = "Could not generate token"
 			c.JSON(http.StatusInternalServerError, &resp)
+			return
 		}
 
 		resp.Success = true
 		resp.Message = "success"
 		resp.Data = tokenString
 		c.JSON(http.StatusOK, &resp)
+		return
 	}
+
+	resp := models.Response{Success: false, Message: "Username of password is wrong!"}
+	c.JSON(http.StatusOK, &resp)
 }
