@@ -6,3 +6,4 @@ config.toml
 node_modules/
 static/js/index.bundle.js
 static/js/status.bundle.js
+vendor/
