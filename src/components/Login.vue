@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1 class="title">User Login</h1>
         <b-field label="Name">
             <b-input value="John Silver"></b-input>
         </b-field>
@@ -20,6 +21,6 @@ module.exports = {
 
 <style>
 #login {
-  margin: 80px auto 180px auto;
+  margin: 180px auto 180px auto;
 }
 </style>
