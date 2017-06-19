@@ -12,7 +12,9 @@ import (
 )
 
 var (
-	conf = flag.String("c", "./config.toml", "config file")
+	conf     = flag.String("c", "./config.toml", "config file")
+	authUser string
+	authPass string
 )
 
 type MainRouter struct {
@@ -42,10 +44,10 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 		password = config.Get("mysql.password").(string)
 		host     = config.Get("mysql.host").(string)
 		dbname   = config.Get("mysql.dbname").(string)
-
-		authUser = config.Get("auth.username").(string)
-		authPass = config.Get("auth.password").(string)
 	)
+
+	authUser = config.Get("auth.username").(string)
+	authPass = config.Get("auth.password").(string)
 
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", user, password, host, dbname)
 	engine, _ := xorm.NewEngine("mysql", connString)
@@ -59,14 +61,10 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 
 	self.db = engine
 	self.router = r
+	self.router.GET("/", self.PanelIndexHandler)
 
-	pg := self.router.Group("/", gin.BasicAuth(gin.Accounts{
-		authUser: authPass,
-	}))
-
-	pg.GET("/", self.PanelIndexHandler)
+	pg := self.router.Group("/panel")
 	pg.GET("/status", self.PanelStatusHandler)
-	pg.GET("/logout", self.LogoutHandler)
 
 	self.router.Run(":8000")
 }
