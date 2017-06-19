@@ -2,7 +2,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: {
-        index: __dirname + "/src/login.js",
+        index: __dirname + "/src/index.js",
         status: __dirname + "/src/main.js",
     },
     output: {
