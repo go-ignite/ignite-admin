@@ -15,6 +15,7 @@ var (
 	conf     = flag.String("c", "./config.toml", "config file")
 	authUser string
 	authPass string
+	secret   string
 )
 
 type MainRouter struct {
@@ -48,6 +49,7 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 
 	authUser = config.Get("auth.username").(string)
 	authPass = config.Get("auth.password").(string)
+	secret = config.Get("auth.secret").(string)
 
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", user, password, host, dbname)
 	engine, _ := xorm.NewEngine("mysql", connString)
