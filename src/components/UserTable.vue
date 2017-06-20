@@ -304,7 +304,8 @@ export default {
     return {}
   },
   created: function () {
-    console.log('UserTab created...')
+    console.log('UserTab created...');
+    console.log('Token is:' + localStorage.getItem("token"));
   }
 }
 </script>

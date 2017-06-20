@@ -32,7 +32,8 @@ export default {
             })
             .then(function (response) {
                 if(response.data.success) {
-                    console.log(response.message);
+                    console.log(response.data.message);
+                    localStorage.setItem("token", response.data.data);
                     location.href = '/panel/status';
                 }
             })
