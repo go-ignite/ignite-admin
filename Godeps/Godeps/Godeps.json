@@ -1,5 +1,5 @@
 {
-	"ImportPath": "ignite-admin",
+	"ImportPath": "ignite-admin/Godeps",
 	"GoVersion": "go1.7",
 	"GodepVersion": "v77",
 	"Packages": [
