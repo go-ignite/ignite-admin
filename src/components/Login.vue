@@ -31,12 +31,12 @@ export default {
                 "password": this.password
             })
             .then(function (response) {
-                if(response.success) {
+                if(response.data.success) {
                     console.log(response.message);
-                    window.location.href = '/panel/status';
+                    location.href = '/panel/status';
                 }
             })
-            .cache(function(error){
+            .catch(function(error){
                 console.log(error);
             });
         }
