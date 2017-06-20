@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/gin-gonic/contrib/jwt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
@@ -72,7 +71,6 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	self.router.POST("/login", self.PanelLoginHandler)
 
 	pg := self.router.Group("/panel")
-	pg.Use(jwt.Auth(secret))
 	pg.GET("/status", self.PanelStatusHandler)
 
 	self.router.Run(":8000")
