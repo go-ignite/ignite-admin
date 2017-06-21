@@ -72,6 +72,7 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 
 	pg := self.router.Group("/panel")
 	pg.GET("/status", self.PanelStatusHandler)
+	pg.GET("/status_list", self.PanelStatusListHandler)
 
 	self.router.Run(":8000")
 }
