@@ -24,7 +24,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .footer {
     position:fixed;
     left:0px;
