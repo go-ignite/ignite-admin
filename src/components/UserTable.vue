@@ -40,18 +40,19 @@ import axios from 'axios';
 export default {
   data () {
     return {
-      statusList: ''
+      statusList: []
     }
   },
   created () {
     console.log('UserTab created...');
     console.log('Token is:' + localStorage.getItem("token"));
+    let self = this;
 
     axios.get("/panel/status_list")
       .then(function (response) {
         if (response.data.success) {
           console.log(response.data.data);
-          this.statusList = response.data.data;
+          self.statusList = response.data.data;
         }
       })
       .catch(function (error) {
