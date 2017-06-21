@@ -16,28 +16,28 @@
 import axios from 'axios';
 
 export default {
-    data: function () {
+    data () {
         return {
             username: '',
             password: ''
         }
     },
     methods: {
-        onLogin: function (event) {
+        onLogin (event) {
             console.log('Username:' + this.username + ' Password:' + this.password);
 
             axios.post("/login", {
                 "username": this.username,
                 "password": this.password
             })
-            .then(function (response) {
+            .then( (response) => {
                 if(response.data.success) {
                     console.log(response.data.message);
                     localStorage.setItem("token", response.data.data);
                     location.href = '/panel/status';
                 }
             })
-            .catch(function(error){
+            .catch( (error) => {
                 console.log(error);
             });
         }

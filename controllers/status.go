@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"ignite/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,5 +12,9 @@ func (router *MainRouter) PanelStatusHandler(c *gin.Context) {
 }
 
 func (router *MainRouter) PanelStatusListHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "status.html", nil)
+	users := new([]*models.User)
+	router.db.Find(users)
+
+	resp := models.Response{Success: true, Message: "success", Data: users}
+	c.JSON(http.StatusOK, resp)
 }
