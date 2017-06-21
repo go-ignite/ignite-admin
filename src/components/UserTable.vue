@@ -3,32 +3,21 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>
-          <abbr title="Played">InviteCode</abbr>
-        </th>
-        <th>
-          <abbr title="Won">Package</abbr>
-        </th>
-        <th>
-          <abbr title="Drawn">Used</abbr>
-        </th>
-        <th>
-          <abbr title="Lost">Port</abbr>
-        </th>
-        <th>
-          <abbr title="Goals for">Status</abbr>
-        </th>
+        <th>InviteCode</th>
+        <th>Package</th>
+        <th>Used</th>
+        <th>Port</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="item in statusList">
         <th>{{ item.Username }}</th>
-        <td>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{{ item.InviteCode }}</td>
+        <td>{{ item.PackageLimit }} GB</td>
+        <td>{{ item.PackageUsed }}</td>
+        <td>{{ item.ServicePort }}</td>
+        <td>{{ item.ServiceStatus }}</td>
       </tr>
     </tbody>
   </table>
