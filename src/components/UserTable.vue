@@ -38,7 +38,6 @@ export default {
     }
   },
   created () {
-    console.log('UserTab created...');
     console.log('Token is:' + localStorage.getItem("token"));
     let self = this;
 
