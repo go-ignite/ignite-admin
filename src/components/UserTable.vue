@@ -17,7 +17,9 @@
         <td>{{ item.PackageLimit }} GB</td>
         <td>{{ item.PackageUsed | bandwidth }}</td>
         <td>{{ item.ServicePort }}</td>
-        <td>{{ item.ServiceStatus }}</td>
+        <td v-if="item.Status === 0 "><font color="gray">未创建</font></td>
+        <td v-else-if="item.Status === 1 "><font color="green">运行中</font></td>
+        <td v-else><font color="red">已停止</font></td>
       </tr>
     </tbody>
   </table>
