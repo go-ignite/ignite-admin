@@ -15,7 +15,7 @@
         <th>{{ item.Username }}</th>
         <td>{{ item.InviteCode }}</td>
         <td>{{ item.PackageLimit }} GB</td>
-        <td>{{ item.PackageUsed }}</td>
+        <td>{{ item.PackageUsed | bandwidth }}</td>
         <td>{{ item.ServicePort }}</td>
         <td>{{ item.ServiceStatus }}</td>
       </tr>
@@ -30,6 +30,11 @@ export default {
   data () {
     return {
       statusList: []
+    }
+  },
+  filters: {
+    bandwidth: (value) => {
+      return value.toFixed(2).toString() + ' GB';
     }
   },
   created () {
