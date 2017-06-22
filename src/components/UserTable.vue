@@ -4,6 +4,8 @@
       <tr>
         <th>Name</th>
         <th>InviteCode</th>
+        <th>Created</th>
+        <th>Expired</th>
         <th>Package</th>
         <th>Used</th>
         <th>Port</th>
@@ -16,6 +18,8 @@
       <tr v-for="item in statusList">
         <th>{{ item.Username }}</th>
         <td>{{ item.InviteCode }}</td>
+        <td>{{ item.Created | dateFilter}}</td>
+        <td>{{ item.Expired | dateFilter}}</td>
         <td>{{ item.PackageLimit }} GB</td>
         <td>{{ item.PackageUsed | bandwidth }}</td>
         <td>{{ item.ServicePort }}</td>
@@ -41,6 +45,9 @@ export default {
   filters: {
     bandwidth: (value) => {
       return value.toFixed(2).toString() + ' GB';
+    },
+    dateFilter: (value) => {
+      return value.split('T')[0];
     }
   },
   methods: {
