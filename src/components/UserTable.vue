@@ -8,6 +8,8 @@
         <th>Used</th>
         <th>Port</th>
         <th>Status</th>
+        <th>Reset</th>
+        <th>Destroy</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +22,8 @@
         <td v-if="item.Status === 0 "><font color="gray">未创建</font></td>
         <td v-else-if="item.Status === 1 "><font color="green">运行中</font></td>
         <td v-else><font color="red">已停止</font></td>
+        <td @click="reset(item.Id)"><a class="button is-success is-small">重置流量</a></td>
+        <td @click="destroy(item.Id)"><a class="button is-danger is-small">一键销毁</a></td>
       </tr>
     </tbody>
   </table>
@@ -38,6 +42,26 @@ export default {
     bandwidth: (value) => {
       return value.toFixed(2).toString() + ' GB';
     }
+  },
+  methods: {
+    reset: (id) => {
+      console.log(id);
+    },
+    destroy: (id) => {
+      console.log(id);
+    },
+    confirmCustomDelete: ()=> {
+            this.$dialog.confirm({
+                title: 'Deleting account',
+                message: 'Are you sure you want to <strong>delete</strong> your account? This action cannot be undone.',
+                confirmText: 'Delete Account',
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => {
+                    this.$toast.open('Account deleted!')
+                }
+            })
+        }
   },
   created () {
     console.log('Token is:' + localStorage.getItem("token"));
