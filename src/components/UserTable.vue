@@ -35,6 +35,7 @@
 
 <script>
 import axios from 'axios';
+axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
 
 export default {
   data () {
@@ -71,7 +72,6 @@ export default {
         }
   },
   created () {
-    console.log('Token is:' + localStorage.getItem("token"));
     let self = this;
 
     axios.get("/panel/status_list")
