@@ -65,7 +65,7 @@ export default {
     reset (id) {
       this.$dialog.confirm({
         title: '重置流量',
-        message: 'Are you sure you want to <strong>delete</strong> your account? This action cannot be undone.',
+        message: 'Are you sure you want to <strong>reset</strong> your account? This action cannot be undone.',
         confirmText: 'Reset Account',
         type: 'is-info',
         hasIcon: true,
