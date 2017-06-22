@@ -16,30 +16,35 @@
 import axios from 'axios';
 
 export default {
-    data () {
+    data() {
         return {
             username: '',
             password: ''
         }
     },
     methods: {
-        onLogin (event) {
+        onLogin(event) {
             console.log('Username:' + this.username + ' Password:' + this.password);
 
             axios.post("/login", {
                 "username": this.username,
                 "password": this.password
             })
-            .then( (response) => {
-                if(response.data.success) {
-                    console.log(response.data.message);
-                    localStorage.setItem("token", response.data.data);
-                    location.href = '/panel/status';
-                }
-            })
-            .catch( (error) => {
-                console.log(error);
-            });
+                .then((response) => {
+                    if (response.data.success) {
+                        console.log(response.data.message);
+                        localStorage.setItem("token", response.data.data);
+                        location.href = '/panel/status';
+                    } else {
+                        this.$toast.open({
+                            message: '用户名或者密码不正确!',
+                            type: 'is-danger'
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     }
 }
