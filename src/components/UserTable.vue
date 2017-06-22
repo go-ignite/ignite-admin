@@ -23,11 +23,21 @@
         <td>{{ item.PackageLimit }} GB</td>
         <td>{{ item.PackageUsed | bandwidth }}</td>
         <td>{{ item.ServicePort }}</td>
-        <td v-if="item.Status === 0 "><font color="gray">未创建</font></td>
-        <td v-else-if="item.Status === 1 "><font color="green">运行中</font></td>
-        <td v-else><font color="red">已停止</font></td>
-        <td @click="reset(item.Id)"><a class="button is-success is-small">重置流量</a></td>
-        <td @click="destroy(item.Id)"><a class="button is-danger is-small">一键销毁</a></td>
+        <td v-if="item.Status === 0 ">
+          <font color="gray">未创建</font>
+        </td>
+        <td v-else-if="item.Status === 1 ">
+          <font color="green">运行中</font>
+        </td>
+        <td v-else>
+          <font color="red">已停止</font>
+        </td>
+        <td @click="reset(item.Id)">
+          <a class="button is-success is-small">重置流量</a>
+        </td>
+        <td @click="confirmUserDelete(item.Id)">
+          <a class="button is-danger is-small">一键销毁</a>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -38,7 +48,7 @@ import axios from 'axios';
 axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
 
 export default {
-  data () {
+  data() {
     return {
       statusList: []
     }
@@ -52,26 +62,32 @@ export default {
     }
   },
   methods: {
-    reset: (id) => {
-      console.log(id);
-    },
-    destroy: (id) => {
-      console.log(id);
-    },
-    confirmCustomDelete: ()=> {
-            this.$dialog.confirm({
-                title: 'Deleting account',
-                message: 'Are you sure you want to <strong>delete</strong> your account? This action cannot be undone.',
-                confirmText: 'Delete Account',
-                type: 'is-danger',
-                hasIcon: true,
-                onConfirm: () => {
-                    this.$toast.open('Account deleted!')
-                }
-            })
+    reset (id) {
+      this.$dialog.confirm({
+        title: '重置流量',
+        message: 'Are you sure you want to <strong>delete</strong> your account? This action cannot be undone.',
+        confirmText: 'Reset Account',
+        type: 'is-info',
+        hasIcon: true,
+        onConfirm: (id) => {
+          this.$toast.open('Account Reseted!')
         }
+      })
+    },
+    confirmUserDelete (id) {
+      this.$dialog.confirm({
+        title: '销毁账户',
+        message: 'Are you sure you want to <strong>delete</strong> your account? This action cannot be undone.',
+        confirmText: 'Delete Account',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: (id) => {
+          this.$toast.open('Account deleted!')
+        }
+      })
+    }
   },
-  created () {
+  created() {
     let self = this;
 
     axios.get("/panel/status_list")
