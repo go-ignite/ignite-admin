@@ -2,16 +2,15 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>InviteCode</th>
-        <th>Created</th>
-        <th>Expired</th>
-        <th>Package</th>
-        <th>Used</th>
-        <th>Port</th>
-        <th>Status</th>
-        <th>Reset</th>
-        <th>Destroy</th>
+        <th>用户名</th>
+        <th>邀请码</th>
+        <th>创建时间</th>
+        <th>过期时间</th>
+        <th>总流量</th>
+        <th>已使用</th>
+        <th>端口号</th>
+        <th>状态</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody>
@@ -32,11 +31,9 @@
         <td v-else>
           <font color="red">已停止</font>
         </td>
-        <td @click="reset(item.Id)">
-          <a class="button is-success is-small">重置流量</a>
-        </td>
-        <td @click="confirmUserDelete(item.Id)">
-          <a class="button is-danger is-small">一键销毁</a>
+        <td>
+          <a @click="reset(item.Id, item.Username)" class="button is-success is-small">重置流量</a>
+          <a @click="confirmUserDelete(item.Id, item.Username)" class="button is-danger is-small">一键销毁</a>
         </td>
       </tr>
     </tbody>
@@ -62,27 +59,29 @@ export default {
     }
   },
   methods: {
-    reset (id) {
+    reset(id, name) {
       this.$dialog.confirm({
         title: '重置流量',
-        message: 'Are you sure you want to <strong>reset</strong> your account? This action cannot be undone.',
-        confirmText: 'Reset Account',
+        message: '是否确定 <strong>重置</strong> 用户帐号 <strong>' + name + '</strong> 的本月流量?',
+        confirmText: '确定重置',
+        cancelText: '取消',
         type: 'is-info',
         hasIcon: true,
         onConfirm: (id) => {
-          this.$toast.open('Account Reseted!')
+          this.$toast.open('用户帐号本月流量已重置!')
         }
       })
     },
-    confirmUserDelete (id) {
+    confirmUserDelete(id, name) {
       this.$dialog.confirm({
         title: '销毁账户',
-        message: 'Are you sure you want to <strong>delete</strong> your account? This action cannot be undone.',
-        confirmText: 'Delete Account',
+        message: '是否确定 <strong>销毁</strong> 用户帐号 <strong>' + name + '</strong> ? 该操作将不可逆转',
+        confirmText: '销毁帐号',
+        cancelText: '取消',
         type: 'is-danger',
         hasIcon: true,
         onConfirm: (id) => {
-          this.$toast.open('Account deleted!')
+          this.$toast.open('用户帐号已销毁!')
         }
       })
     }
@@ -107,5 +106,10 @@ export default {
 <style scoped>
 .table {
   margin: 80px auto 180px auto;
+}
+
+.table th,
+.table td {
+  text-align: center;
 }
 </style>
