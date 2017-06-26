@@ -69,8 +69,24 @@ export default {
         cancelText: '取消',
         type: 'is-info',
         hasIcon: true,
-        onConfirm: (id) => {
-          this.$toast.open('用户帐号本月流量已重置!')
+        onConfirm: () => {
+          axios.put("/auth/" + id.toString() + "/reset")
+            .then(function (response) {
+              if (response.status == 200) {
+                if (response.data.success) {
+                  this.$toast.open('用户帐号本月流量已重置!');
+                }
+              } else {
+                this.$toast.open('重置用户帐号本月流量失败!');
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+              if (error.response.status == 401) {
+                localStorage.setItem("token", "");
+                location.href = '/';
+              }
+            });
         }
       })
     },
@@ -82,7 +98,7 @@ export default {
         cancelText: '取消',
         type: 'is-danger',
         hasIcon: true,
-        onConfirm: (id) => {
+        onConfirm: () => {
           this.$toast.open('用户帐号已销毁!')
         }
       })
