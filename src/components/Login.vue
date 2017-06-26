@@ -34,7 +34,7 @@ export default {
                     if (response.data.success) {
                         console.log(response.data.message);
                         localStorage.setItem("token", response.data.data);
-                        location.href = '/panel/status';
+                        location.href = '/status';
                     } else {
                         this.$toast.open({
                             message: '用户名或者密码不正确!',

@@ -42,7 +42,9 @@
 
 <script>
 import axios from 'axios';
-axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+if (localStorage.getItem("token") != "") {
+  axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+}
 
 export default {
   data() {
@@ -89,15 +91,21 @@ export default {
   created() {
     let self = this;
 
-    axios.get("/panel/status_list")
+    axios.get("/auth/status_list")
       .then(function (response) {
-        if (response.data.success) {
-          console.log(response.data.data);
-          self.statusList = response.data.data;
+        console.log(response.status)
+        if (response.status == 200) {
+          if (response.data.success) {
+            console.log(response.data.data);
+            self.statusList = response.data.data;
+          }
         }
       })
       .catch(function (error) {
-        console.log(error);
+        if (error.response.status == 401) {
+          localStorage.setItem("token", "");
+          location.href = '/';
+        }
       });
   }
 }
