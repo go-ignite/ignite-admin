@@ -51,7 +51,4 @@ export default {
 </script>
 
 <style scoped>
-#login {
-    margin: 170px auto 180px auto;
-}
 </style>
