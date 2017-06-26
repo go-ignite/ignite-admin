@@ -76,6 +76,7 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	pg.Use(jwt.Auth(secret))
 	pg.GET("/status_list", self.PanelStatusListHandler)
 	pg.PUT("/:id/reset", self.ResetAccountHandler)
+	pg.PUT("/:id/destroy", self.DestroyAccountHandler)
 
 	self.router.Run(":8000")
 }
