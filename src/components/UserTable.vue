@@ -93,7 +93,6 @@ export default {
 
     axios.get("/auth/status_list")
       .then(function (response) {
-        console.log(response.status)
         if (response.status == 200) {
           if (response.data.success) {
             console.log(response.data.data);
