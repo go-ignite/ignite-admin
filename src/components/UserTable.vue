@@ -14,13 +14,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in statusList">
+      <tr v-for="(item, index) in statusList">
         <th>{{ item.Username }}</th>
         <td>{{ item.InviteCode }}</td>
         <td>{{ item.Created | dateFilter}}</td>
         <td>{{ item.Expired | dateFilter}}</td>
         <td>{{ item.PackageLimit }} GB</td>
-        <td>{{ item.PackageUsed | bandwidth }}</td>
+        <td>{{ statusList[index].PackageUsed | bandwidth }}</td>
         <td>{{ item.ServicePort }}</td>
         <td v-if="item.Status === 0 ">
           <font color="gray">未创建</font>
@@ -32,7 +32,7 @@
           <font color="red">已停止</font>
         </td>
         <td>
-          <a @click="reset(item.Id, item.Username)" class="button is-success is-small">重置流量</a>
+          <a @click="reset(item, index)" class="button is-success is-small">重置流量</a>
           <a @click="confirmUserDelete(item.Id, item.Username)" class="button is-danger is-small">一键销毁</a>
         </td>
       </tr>
@@ -61,26 +61,28 @@ export default {
     }
   },
   methods: {
-    reset(id, name) {
+    reset(item, index) {
+      self = this;
       this.$dialog.confirm({
         title: '重置流量',
-        message: '是否确定 <strong>重置</strong> 用户帐号 <strong>' + name + '</strong> 的本月流量?',
+        message: '是否确定 <strong>重置</strong> 用户帐号 <strong>' + item.Username + '</strong> 的本月流量?',
         confirmText: '确定重置',
         cancelText: '取消',
         type: 'is-info',
         hasIcon: true,
         onConfirm: () => {
-          axios.put("/auth/" + id.toString() + "/reset")
-            .then(function (response) {
+          axios.put("/auth/" + item.Id.toString() + "/reset")
+            .then( (response) => {
               if (response.status == 200) {
                 if (response.data.success) {
-                  this.$toast.open('用户帐号本月流量已重置!');
+                  self.statusList[index].PackageUsed = 0;
+                  self.$toast.open('用户帐号本月流量已重置!');
                 }
               } else {
-                this.$toast.open('重置用户帐号本月流量失败!');
+                self.$toast.open('重置用户帐号本月流量失败!');
               }
             })
-            .catch(function (error) {
+            .catch( (error) => {
               console.log(error);
               if (error.response.status == 401) {
                 localStorage.setItem("token", "");
