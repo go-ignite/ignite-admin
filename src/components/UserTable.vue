@@ -32,10 +32,10 @@
           <font color="red">已停止</font>
         </td>
         <td>
-          <a v-if="item.Status === 1" @click="reset(item, index)" class="button is-warning is-small">停止服务</a>
-          <a v-if="item.Status === 2" @click="reset(item, index)" class="button is-primary is-small">启动服务</a>
+          <a v-if="item.Status === 1" @click="stop(item, index)" class="button is-warning is-small">停止服务</a>
+          <a v-if="item.Status === 2" @click="start(item, index)" class="button is-primary is-small">启动服务</a>
           <a @click="reset(item, index)" class="button is-success is-small">重置流量</a>
-          <a @click="confirmUserDelete(item.Id, item.Username)" class="button is-danger is-small">一键销毁</a>
+          <a @click="destroy(item, index)" class="button is-danger is-small">一键销毁</a>
         </td>
       </tr>
     </tbody>
@@ -94,10 +94,10 @@ export default {
         }
       })
     },
-    confirmUserDelete(id, name) {
+    destroy(item, index) {
       this.$dialog.confirm({
         title: '销毁账户',
-        message: '是否确定 <strong>销毁</strong> 用户帐号 <strong>' + name + '</strong> ? 该操作将不可逆转',
+        message: '是否确定 <strong>销毁</strong> 用户帐号 <strong>' + item.Username + '</strong> ? 该操作将不可逆转',
         confirmText: '销毁帐号',
         cancelText: '取消',
         type: 'is-danger',
