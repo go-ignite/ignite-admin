@@ -77,6 +77,8 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	pg.GET("/status_list", self.PanelStatusListHandler)
 	pg.PUT("/:uid/reset", self.ResetAccountHandler)
 	pg.PUT("/:uid/destroy", self.DestroyAccountHandler)
+	pg.PUT("/:uid/stop", self.StopServiceHandler)
+	pg.PUT("/:uid/start", self.StartServiceHandler)
 
 	self.router.Run(":8000")
 }
