@@ -17,8 +17,8 @@
       <tr v-for="(item, index) in statusList">
         <th>{{ item.Username }}</th>
         <td>{{ item.InviteCode }}</td>
-        <td>{{ item.Created | dateFilter}}</td>
-        <td>{{ item.Expired | dateFilter}}</td>
+        <td><span class="tag is-primary">{{ item.Created | dateFilter}}</span></td>
+        <td><span class="tag is-primary">{{ item.Expired | dateFilter}}</span></td>
         <td>{{ item.PackageLimit }} GB</td>
         <td>{{ statusList[index].PackageUsed | bandwidth }}</td>
         <td>{{ item.ServicePort }}</td>
