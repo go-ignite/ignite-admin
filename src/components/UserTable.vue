@@ -83,6 +83,8 @@ export default {
                 if (response.data.success) {
                   self.statusList[index].Status = 2;
                   self.$toast.open('用户帐号对应服务已停止!');
+                } else {
+                  self.$toast.open('停止服务失败!');
                 }
               } else {
                 self.$toast.open('停止服务失败!');
@@ -114,6 +116,8 @@ export default {
                 if (response.data.success) {
                   self.statusList[index].Status = 1;
                   self.$toast.open('用户帐号对应服务已成功启动!');
+                } else {
+                  self.$toast.open('停止服务失败!');
                 }
               } else {
                 self.$toast.open('启动服务失败!');
@@ -145,6 +149,8 @@ export default {
                 if (response.data.success) {
                   self.statusList[index].PackageUsed = 0;
                   self.$toast.open('用户帐号本月流量已重置!');
+                } else {
+                  self.$toast.open('重置用户帐号本月流量失败!');
                 }
               } else {
                 self.$toast.open('重置用户帐号本月流量失败!');
@@ -175,7 +181,9 @@ export default {
               if (response.status == 200) {
                 if (response.data.success) {
                   self.statusList[index].PackageUsed = 0;
-                  self.$toast.open('用户帐号已销毁!')
+                  self.$toast.open('用户帐号已销毁!');
+                } else {
+                  self.$toast.open('销毁用户帐号失败!');
                 }
               } else {
                 self.$toast.open('销毁用户帐号失败!');
