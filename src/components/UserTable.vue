@@ -32,6 +32,8 @@
           <font color="red">已停止</font>
         </td>
         <td>
+          <a v-if="item.Status === 1" @click="reset(item, index)" class="button is-warning is-small">停止服务</a>
+          <a v-if="item.Status === 2" @click="reset(item, index)" class="button is-primary is-small">启动服务</a>
           <a @click="reset(item, index)" class="button is-success is-small">重置流量</a>
           <a @click="confirmUserDelete(item.Id, item.Username)" class="button is-danger is-small">一键销毁</a>
         </td>
