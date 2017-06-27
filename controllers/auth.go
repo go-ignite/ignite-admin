@@ -67,7 +67,13 @@ func (router *MainRouter) StopServiceHandler(c *gin.Context) {
 	router.db.Id(uid).Get(user)
 
 	//1. Stop user's container
-	ss.StopContainer(user.ServiceId)
+	err = ss.StopContainer(user.ServiceId)
+
+	if err != nil {
+		resp := models.Response{Success: false, Message: "停止服务失败"}
+		c.JSON(http.StatusOK, resp)
+		return
+	}
 
 	//2. Update service status
 	user.Status = 2
@@ -89,7 +95,13 @@ func (router *MainRouter) StartServiceHandler(c *gin.Context) {
 	router.db.Id(uid).Get(user)
 
 	//1. Stop user's container
-	ss.StartContainer(user.ServiceId)
+	err = ss.StartContainer(user.ServiceId)
+
+	if err != nil {
+		resp := models.Response{Success: false, Message: "启动服务失败"}
+		c.JSON(http.StatusOK, resp)
+		return
+	}
 
 	//2. Update service status
 	user.Status = 1

@@ -17,8 +17,12 @@
       <tr v-for="(item, index) in statusList">
         <th>{{ item.Username }}</th>
         <td>{{ item.InviteCode }}</td>
-        <td><span class="tag is-primary">{{ item.Created | dateFilter}}</span></td>
-        <td><span class="tag is-primary">{{ item.Expired | dateFilter}}</span></td>
+        <td>
+          <span class="tag is-primary">{{ item.Created | dateFilter}}</span>
+        </td>
+        <td>
+          <span class="tag is-primary">{{ item.Expired | dateFilter}}</span>
+        </td>
         <td>{{ item.PackageLimit }} GB</td>
         <td>{{ statusList[index].PackageUsed | bandwidth }}</td>
         <td>{{ item.ServicePort }}</td>
@@ -63,18 +67,80 @@ export default {
     }
   },
   methods: {
+    stop(item, index) {
+      self = this;
+      this.$dialog.confirm({
+        title: '停止服务',
+        message: '是否确定 <strong>停止</strong> 用户帐号 <strong>' + item.Username + '</strong> 的服务?',
+        confirmText: '停止服务',
+        cancelText: '取消',
+        type: 'is-warning',
+        hasIcon: true,
+        onConfirm: () => {
+          axios.put("/auth/" + item.Id.toString() + "/stop")
+            .then((response) => {
+              if (response.status == 200) {
+                if (response.data.success) {
+                  self.statusList[index].Status = 2;
+                  self.$toast.open('用户帐号对应服务已停止!');
+                }
+              } else {
+                self.$toast.open('停止服务失败!');
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              if (error.response.status == 401) {
+                localStorage.setItem("token", "");
+                location.href = '/';
+              }
+            });
+        }
+      })
+    },
+    start(item, index) {
+      self = this;
+      this.$dialog.confirm({
+        title: '启动服务',
+        message: '是否确定 <strong>启动</strong> 用户帐号 <strong>' + item.Username + '</strong> 的服务?',
+        confirmText: '启动服务',
+        cancelText: '取消',
+        type: 'is-primary',
+        hasIcon: true,
+        onConfirm: () => {
+          axios.put("/auth/" + item.Id.toString() + "/start")
+            .then((response) => {
+              if (response.status == 200) {
+                if (response.data.success) {
+                  self.statusList[index].Status = 1;
+                  self.$toast.open('用户帐号对应服务已成功启动!');
+                }
+              } else {
+                self.$toast.open('启动服务失败!');
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              if (error.response.status == 401) {
+                localStorage.setItem("token", "");
+                location.href = '/';
+              }
+            });
+        }
+      })
+    },
     reset(item, index) {
       self = this;
       this.$dialog.confirm({
         title: '重置流量',
         message: '是否确定 <strong>重置</strong> 用户帐号 <strong>' + item.Username + '</strong> 的本月流量?',
-        confirmText: '确定重置',
+        confirmText: '重置',
         cancelText: '取消',
         type: 'is-info',
         hasIcon: true,
         onConfirm: () => {
           axios.put("/auth/" + item.Id.toString() + "/reset")
-            .then( (response) => {
+            .then((response) => {
               if (response.status == 200) {
                 if (response.data.success) {
                   self.statusList[index].PackageUsed = 0;
@@ -84,7 +150,7 @@ export default {
                 self.$toast.open('重置用户帐号本月流量失败!');
               }
             })
-            .catch( (error) => {
+            .catch((error) => {
               console.log(error);
               if (error.response.status == 401) {
                 localStorage.setItem("token", "");
@@ -95,6 +161,7 @@ export default {
       })
     },
     destroy(item, index) {
+      self = this;
       this.$dialog.confirm({
         title: '销毁账户',
         message: '是否确定 <strong>销毁</strong> 用户帐号 <strong>' + item.Username + '</strong> ? 该操作将不可逆转',
@@ -103,7 +170,24 @@ export default {
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => {
-          this.$toast.open('用户帐号已销毁!')
+          axios.put("/auth/" + item.Id.toString() + "/destroy")
+            .then((response) => {
+              if (response.status == 200) {
+                if (response.data.success) {
+                  self.statusList[index].PackageUsed = 0;
+                  self.$toast.open('用户帐号已销毁!')
+                }
+              } else {
+                self.$toast.open('销毁用户帐号失败!');
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              if (error.response.status == 401) {
+                localStorage.setItem("token", "");
+                location.href = '/';
+              }
+            });
         }
       })
     }
