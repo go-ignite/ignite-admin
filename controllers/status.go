@@ -3,6 +3,7 @@ package controllers
 import (
 	"ignite/models"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,9 +13,16 @@ func (router *MainRouter) PanelStatusHandler(c *gin.Context) {
 }
 
 func (router *MainRouter) PanelStatusListHandler(c *gin.Context) {
-	users := new([]*models.User)
-	router.db.Desc("created").Find(users)
+	pageIndex, _ := strconv.Atoi(c.Query("pageIndex"))
+	pageSize, _ := strconv.Atoi(c.Query("pageSize"))
 
-	resp := models.Response{Success: true, Message: "success", Data: users}
+	users := new([]*models.User)
+	router.db.Desc("created").Limit(pageSize, pageSize*(pageIndex-1)).Find(users)
+
+	user := new(models.User)
+	total, _ := router.db.Count(user)
+
+	pd := models.PageData{Total: total, PageSize: pageSize, PageIndex: pageIndex, Data: users}
+	resp := models.Response{Success: true, Message: "success", Data: pd}
 	c.JSON(http.StatusOK, resp)
 }
