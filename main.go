@@ -10,7 +10,7 @@ func main() {
 	r := gin.Default()
 
 	r.Static("/static", "./static")
-	r.LoadHTMLGlob("templates/*")
+	r.LoadHTMLGlob("static/*.html")
 
 	mainRouter := &controllers.MainRouter{}
 	mainRouter.Initialize(r)

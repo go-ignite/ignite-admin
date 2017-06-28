@@ -3,7 +3,7 @@
         <div class="container">
             <div class="nav-left">
                 <a class="nav-item">
-                    <img src="/static/images/favicon-96x96.png" alt="ignite">
+                    <img src="./images/favicon-96x96.png" alt="ignite">
                 </a>
                 <a class="nav-item is-tab is-active">首页</a>
                 <a class="nav-item is-tab">关于</a>
