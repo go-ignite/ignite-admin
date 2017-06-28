@@ -180,7 +180,7 @@ export default {
             .then((response) => {
               if (response.status == 200) {
                 if (response.data.success) {
-                  self.statusList[index].PackageUsed = 0;
+                  self.statusList.splice(index, 1);
                   self.$toast.open('用户帐号已销毁!');
                 } else {
                   self.$toast.open('销毁用户帐号失败!');
