@@ -13,7 +13,7 @@ func (router *MainRouter) PanelStatusHandler(c *gin.Context) {
 
 func (router *MainRouter) PanelStatusListHandler(c *gin.Context) {
 	users := new([]*models.User)
-	router.db.Find(users)
+	router.db.Desc("created").Find(users)
 
 	resp := models.Response{Success: true, Message: "success", Data: users}
 	c.JSON(http.StatusOK, resp)
