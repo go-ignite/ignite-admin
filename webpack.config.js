@@ -54,19 +54,18 @@ module.exports = {
         // new UglifyJSPlugin(),
         new HtmlWebpackPlugin({
             template: './src/html/index.html',
-            filename: 'index.html'
+            filename: 'index.html',
+            chunks: ['index','commons'],
 		}),
         new HtmlWebpackPlugin({
             template: './src/html/code.html',
-            filename: 'code.html'
+            filename: 'code.html',
+            chunks: ['commons'],
 		}),
         new HtmlWebpackPlugin({
             template: './src/html/status.html',
-            filename: 'status.html'
-		}),
-        new HtmlWebpackPlugin({
-            template: './src/html/users.html',
-            filename: 'users.html'
+            filename: 'status.html',
+            chunks: ['status','commons'],
 		}),
         new ExtractTextPlugin("css/style.css"),
         new webpack.optimize.CommonsChunkPlugin({
