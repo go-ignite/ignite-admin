@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"ignite/models"
+	"ignite/utils"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -47,4 +49,40 @@ func (router *MainRouter) RemoveInviteCodeHandler(c *gin.Context) {
 
 	resp := models.Response{Success: true, Message: "success"}
 	c.JSON(http.StatusOK, resp)
+}
+
+func (router *MainRouter) GenerateInviteCodeHandler(c *gin.Context) {
+	generateCodeEntity := struct {
+		Amount    int `json:"amount"`
+		Limit     int `json:"limit"`
+		Available int `json:"available"`
+	}{}
+
+	if err := c.BindJSON(&generateCodeEntity); err != nil {
+		resp := models.Response{Success: false, Message: "Request body error..."}
+		c.JSON(http.StatusOK, &resp)
+		return
+	}
+	if generateCodeEntity.Amount == 0 || generateCodeEntity.Limit == 0 || generateCodeEntity.Available == 0 {
+		resp := models.Response{Success: false, Message: "Data invalid..."}
+		c.JSON(http.StatusOK, &resp)
+		return
+	}
+	codes := []models.InviteCode{}
+	for i := 0; i < generateCodeEntity.Amount; i++ {
+		codes = append(codes, models.InviteCode{
+			InviteCode:     utils.NewPasswd(10),
+			PackageLimit:   generateCodeEntity.Limit,
+			AvailableLimit: generateCodeEntity.Available,
+			Available:      true,
+		})
+	}
+	resp := models.Response{}
+	if _, err := router.db.Insert(&codes); err != nil {
+		log.Println("Save code error: ", err.Error())
+		resp.Message = "Save codes error..."
+	} else {
+		resp.Success = true
+	}
+	c.JSON(http.StatusOK, &resp)
 }

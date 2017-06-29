@@ -83,6 +83,7 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	//invite code related operations
 	pg.GET("/code_list", self.InviteCodeListHandler)
 	pg.PUT("/:id/remove", self.RemoveInviteCodeHandler)
+	pg.POST("/code_generate", self.GenerateInviteCodeHandler)
 
 	self.router.Run(":8000")
 }

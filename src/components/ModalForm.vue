@@ -5,17 +5,17 @@
         </header>
         <section class="modal-card-body">
             <b-field label="数量">
-                <b-input v-model="amount" placeholder="输入邀请码数量" type="number" min="1" max="100" required>
+                <b-input v-model.number="amount" placeholder="输入邀请码数量" type="number" min="1" max="100" required>
                 </b-input>
             </b-field>
     
             <b-field label="流量 (GB)">
-                <b-input v-model="limit" placeholder="输入月流量" type="number" min="1" max="999999" required>
+                <b-input v-model.number="limit" placeholder="输入月流量" type="number" min="1" max="999999" required>
                 </b-input>
             </b-field>
     
             <b-field label="有效期 (月)">
-                <b-input v-model="available" placeholder="输入有效月数" type="number" min="1" max="999999" required>
+                <b-input v-model.number="available" placeholder="输入有效月数" type="number" min="1" max="999999" required>
                 </b-input>
             </b-field>
         </section>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
 
     data() {
@@ -38,7 +40,22 @@ export default {
     },
     methods: {
         onSubmit() {
-            console.log("submit button clicked...");
+            axios.post("/auth/code_generate",{
+                "amount":this.amount,
+                "limit":this.limit,
+                "available":this.available,
+            }).then((response) => {
+                    if (response.data.success) {
+                        self.$toast.open('生成邀请码成功!');
+                    }else{
+                        this.$toast.open({
+                            message: '生成邀请码失败!',
+                            type: 'is-danger'
+                        })
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                });
             this.$emit('close');
         }
     }
