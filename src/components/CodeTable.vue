@@ -1,6 +1,10 @@
 <template>
     <div>
-        <a class="button is-primary batch" @click="onBatch">批量生成</a>
+        <a class="button is-primary batch" @click="showModal = true">批量生成</a>
+    
+        <b-modal v-on:close="onClosed" :active.sync="showModal" :component="ModalForm" :props="formProps" :width="360">
+        </b-modal>
+    
         <table class="table">
             <thead>
                 <tr>
@@ -33,6 +37,8 @@
 
 <script>
 import axios from 'axios';
+import ModalForm from './ModalForm.vue';
+
 if (localStorage.getItem("token") != "") {
     axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
 }
@@ -46,7 +52,12 @@ export default {
             perPage: 12,
             order: '',
             size: 'is-small',
-            isSimple: false
+            isSimple: false,
+            showModal: false,
+            ModalForm,
+            formProps: {
+                refresh: false,
+            }
         }
     },
     filters: {
@@ -55,8 +66,8 @@ export default {
         }
     },
     methods: {
-        onBatch() {
-            console.log("batch button clicked...");
+        onClosed() {
+            console.log("modal dialog closed...");
         },
         remove(item, index) {
             self = this;
