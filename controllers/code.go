@@ -26,3 +26,25 @@ func (router *MainRouter) InviteCodeListHandler(c *gin.Context) {
 	resp := models.Response{Success: true, Message: "success", Data: pd}
 	c.JSON(http.StatusOK, resp)
 }
+
+func (router *MainRouter) RemoveInviteCodeHandler(c *gin.Context) {
+	cid, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		resp := models.Response{Success: false, Message: "邀请码ID参数不正确"}
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	code := new(models.InviteCode)
+	_, err = router.db.Id(cid).Delete(code)
+
+	if err != nil {
+		resp := models.Response{Success: false, Message: "邀请码删除失败"}
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	resp := models.Response{Success: true, Message: "success"}
+	c.JSON(http.StatusOK, resp)
+}

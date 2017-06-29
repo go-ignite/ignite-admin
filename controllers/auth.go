@@ -10,7 +10,7 @@ import (
 )
 
 func (router *MainRouter) ResetAccountHandler(c *gin.Context) {
-	uid, err := strconv.Atoi(c.Param("uid"))
+	uid, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
 		resp := models.Response{Success: false, Message: "用户ID参数不正确"}
@@ -27,7 +27,7 @@ func (router *MainRouter) ResetAccountHandler(c *gin.Context) {
 }
 
 func (router *MainRouter) DestroyAccountHandler(c *gin.Context) {
-	uid, err := strconv.Atoi(c.Param("uid"))
+	uid, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
 		resp := models.Response{Success: false, Message: "用户ID参数不正确"}
@@ -55,7 +55,7 @@ func (router *MainRouter) DestroyAccountHandler(c *gin.Context) {
 }
 
 func (router *MainRouter) StopServiceHandler(c *gin.Context) {
-	uid, err := strconv.Atoi(c.Param("uid"))
+	uid, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
 		resp := models.Response{Success: false, Message: "用户ID参数不正确"}
@@ -83,7 +83,7 @@ func (router *MainRouter) StopServiceHandler(c *gin.Context) {
 }
 
 func (router *MainRouter) StartServiceHandler(c *gin.Context) {
-	uid, err := strconv.Atoi(c.Param("uid"))
+	uid, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
 		resp := models.Response{Success: false, Message: "用户ID参数不正确"}

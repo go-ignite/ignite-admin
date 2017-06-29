@@ -75,13 +75,14 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 
 	//user account related operations
 	pg.GET("/status_list", self.PanelStatusListHandler)
-	pg.PUT("/:uid/reset", self.ResetAccountHandler)
-	pg.PUT("/:uid/destroy", self.DestroyAccountHandler)
-	pg.PUT("/:uid/stop", self.StopServiceHandler)
-	pg.PUT("/:uid/start", self.StartServiceHandler)
+	pg.PUT("/:id/reset", self.ResetAccountHandler)
+	pg.PUT("/:id/destroy", self.DestroyAccountHandler)
+	pg.PUT("/:id/stop", self.StopServiceHandler)
+	pg.PUT("/:id/start", self.StartServiceHandler)
 
 	//invite code related operations
 	pg.GET("/code_list", self.InviteCodeListHandler)
+	pg.PUT("/:id/remove", self.RemoveInviteCodeHandler)
 
 	self.router.Run(":8000")
 }
