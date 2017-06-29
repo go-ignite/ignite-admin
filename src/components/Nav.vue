@@ -18,7 +18,7 @@
                 <a v-else class="nav-item is-tab">关于</a>
             </div>
             <div class="nav-right">
-                <a class="nav-item is-tab" @click="onLogout">退出</a>
+                <a v-if="page != 0" class="nav-item is-tab" @click="onLogout">退出</a>
             </div>
             <span class="nav-toggle">
                 <span></span>
