@@ -2,7 +2,7 @@
     <div>
         <a class="button is-primary batch" @click="showModal = true">批量生成</a>
     
-        <b-modal v-on:close="onClosed" :active.sync="showModal" :component="ModalForm" :props="formProps" :width="360">
+        <b-modal v-on:close="closed" :active.sync="showModal" :component="ModalForm" :width="360">
         </b-modal>
     
         <table class="table">
@@ -54,10 +54,7 @@ export default {
             size: 'is-small',
             isSimple: false,
             showModal: false,
-            ModalForm,
-            formProps: {
-                refresh: false,
-            }
+            ModalForm
         }
     },
     filters: {
@@ -66,8 +63,26 @@ export default {
         }
     },
     methods: {
-        onClosed() {
+        closed() {
             console.log("modal dialog closed...");
+            let self = this;
+
+            //Refresh all the valid invite codes.
+            axios.get("/auth/code_list?pageIndex=1&pageSize=12")
+                .then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.success) {
+                            self.codeList = response.data.data.data;
+                            self.total = response.data.data.total;
+                        }
+                    }
+                })
+                .catch(function (error) {
+                    if (error.response.status == 401) {
+                        localStorage.setItem("token", "");
+                        location.href = '/';
+                    }
+                });
         },
         remove(item, index) {
             self = this;

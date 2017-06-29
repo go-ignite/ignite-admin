@@ -36,7 +36,6 @@ export default {
             available: 1,
         }
     },
-    props: ['refresh'],
     methods: {
         onSubmit() {
             console.log("submit button clicked...");
