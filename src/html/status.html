@@ -6,14 +6,13 @@
 
 <body>
     <div id="nav">
-        <nav-bar v-bind:page="0"></nav-bar>
+        <nav-bar v-bind:page="1"></nav-bar>
     </div>
 
-    <div class="container" id="main-container">
+    <div class="container" id="ut">
         <div class="columns">
-            <div class="column is-4 is-offset-4">
-                <div id="login">
-                <login></login>
+            <div class="column is-12">
+                <user-table></user-table>
                 </div>
             </div>
         </div>
@@ -22,9 +21,6 @@
     <div id="footer">
         <foot></foot>
     </div>
-
-    <!-- JS -->
-    <script src="/static/js/index.bundle.js"></script>
 
 </body>
 

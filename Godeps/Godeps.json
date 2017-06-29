@@ -89,10 +89,6 @@
 		{
 			"ImportPath": "gopkg.in/yaml.v2",
 			"Rev": "a5b47d31c556af34a302ce5d659e6fea44d90de0"
-		},
-		{
-			"ImportPath": "ignite/models",
-			"Rev": "fe4aeb5eef67f2f14354ab37ad67fc49e54790c9"
 		}
 	]
 }

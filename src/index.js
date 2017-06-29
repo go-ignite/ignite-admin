@@ -1,10 +1,10 @@
 import Vue from 'vue/dist/vue.js'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
-import '../src/style.css'
-import Nav from '../src/components/Nav.vue'
-import Login from '../src/components/Login.vue'
-import Footer from '../src/components/Footer.vue'
+import './css/style.css'
+import Nav from './components/Nav.vue'
+import Login from './components/Login.vue'
+import Footer from './components/Footer.vue'
 
 
 Vue.use(Buefy)

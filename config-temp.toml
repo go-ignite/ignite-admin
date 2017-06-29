@@ -7,3 +7,4 @@ password = "123456"
 [auth]
 username = "admin"
 password = "123"
+secret = "123"

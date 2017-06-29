@@ -4,6 +4,5 @@ ignite-admin.exe~
 .DS_Store
 config.toml
 node_modules/
-static/js/index.bundle.js
-static/js/status.bundle.js
+static
 vendor/
