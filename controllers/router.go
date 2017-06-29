@@ -81,6 +81,7 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	pg.PUT("/:uid/start", self.StartServiceHandler)
 
 	//invite code related operations
+	pg.GET("/code_list", self.InviteCodeListHandler)
 
 	self.router.Run(":8000")
 }

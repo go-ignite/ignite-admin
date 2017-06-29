@@ -18,8 +18,9 @@
             <span class="tag is-primary">{{ item.Created | dateFilter}}</span>
           </td>
           <td>{{ item.PackageLimit }} GB</td>
+          <td>{{ item.AvailableLimit }} 个月</td>
           <td>
-            <a @click="remove(item, index)" class="button is-success is-small">删除</a>
+            <a @click="remove(item, index)" class="button is-danger is-small">删除</a>
           </td>
         </tr>
       </tbody>
@@ -58,7 +59,7 @@ export default {
         console.log("batch button clicked...");
     },
     remove(item, index) {
-        console.log("remove button clicked...");
+        console.log(index);
     },
     pageChanged(value) {
       let self = this;
@@ -67,7 +68,7 @@ export default {
         .then(function (response) {
           if (response.status == 200) {
             if (response.data.success) {
-              self.statusList = response.data.data.data;
+              self.codeList = response.data.data.data;
               self.total = response.data.data.total;
             }
           }
@@ -88,7 +89,7 @@ export default {
         if (response.status == 200) {
           if (response.data.success) {
             console.log(response.data.data);
-            self.statusList = response.data.data.data;
+            self.codeList = response.data.data.data;
             self.total = response.data.data.total;
           }
         }
