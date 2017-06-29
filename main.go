@@ -9,7 +9,9 @@ import (
 func main() {
 	r := gin.Default()
 
-	r.Static("/static", "./static")
+	r.Static("/static/js", "./static/js")
+	r.Static("/static/css", "./static/css")
+	r.Static("/static/images", "./static/images")
 	r.LoadHTMLGlob("static/*.html")
 
 	mainRouter := &controllers.MainRouter{}
