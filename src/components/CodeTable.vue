@@ -17,8 +17,8 @@
                     <td>
                         <span class="tag is-primary">{{ item.Created | dateFilter}}</span>
                     </td>
-                    <td>{{ item.PackageLimit }} GB</td>
                     <td>{{ item.AvailableLimit }} 个月</td>
+                    <td>{{ item.PackageLimit }} GB</td>
                     <td>
                         <a @click="remove(item, index)" class="button is-warning is-small">删除</a>
                     </td>
