@@ -13,6 +13,7 @@ module.exports = {
 	entry: {
         index: "./src/index.js",
         status: "./src/main.js",
+        code: "./src/code.js",
     },
     output: {
 		path: path.resolve(__dirname, './static'),
@@ -60,7 +61,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/html/code.html',
             filename: 'code.html',
-            chunks: ['commons'],
+            chunks: ['code','commons'],
 		}),
         new HtmlWebpackPlugin({
             template: './src/html/status.html',

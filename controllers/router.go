@@ -51,9 +51,6 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	authUser = config.Get("auth.username").(string)
 	authPass = config.Get("auth.password").(string)
 
-	fmt.Printf("auth username:%s \r\n", authUser)
-	fmt.Printf("auth password:%s \r\n", authPass)
-
 	secret = config.Get("auth.secret").(string)
 
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", user, password, host, dbname)
@@ -75,11 +72,16 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 
 	pg := self.router.Group("/auth")
 	pg.Use(jwt.Auth(secret))
+
+	//user account related operations
 	pg.GET("/status_list", self.PanelStatusListHandler)
 	pg.PUT("/:uid/reset", self.ResetAccountHandler)
 	pg.PUT("/:uid/destroy", self.DestroyAccountHandler)
 	pg.PUT("/:uid/stop", self.StopServiceHandler)
 	pg.PUT("/:uid/start", self.StartServiceHandler)
+
+	//invite code related operations
+	pg.GET("/code_list", self.InviteCodeListHandler)
 
 	self.router.Run(":8000")
 }
