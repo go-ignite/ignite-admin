@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a class="button is-primary batch" @click="onBatch">批量添加</a>
+        <a class="button is-primary batch" @click="onBatch">批量生成</a>
         <table class="table">
             <thead>
                 <tr>
