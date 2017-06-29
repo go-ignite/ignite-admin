@@ -22,6 +22,14 @@ export default {
             password: ''
         }
     },
+    created: function () {
+        var vm = this;
+        window.addEventListener('keyup', function(e){
+            if (e.keyCode == 13) {
+                vm.onLogin(e);
+            }
+        })
+    },
     methods: {
         onLogin(event) {
             console.log('Username:' + this.username + ' Password:' + this.password);
@@ -46,7 +54,7 @@ export default {
                     console.log(error);
                 });
         }
-    }
+    },
 }
 </script>
 
