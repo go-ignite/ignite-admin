@@ -12,15 +12,15 @@
                     </b-input>
                 </b-field>
 
-                <b-field label="流量">
+                <b-field label="流量 (GB)">
                     <b-input
                         v-model="limit"
-                        placeholder="输入月流量(GB)"
+                        placeholder="输入月流量"
                         required>
                     </b-input>
                 </b-field>
 
-                <b-field label="有效期">
+                <b-field label="有效期 (月)">
                     <b-input
                         v-model="available"
                         placeholder="输入有效月数"
