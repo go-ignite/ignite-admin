@@ -71,7 +71,7 @@ func (router *MainRouter) GenerateInviteCodeHandler(c *gin.Context) {
 	codes := []models.InviteCode{}
 	for i := 0; i < generateCodeEntity.Amount; i++ {
 		codes = append(codes, models.InviteCode{
-			InviteCode:     utils.NewPasswd(10),
+			InviteCode:     utils.NewPasswd(16),
 			PackageLimit:   generateCodeEntity.Limit,
 			AvailableLimit: generateCodeEntity.Available,
 			Available:      true,

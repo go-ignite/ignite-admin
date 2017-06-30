@@ -40,23 +40,24 @@ export default {
     },
     methods: {
         onSubmit() {
-            axios.post("/auth/code_generate",{
-                "amount":this.amount,
-                "limit":this.limit,
-                "available":this.available,
+            let self = this;
+            axios.post("/auth/code_generate", {
+                "amount": self.amount,
+                "limit": self.limit,
+                "available": self.available,
             }).then((response) => {
-                    if (response.data.success) {
-                        self.$toast.open('生成邀请码成功!');
-                    }else{
-                        this.$toast.open({
-                            message: '生成邀请码失败!',
-                            type: 'is-danger'
-                        })
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                });
-            this.$emit('close');
+                if (response.data.success) {
+                    self.$toast.open('生成邀请码成功!');
+                    self.$emit('close');
+                } else {
+                    self.$toast.open({
+                        message: '生成邀请码失败!',
+                        type: 'is-danger'
+                    })
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
         }
     }
 }
