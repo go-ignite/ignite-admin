@@ -14,6 +14,7 @@ module.exports = {
         index: "./src/index.js",
         status: "./src/main.js",
         code: "./src/code.js",
+        about: "./src/about.js",
     },
     output: {
 		path: path.resolve(__dirname, './static'),
@@ -67,6 +68,11 @@ module.exports = {
             template: './src/html/status.html',
             filename: 'status.html',
             chunks: ['status','commons'],
+		}),
+        new HtmlWebpackPlugin({
+            template: './src/html/about.html',
+            filename: 'about.html',
+            chunks: ['about','commons'],
 		}),
         new ExtractTextPlugin("css/style.css"),
         new webpack.optimize.CommonsChunkPlugin({
