@@ -14,8 +14,8 @@
                 <a v-if="page == 2" class="nav-item is-tab is-active" href="/code">邀请码管理</a>
                 <a v-if="page != 2 && page != 0" class="nav-item is-tab" href="/code">邀请码管理</a>
                 
-                <a v-if="page == 3" class="nav-item is-tab is-active">关于</a>
-                <a v-else class="nav-item is-tab">关于</a>
+                <a v-if="page == 3" class="nav-item is-tab is-active" href="/about">关于</a>
+                <a v-else class="nav-item is-tab" href="/about">关于</a>
             </div>
             <div class="nav-right">
                 <a v-if="page != 0" class="nav-item is-tab" @click="onLogout">退出</a>

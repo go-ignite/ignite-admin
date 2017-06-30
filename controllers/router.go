@@ -69,6 +69,7 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	self.router.POST("/login", self.PanelLoginHandler)
 	self.router.GET("/status", self.PanelStatusHandler)
 	self.router.GET("/code", self.InviteCodeHandler)
+	self.router.GET("/about", self.AboutHandler)
 
 	pg := self.router.Group("/auth")
 	pg.Use(jwt.Auth(secret))
