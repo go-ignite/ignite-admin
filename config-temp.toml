@@ -1,5 +1,5 @@
 [app]
-port = "8000"
+address = ":8000"
 
 [mysql]
 host = "localhost:3306"
