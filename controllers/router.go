@@ -86,5 +86,5 @@ func (self *MainRouter) Initialize(r *gin.Engine) {
 	pg.PUT("/:id/remove", self.RemoveInviteCodeHandler)
 	pg.POST("/code_generate", self.GenerateInviteCodeHandler)
 
-	self.router.Run(":" + config.Get("app.port").(string))
+	self.router.Run(config.Get("app.address").(string))
 }
