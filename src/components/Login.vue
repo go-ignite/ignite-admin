@@ -1,14 +1,14 @@
 <template>
     <div>
-        <h1 class="title">User Login</h1>
-        <b-field label="Name">
+        <h1 class="title">管理登录</h1>
+        <b-field label="用户名">
             <b-input v-model="username" @keyup.enter.native="onLogin"></b-input>
         </b-field>
-        <b-field label="Password">
+        <b-field label="密码">
             <b-input type="password" password-reveal v-model="password" @keyup.enter.native="onLogin">
             </b-input>
         </b-field>
-        <a class="button is-primary" @click="onLogin">Login</a>
+        <a class="button is-primary" @click="onLogin">登入</a>
     </div>
 </template>
 

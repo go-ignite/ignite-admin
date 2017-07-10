@@ -1,6 +1,6 @@
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-var path = require('path'), 
+var path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     ExtractTextPlugin = require("extract-text-webpack-plugin"),
     webpack = require('webpack');
@@ -10,23 +10,23 @@ var path = require('path'),
 
 module.exports = {
 
-	entry: {
+    entry: {
         index: "./src/index.js",
         status: "./src/main.js",
         code: "./src/code.js",
         about: "./src/about.js",
     },
     output: {
-		path: path.resolve(__dirname, './static'),
+        path: path.resolve(__dirname, './static'),
         filename: "js/[name].bundle.js",
         publicPath: '/static/'
     },
 
     module: {
-         rules: [
-			{
+        rules: [
+            {
                 test: /\.css$/,
-				use: ExtractTextPlugin.extract({
+                use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: "css-loader"
                 })
@@ -47,33 +47,35 @@ module.exports = {
                 test: /\.(jpg|png)$/,
                 use: [
                     'url-loader?limit=10000&name=images/[name].[ext]'
-                  ]
+                ]
             },
         ]
     },
 
     plugins: [
-        // new UglifyJSPlugin(),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        }),
         new HtmlWebpackPlugin({
             template: './src/html/index.html',
             filename: 'index.html',
-            chunks: ['index','commons'],
-		}),
+            chunks: ['index', 'commons'],
+        }),
         new HtmlWebpackPlugin({
             template: './src/html/code.html',
             filename: 'code.html',
-            chunks: ['code','commons'],
-		}),
+            chunks: ['code', 'commons'],
+        }),
         new HtmlWebpackPlugin({
             template: './src/html/status.html',
             filename: 'status.html',
-            chunks: ['status','commons'],
-		}),
+            chunks: ['status', 'commons'],
+        }),
         new HtmlWebpackPlugin({
             template: './src/html/about.html',
             filename: 'about.html',
-            chunks: ['about','commons'],
-		}),
+            chunks: ['about', 'commons'],
+        }),
         new ExtractTextPlugin("css/style.css"),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'commons',
