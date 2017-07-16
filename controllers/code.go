@@ -19,10 +19,10 @@ func (router *MainRouter) InviteCodeListHandler(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pageSize"))
 
 	codes := new([]*models.InviteCode)
-	router.db.Desc("created").Where("available=1").Limit(pageSize, pageSize*(pageIndex-1)).Find(codes)
+	router.db.Desc("created").Where("available = 1").Limit(pageSize, pageSize*(pageIndex-1)).Find(codes)
 
 	code := new(models.InviteCode)
-	total, _ := router.db.Count(code)
+	total, _ := router.db.Where("available = 1").Count(code)
 
 	pd := models.PageData{Total: total, PageSize: pageSize, PageIndex: pageIndex, Data: codes}
 	resp := models.Response{Success: true, Message: "success", Data: pd}
