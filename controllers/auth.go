@@ -39,16 +39,18 @@ func (router *MainRouter) DestroyAccountHandler(c *gin.Context) {
 	router.db.Id(uid).Get(user)
 
 	//1. Destroy user's container
-	err = ss.RemoveContainer(user.ServiceId)
+	if user.ServiceId != "" {
+		err = ss.RemoveContainer(user.ServiceId)
 
-	if err != nil {
-		resp := models.Response{Success: false, Message: "终止用户容器失败!"}
-		c.JSON(http.StatusOK, resp)
-		return
-	} else {
-		//2. Delete user's account
-		router.db.Id(uid).Delete(user)
+		if err != nil {
+			resp := models.Response{Success: false, Message: "终止用户容器失败!"}
+			c.JSON(http.StatusOK, resp)
+			return
+		}
 	}
+
+	//2. Delete user's account
+	router.db.Id(uid).Delete(user)
 
 	resp := models.Response{Success: true, Message: "success"}
 	c.JSON(http.StatusOK, resp)
