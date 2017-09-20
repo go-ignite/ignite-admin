@@ -69,17 +69,20 @@ func (router *MainRouter) StopServiceHandler(c *gin.Context) {
 	router.db.Id(uid).Get(user)
 
 	//1. Stop user's container
-	err = ss.StopContainer(user.ServiceId)
+	if ss.IsContainerRunning(user.ServiceId) {
+		err = ss.StopContainer(user.ServiceId)
 
-	if err != nil {
-		resp := models.Response{Success: false, Message: "停止服务失败"}
-		c.JSON(http.StatusOK, resp)
-		return
+		if err != nil {
+			resp := models.Response{Success: false, Message: "停止服务失败"}
+			c.JSON(http.StatusOK, resp)
+			return
+		}
+
+		//2. Update service status
+		user.Status = 2
+		router.db.Id(uid).Cols("status").Update(user)
 	}
 
-	//2. Update service status
-	user.Status = 2
-	router.db.Id(uid).Cols("status").Update(user)
 	resp := models.Response{Success: true, Message: "success"}
 	c.JSON(http.StatusOK, resp)
 }
@@ -96,18 +99,21 @@ func (router *MainRouter) StartServiceHandler(c *gin.Context) {
 	user := new(models.User)
 	router.db.Id(uid).Get(user)
 
-	//1. Stop user's container
-	err = ss.StartContainer(user.ServiceId)
+	//1. Start user's container
+	if !ss.IsContainerRunning(user.ServiceId) {
+		err = ss.StartContainer(user.ServiceId)
 
-	if err != nil {
-		resp := models.Response{Success: false, Message: "启动服务失败"}
-		c.JSON(http.StatusOK, resp)
-		return
+		if err != nil {
+			resp := models.Response{Success: false, Message: "启动服务失败"}
+			c.JSON(http.StatusOK, resp)
+			return
+		}
+
+		//2. Update service status
+		user.Status = 1
+		router.db.Id(uid).Cols("status").Update(user)
 	}
 
-	//2. Update service status
-	user.Status = 1
-	router.db.Id(uid).Cols("status").Update(user)
 	resp := models.Response{Success: true, Message: "success"}
 	c.JSON(http.StatusOK, resp)
 }
