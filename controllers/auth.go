@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"ignite/models"
-	"ignite/ss"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-ignite/ignite/models"
+	"github.com/go-ignite/ignite/ss"
 )
 
 func (router *MainRouter) ResetAccountHandler(c *gin.Context) {

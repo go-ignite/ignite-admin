@@ -1,9 +1,8 @@
 package main
 
 import (
-	"ignite-admin/controllers"
-
 	"github.com/gin-gonic/gin"
+	"github.com/go-ignite/ignite/controllers"
 )
 
 func main() {

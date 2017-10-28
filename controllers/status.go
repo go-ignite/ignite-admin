@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"ignite/models"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-ignite/ignite/models"
 )
 
 func (router *MainRouter) PanelStatusHandler(c *gin.Context) {
