@@ -1,13 +1,13 @@
 package controllers
 
 import (
-	"ignite/models"
-	"ignite/utils"
 	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-ignite/ignite/models"
+	"github.com/go-ignite/ignite/utils"
 )
 
 func (router *MainRouter) InviteCodeHandler(c *gin.Context) {

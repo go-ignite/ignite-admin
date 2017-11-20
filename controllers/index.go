@@ -2,12 +2,13 @@ package controllers
 
 import (
 	"fmt"
-	"ignite/models"
 	"net/http"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/go-ignite/ignite-admin/conf"
+	"github.com/go-ignite/ignite/models"
 )
 
 func (router *MainRouter) PanelIndexHandler(c *gin.Context) {
@@ -29,10 +30,7 @@ func (router *MainRouter) PanelLoginHandler(c *gin.Context) {
 	fmt.Println("username:", loginEntity.Username)
 	fmt.Println("pwd:", loginEntity.Password)
 
-	fmt.Println("authUser:", authUser)
-	fmt.Println("authPass:", authPass)
-
-	if loginEntity.Username == authUser && loginEntity.Password == authPass {
+	if loginEntity.Username == conf.Auth_Username && loginEntity.Password == conf.Auth_Password {
 		// Create the token
 		token := jwt.New(jwt.GetSigningMethod("HS256"))
 		// Set some claims
@@ -40,7 +38,7 @@ func (router *MainRouter) PanelLoginHandler(c *gin.Context) {
 			"exp": time.Now().Add(time.Hour * 1).Unix(),
 		}
 		// Sign and get the complete encoded token as a string
-		tokenString, err := token.SignedString([]byte(secret))
+		tokenString, err := token.SignedString([]byte(conf.Auth_Secret))
 		resp := models.Response{}
 
 		if err != nil {
