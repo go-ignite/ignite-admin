@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/contrib/jwt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-ignite/ignite-admin/conf"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 )
 
