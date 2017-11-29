@@ -5,5 +5,4 @@ ignite-admin.exe~
 config.toml
 node_modules/
 static
-vendor/
 yarn-error.log
