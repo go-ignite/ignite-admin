@@ -1,0 +1,14 @@
+[Unit]
+Description=ignite-admin service
+After=network.target
+
+[Service]
+WorkingDirectory=/path/to/ignite-admin
+ExecStart=/path/to/ignite-admin/ignite-admin
+User=username
+Restart=always
+KillMode=process
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target
