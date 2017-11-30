@@ -5,9 +5,6 @@ var path = require('path'),
     ExtractTextPlugin = require("extract-text-webpack-plugin"),
     webpack = require('webpack');
 
-
-
-
 module.exports = {
 
     entry: {
@@ -48,6 +45,11 @@ module.exports = {
                 use: [
                     'url-loader?limit=10000&name=images/[name].[ext]'
                 ]
+            },
+            // package fonts
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)\w*/,
+                loader: 'file-loader?outputPath=fonts/&name=[name].[ext]'
             },
         ]
     },

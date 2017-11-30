@@ -23,6 +23,7 @@ func initRouter(db *xorm.Engine) {
 	r.Static("/static/js", "./static/js")
 	r.Static("/static/css", "./static/css")
 	r.Static("/static/images", "./static/images")
+	r.Static("/static/fonts","./static/fonts")
 	r.LoadHTMLGlob("static/*.html")
 	mainRouter := &controllers.MainRouter{}
 	mainRouter.Initialize(r, db)
