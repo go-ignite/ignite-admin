@@ -1,3 +1,9 @@
-node_modules
 ignite-admin
-conf/config-temp.toml
+ignite-admin.exe
+ignite-admin.exe~
+.DS_Store
+conf/config.toml
+node_modules/
+static
+yarn-error.log
+snapshots
