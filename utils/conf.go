@@ -1,15 +1,10 @@
 package utils
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
 	toml "github.com/pelletier/go-toml"
-)
-
-var (
-	confPath = flag.String("c", "./conf/config.toml", "config file")
 )
 
 var (
@@ -23,10 +18,10 @@ var (
 	Auth_Username, Auth_Password, Auth_Secret string
 )
 
-func InitConf() {
+func InitConf(confPath string) {
 	//Check config file
-	if _, err := os.Stat(*confPath); !os.IsNotExist(err) {
-		if config, err := toml.LoadFile(*confPath); err == nil {
+	if _, err := os.Stat(confPath); !os.IsNotExist(err) {
+		if config, err := toml.LoadFile(confPath); err == nil {
 			APP_Address = config.Get("app.address").(string)
 
 			DB_Driver = config.Get("db.driver").(string)

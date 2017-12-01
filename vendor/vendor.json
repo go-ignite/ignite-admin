@@ -289,10 +289,10 @@
 			"revisionTime": "2017-12-01T14:07:45Z"
 		},
 		{
-			"checksumSHA1": "eTnn0UOtxPMk3AqR+HJ0CbYT+hg=",
+			"checksumSHA1": "1PdlH+bjqdkzObppzHkiBL3FPvk=",
 			"path": "github.com/go-ignite/ignite/utils",
-			"revision": "5933e18a5f8a4c90b5a5440cbf59bf9f16b3dce2",
-			"revisionTime": "2017-12-01T14:07:45Z"
+			"revision": "cb49cb14c11344122d56835302ba20bb79c55357",
+			"revisionTime": "2017-12-01T16:26:16Z"
 		},
 		{
 			"checksumSHA1": "QD6LqgLz2JMxXqns8TaxtK9AuHs=",

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-ignite/ignite-admin/controllers"
 	"github.com/go-ignite/ignite-admin/jobs"
@@ -10,8 +12,10 @@ import (
 	"github.com/robfig/cron"
 )
 
+var confPath = flag.String("c", "./conf/config.toml", "config file")
+
 func main() {
-	utility.InitConf()
+	utility.InitConf(*confPath)
 	db := utils.InitDB(utility.DB_Driver, utility.DB_Connect)
 	go initRouter(db)
 	go initJob(db)
