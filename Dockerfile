@@ -1,6 +1,5 @@
 FROM jmfirth/webpack:6-slim as builder-frontend
 COPY . /app
-RUN ls -lh
 RUN yarn install \
 			&& webpack
 

@@ -4,6 +4,5 @@ ignite-admin.exe~
 .DS_Store
 conf/config.toml
 node_modules/
-static
 yarn-error.log
 snapshots
