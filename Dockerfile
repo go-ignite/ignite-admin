@@ -22,7 +22,7 @@ VOLUME /root/ignite-admin/data
 WORKDIR /root/ignite-admin
 COPY --from=builder-backend /go/src/github.com/go-ignite/ignite-admin/ignite-admin ./
 COPY --from=builder-backend /go/src/github.com/go-ignite/ignite-admin/static ./static
-COPY --from=builder-backend /go/src/github.com/go-ignite/ignite-admin/data ./data
+COPY --from=builder-backend /go/src/github.com/go-ignite/ignite-admin/conf ./conf
 
 EXPOSE 8000
 CMD ["/bin/sh", "-c", "./ignite-admin"]
