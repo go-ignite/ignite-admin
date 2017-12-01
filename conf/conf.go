@@ -25,24 +25,39 @@ var (
 
 func InitConf() {
 	//Check config file
-	if _, err := os.Stat(*confPath); os.IsNotExist(err) {
-		fmt.Println("Cannot load config.toml, file doesn't exist...")
-		os.Exit(1)
+	if _, err := os.Stat(*confPath); os.IsExist(err) {
+		if config, err := toml.LoadFile(*confPath); err == nil {
+			APP_Address = config.Get("app.address").(string)
+
+			DB_Driver = config.Get("db.driver").(string)
+			DB_Connect = config.Get("db.connect").(string)
+
+			Auth_Username = config.Get("auth.username").(string)
+			Auth_Password = config.Get("auth.password").(string)
+			Auth_Secret = config.Get("auth.secret").(string)
+		}
 	}
-
-	config, err := toml.LoadFile(*confPath)
-
-	if err != nil {
-		fmt.Println("Failed to load config file:", *confPath)
-		fmt.Println(err.Error())
-		os.Exit(1)
+	if driver := os.Getenv("DB_DRIVER"); driver != "" {
+		DB_Driver = driver
 	}
-	APP_Address = config.Get("app.address").(string)
-
-	DB_Driver = config.Get("db.driver").(string)
-	DB_Connect = config.Get("db.connect").(string)
-
-	Auth_Username = config.Get("auth.username").(string)
-	Auth_Password = config.Get("auth.password").(string)
-	Auth_Secret = config.Get("auth.secret").(string)
+	if connect := os.Getenv("DB_CONNECT"); connect != "" {
+		DB_Connect = connect
+	}
+	if username := os.Getenv("AUTH_USERNAME"); username != "" {
+		Auth_Username = username
+	}
+	if password := os.Getenv("AUTH_PASSWORD"); password != "" {
+		Auth_Password = password
+	}
+	if secret := os.Getenv("Auth_SECRET"); secret != "" {
+		Auth_Secret = secret
+	}
+	fmt.Println("config: ", map[string]interface{}{
+		"address":       APP_Address,
+		"db_driver":     DB_Driver,
+		"db_connect":    DB_Connect,
+		"auth_username": Auth_Username,
+		"auth_password": Auth_Password,
+		"auth_secret":   Auth_Secret,
+	})
 }
