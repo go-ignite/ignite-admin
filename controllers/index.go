@@ -7,7 +7,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/go-ignite/ignite-admin/conf"
+	utility "github.com/go-ignite/ignite-admin/utils"
 	"github.com/go-ignite/ignite/models"
 )
 
@@ -30,7 +30,7 @@ func (router *MainRouter) PanelLoginHandler(c *gin.Context) {
 	fmt.Println("username:", loginEntity.Username)
 	fmt.Println("pwd:", loginEntity.Password)
 
-	if loginEntity.Username == conf.Auth_Username && loginEntity.Password == conf.Auth_Password {
+	if loginEntity.Username == utility.Auth_Username && loginEntity.Password == utility.Auth_Password {
 		// Create the token
 		token := jwt.New(jwt.GetSigningMethod("HS256"))
 		// Set some claims
@@ -38,7 +38,7 @@ func (router *MainRouter) PanelLoginHandler(c *gin.Context) {
 			"exp": time.Now().Add(time.Hour * 1).Unix(),
 		}
 		// Sign and get the complete encoded token as a string
-		tokenString, err := token.SignedString([]byte(conf.Auth_Secret))
+		tokenString, err := token.SignedString([]byte(utility.Auth_Secret))
 		resp := models.Response{}
 
 		if err != nil {

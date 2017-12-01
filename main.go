@@ -2,17 +2,17 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/go-ignite/ignite-admin/conf"
 	"github.com/go-ignite/ignite-admin/controllers"
 	"github.com/go-ignite/ignite-admin/jobs"
+	utility "github.com/go-ignite/ignite-admin/utils"
 	"github.com/go-ignite/ignite/utils"
 	"github.com/go-xorm/xorm"
 	"github.com/robfig/cron"
 )
 
 func main() {
-	conf.InitConf()
-	db := utils.InitDB(conf.DB_Driver, conf.DB_Connect)
+	utility.InitConf()
+	db := utils.InitDB(utility.DB_Driver, utility.DB_Connect)
 	go initRouter(db)
 	go initJob(db)
 	select {}

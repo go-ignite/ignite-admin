@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/contrib/jwt"
 	"github.com/gin-gonic/gin"
-	"github.com/go-ignite/ignite-admin/conf"
+	utility "github.com/go-ignite/ignite-admin/utils"
 	"github.com/go-xorm/xorm"
 )
 
@@ -26,7 +26,7 @@ func (self *MainRouter) Initialize(r *gin.Engine, db *xorm.Engine) {
 	self.router.GET("/about", self.AboutHandler)
 
 	pg := self.router.Group("/auth")
-	pg.Use(jwt.Auth(conf.Auth_Secret))
+	pg.Use(jwt.Auth(utility.Auth_Secret))
 
 	//user account related operations
 	pg.GET("/status_list", self.PanelStatusListHandler)
@@ -40,5 +40,5 @@ func (self *MainRouter) Initialize(r *gin.Engine, db *xorm.Engine) {
 	pg.PUT("/:id/remove", self.RemoveInviteCodeHandler)
 	pg.POST("/code_generate", self.GenerateInviteCodeHandler)
 
-	self.router.Run(conf.APP_Address)
+	self.router.Run(utility.APP_Address)
 }
