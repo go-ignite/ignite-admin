@@ -2,7 +2,7 @@ ignite-admin
 ignite-admin.exe
 ignite-admin.exe~
 .DS_Store
-config.toml
+data/config.toml
 node_modules/
 static
 yarn-error.log

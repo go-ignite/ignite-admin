@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	confPath = flag.String("c", "./config.toml", "config file")
+	confPath = flag.String("c", "./data/config.toml", "config file")
 )
 
 var (
@@ -25,7 +25,7 @@ var (
 
 func InitConf() {
 	//Check config file
-	if _, err := os.Stat(*confPath); os.IsExist(err) {
+	if _, err := os.Stat(*confPath); !os.IsNotExist(err) {
 		if config, err := toml.LoadFile(*confPath); err == nil {
 			APP_Address = config.Get("app.address").(string)
 

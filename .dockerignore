@@ -1,11 +1,3 @@
-.git
 node_modules
-src
-controllers
-Godeps
-config-temp.toml
-config.toml
-docker-build.sh
-main.go
-package.json
-webpack.config.js
+ignite-admin
+data/config-temp.toml
