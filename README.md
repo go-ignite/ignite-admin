@@ -10,9 +10,9 @@ Admin panel for go-ignite.
 
 # Features
 
-* User account is activiated by unique invitation code.
+* User account is activated by unique invitation code.
 * You can create multiple invitation codes by batch operation.
-* User's account will be suspended automaticlly by background job if it exceeds the max bandwidth limit or the expired date.
+* User's account will be suspended automatically by background job if it exceeds the max bandwidth limit or the expired date.
 * Stop / Reset / Destroy docker server by one-click.
 
 # Snapshots
