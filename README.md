@@ -1,4 +1,5 @@
-# ignite-admin
+![](https://github.com/go-ignite/ignite-admin/raw/master/snapshots/ignite-admin.png)
+---
 Admin panel for go-ignite.
 
 * [Features](#features)
