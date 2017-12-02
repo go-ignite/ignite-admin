@@ -1,7 +1,6 @@
 FROM jmfirth/webpack:6-slim as builder-frontend
 COPY . /app
-RUN yarn install \
-			&& webpack
+RUN yarn install && webpack
 
 FROM golang:1.9 as builder-backend
 WORKDIR /go/src/github.com/go-ignite/ignite-admin
@@ -20,7 +19,6 @@ VOLUME /root/ignite/data
 
 WORKDIR /root/ignite-admin
 COPY --from=builder-backend /go/src/github.com/go-ignite/ignite-admin/ignite-admin ./
-COPY --from=builder-backend /go/src/github.com/go-ignite/ignite-admin/static ./static
 COPY --from=builder-backend /go/src/github.com/go-ignite/ignite-admin/conf ./conf
 RUN mv ./conf/config-temp.toml ./conf/config.toml
 
