@@ -6,3 +6,4 @@ conf/config.toml
 node_modules/
 yarn-error.log
 snapshots
+static

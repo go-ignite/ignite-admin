@@ -1,10 +1,11 @@
 FROM jmfirth/webpack:6-slim as builder-frontend
-COPY . /app
+WORKDIR /ignite-admin
+COPY . .
 RUN yarn install && webpack
 
 FROM golang:1.9 as builder-backend
 WORKDIR /go/src/github.com/go-ignite/ignite-admin
-COPY --from=builder-frontend /app .
+COPY . .
 RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o ignite-admin .
 
 FROM alpine
@@ -20,6 +21,7 @@ VOLUME /root/ignite/data
 WORKDIR /root/ignite-admin
 COPY --from=builder-backend /go/src/github.com/go-ignite/ignite-admin/ignite-admin ./
 COPY --from=builder-backend /go/src/github.com/go-ignite/ignite-admin/conf ./conf
+COPY --from=builder-frontend /ignite-admin/static ./static
 RUN mv ./conf/config-temp.toml ./conf/config.toml
 
 EXPOSE 8000
