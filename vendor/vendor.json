@@ -283,10 +283,10 @@
 			"revisionTime": "2017-11-28T15:18:58Z"
 		},
 		{
-			"checksumSHA1": "YNGi9bSVU2Cgl7pPLgDsSxGrlv0=",
+			"checksumSHA1": "g0VV6mpFyD3Dza1OP/J3GfVU8UY=",
 			"path": "github.com/go-ignite/ignite/ss",
-			"revision": "5933e18a5f8a4c90b5a5440cbf59bf9f16b3dce2",
-			"revisionTime": "2017-12-01T14:07:45Z"
+			"revision": "083bc204278d37fde6790ee4566d7bcd06a5d040",
+			"revisionTime": "2017-12-03T03:21:18Z"
 		},
 		{
 			"checksumSHA1": "1PdlH+bjqdkzObppzHkiBL3FPvk=",
