@@ -60,7 +60,7 @@ func InstantStats() {
 			// Stop container && update user status
 			err := ss.StopContainer(user.ServiceId)
 			if err != nil {
-				log.Println("Stop container(%s) error: %s\n", user.ServiceId, err.Error())
+				log.Printf("Stop container(%s) error: %s\n", user.ServiceId, err.Error())
 			} else {
 				log.Printf("STOP: user(%d-%s)-container(%s)\n", user.Id, user.Username, user.ServiceId[:12])
 				user.Status = 2
