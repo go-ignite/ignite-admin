@@ -2,7 +2,6 @@ package jobs
 
 import (
 	"log"
-	"os"
 	"time"
 
 	"github.com/go-ignite/ignite/models"
@@ -16,7 +15,7 @@ func DailyStats() {
 	err := db.Where("service_id != '' AND status = 1").Find(&users)
 	if err != nil {
 		log.Println("Get users error: ", err.Error())
-		os.Exit(1)
+		return
 	}
 
 	//2. Stop expired containers

@@ -16,7 +16,7 @@ func MonthlyStats() {
 	err := db.Where("service_id != '' AND status = 2").Find(&users)
 	if err != nil {
 		log.Println("Get users error: ", err.Error())
-		os.Exit(1)
+		return
 	}
 
 	//2. Restart stopped but not expired containers

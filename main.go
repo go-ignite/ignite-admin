@@ -38,7 +38,7 @@ func initJob(db *xorm.Engine) {
 	c := cron.New()
 	c.AddFunc("* */5 * * * *", jobs.InstantStats)
 	c.AddFunc("0 0 0 * * *", jobs.DailyStats)
-	c.AddFunc("0 0 1 * * *", jobs.MonthlyStats)
+	c.AddFunc("0 0 0 1 * *", jobs.MonthlyStats)
 	c.Start()
 	select {}
 }
