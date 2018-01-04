@@ -277,16 +277,22 @@
 			"revisionTime": "2017-04-28T10:59:23Z"
 		},
 		{
+			"checksumSHA1": "T53e/guXG8DCtAf+3tjoD9X5eLw=",
+			"path": "github.com/go-ignite/ignite",
+			"revision": "9579c6bc5da68c91a0b69845628e2e6f2fa487f0",
+			"revisionTime": "2018-01-04T08:01:45Z"
+		},
+		{
 			"checksumSHA1": "E5g4WXIPeGOCSwXqYkxz58TynIw=",
 			"path": "github.com/go-ignite/ignite/models",
 			"revision": "713382471f930a5425570ccb30001d57003248ff",
 			"revisionTime": "2017-11-28T15:18:58Z"
 		},
 		{
-			"checksumSHA1": "g0VV6mpFyD3Dza1OP/J3GfVU8UY=",
+			"checksumSHA1": "bnp6qYcXeHI/f+zZpFTdAtEY/xI=",
 			"path": "github.com/go-ignite/ignite/ss",
-			"revision": "083bc204278d37fde6790ee4566d7bcd06a5d040",
-			"revisionTime": "2017-12-03T03:21:18Z"
+			"revision": "9579c6bc5da68c91a0b69845628e2e6f2fa487f0",
+			"revisionTime": "2018-01-04T08:01:45Z"
 		},
 		{
 			"checksumSHA1": "1PdlH+bjqdkzObppzHkiBL3FPvk=",

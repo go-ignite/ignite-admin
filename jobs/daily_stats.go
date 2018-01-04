@@ -21,7 +21,7 @@ func DailyStats() {
 	//2. Stop expired containers
 	for _, user := range users {
 		if user.Expired.Before(time.Now()) {
-			err = ss.StopContainer(user.ServiceId)
+			err = ss.KillContainer(user.ServiceId)
 
 			if err == nil {
 				user.Status = 2
