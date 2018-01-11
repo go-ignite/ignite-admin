@@ -76,6 +76,9 @@ func InstantStats() {
 			log.Printf("Update user(%d) error: %s\n", user.Id, err.Error())
 			continue
 		}
-		log.Printf("STATS: user(%d-%s)-container(%s)-bandwidth(%.2f)\n", user.Id, user.Username, user.ServiceId[:12], bandwidth)
+
+		if bandwidth > 0 {
+			log.Printf("STATS: user(%d-%s)-container(%s)-bandwidth(%.2f)\n", user.Id, user.Username, user.ServiceId[:12], bandwidth)
+		}
 	}
 }
