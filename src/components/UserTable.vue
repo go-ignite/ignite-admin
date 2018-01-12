@@ -4,7 +4,7 @@
       <thead>
         <tr>
           <th>用户名</th>
-          <th>邀请码</th>
+          <th>服务类型</th>
           <th>创建时间</th>
           <th>过期时间</th>
           <th>总流量</th>
@@ -15,9 +15,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in statusList">
+        <tr v-for="(item, index) in statusList" :key="item.Id">
           <th>{{ item.Username }}</th>
-          <td>{{ item.InviteCode }}</td>
+          <td>{{ item.ServiceType }}</td>
           <td>
             <span class="tag is-primary">{{ item.Created | dateFilter}}</span>
           </td>
