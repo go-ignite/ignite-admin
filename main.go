@@ -36,7 +36,7 @@ func initRouter(db *xorm.Engine) {
 func initJob(db *xorm.Engine) {
 	jobs.SetDB(db)
 	c := cron.New()
-	c.AddFunc("* */5 * * * *", jobs.InstantStats)
+	c.AddFunc("0 */5 * * * *", jobs.InstantStats)
 	c.AddFunc("0 0 0 * * *", jobs.DailyStats)
 	c.AddFunc("0 0 0 1 * *", jobs.MonthlyStats)
 	c.Start()

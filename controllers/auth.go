@@ -50,7 +50,12 @@ func (router *MainRouter) DestroyAccountHandler(c *gin.Context) {
 	}
 
 	//2. Delete user's account
-	router.db.Id(uid).Delete(user)
+	_, err = router.db.Id(uid).Delete(new(models.User))
+	if err != nil {
+		resp := models.Response{Success: false, Message: "删除用户失败!"}
+		c.JSON(http.StatusOK, resp)
+		return
+	}
 
 	resp := models.Response{Success: true, Message: "success"}
 	c.JSON(http.StatusOK, resp)
