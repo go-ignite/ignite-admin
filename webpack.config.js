@@ -9,7 +9,7 @@ module.exports = {
 
     entry: {
         index: "./src/index.js",
-        status: "./src/main.js",
+        status: "./src/status.js",
         code: "./src/code.js",
         about: "./src/about.js",
     },
@@ -59,22 +59,22 @@ module.exports = {
             minimize: true
         }),
         new HtmlWebpackPlugin({
-            template: './src/html/index.html',
+            template: './src/index.html',
             filename: 'index.html',
             chunks: ['index', 'commons'],
         }),
         new HtmlWebpackPlugin({
-            template: './src/html/code.html',
+            template: './src/index.html',
             filename: 'code.html',
             chunks: ['code', 'commons'],
         }),
         new HtmlWebpackPlugin({
-            template: './src/html/status.html',
+            template: './src/index.html',
             filename: 'status.html',
             chunks: ['status', 'commons'],
         }),
         new HtmlWebpackPlugin({
-            template: './src/html/about.html',
+            template: './src/index.html',
             filename: 'about.html',
             chunks: ['about', 'commons'],
         }),

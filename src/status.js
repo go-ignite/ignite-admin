@@ -3,8 +3,8 @@ import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
 import './css/style.css'
 import './css/font-awesome.min.css'
-import App from './views/About.vue';
-
+import './css/material-icons.css'
+import App from './views/Status.vue';
 
 Vue.use(Buefy)
 
