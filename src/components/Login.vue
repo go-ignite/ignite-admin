@@ -14,6 +14,7 @@
 
 <script>
 import axios from 'axios';
+import EventBus from '../utils/EventBus';
 
 export default {
     data() {
@@ -34,7 +35,9 @@ export default {
                     if (response.data.success) {
                         console.log(response.data.message);
                         localStorage.setItem("token", response.data.data);
-                        location.href = '/status';
+                        EventBus.$emit('login-success');
+                        this.$router.push({name: 'status'});
+
                     } else {
                         this.$toast.open({
                             message: '用户名或者密码不正确!',

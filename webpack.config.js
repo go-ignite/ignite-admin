@@ -1,17 +1,17 @@
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-var path = require('path'),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    ExtractTextPlugin = require("extract-text-webpack-plugin"),
-    webpack = require('webpack');
+var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var webpack = require('webpack');
+
+function resolve (dir) {
+    return path.join(__dirname, dir)
+}
 
 module.exports = {
-
     entry: {
         index: "./src/index.js",
-        status: "./src/status.js",
-        code: "./src/code.js",
-        about: "./src/about.js",
     },
     output: {
         path: path.resolve(__dirname, './static'),
@@ -53,7 +53,13 @@ module.exports = {
             },
         ]
     },
-
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+          '@': resolve('src'),
+          'vue$': 'vue/dist/vue.js',
+        }
+    },
     plugins: [
         new webpack.LoaderOptionsPlugin({
             minimize: true
@@ -62,21 +68,6 @@ module.exports = {
             template: './src/index.html',
             filename: 'index.html',
             chunks: ['index', 'commons'],
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: 'code.html',
-            chunks: ['code', 'commons'],
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: 'status.html',
-            chunks: ['status', 'commons'],
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: 'about.html',
-            chunks: ['about', 'commons'],
         }),
         new ExtractTextPlugin("css/style.css"),
         new webpack.optimize.CommonsChunkPlugin({

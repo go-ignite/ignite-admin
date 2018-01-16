@@ -6,20 +6,22 @@
                     <img src="./images/favicon-96x96.png" alt="ignite">
                 </a>
     
-                <a v-if="!isLogin && page !=0 " class="nav-item is-tab" href="/">首页</a>
-                <a v-if="!isLogin && page == 0" class="nav-item is-tab is-active" href="/">首页</a>
+                <template v-if="isLogin">
+                    <router-link class="nav-item is-tab" :to="{name: 'status'}"
+                        :class="{'is-active': page === 1}">用户管理</router-link>
+                    <router-link class="nav-item is-tab" :to="{name: 'code'}"
+                        :class="{'is-active': page === 2}">邀请码管理</router-link>
+                </template>
+                <template v-else>
+                    <router-link class="nav-item is-tab" :class="{'is-active': page === 0}"
+                      :to="{name: 'index'}">首页</router-link>
+                </template>
     
-                <a v-if="page == 1 && isLogin" class="nav-item is-tab is-active" href="/status">用户管理</a>
-                <a v-if="page !=1 && isLogin" class="nav-item is-tab" href="/status">用户管理</a>
-    
-                <a v-if="page == 2 && isLogin" class="nav-item is-tab is-active" href="/code">邀请码管理</a>
-                <a v-if="page != 2 && isLogin" class="nav-item is-tab" href="/code">邀请码管理</a>
-    
-                <a v-if="page == 3" class="nav-item is-tab is-active" href="/about">关于</a>
-                <a v-else class="nav-item is-tab" href="/about">关于</a>
+                <router-link class="nav-item is-tab" :to="{name: 'about'}"
+                    :class="{'is-active': page === 3}">关于</router-link>
             </div>
             <div class="nav-right">
-                <a v-if="isLogin" class="nav-item is-tab" @click="onLogout">退出</a>
+                <span v-if="isLogin" class="nav-item is-tab" @click="onLogout">退出</span>
             </div>
             <span class="nav-toggle">
                 <span></span>
@@ -31,6 +33,7 @@
 </template>
 
 <script>
+import EventBus from '../utils/EventBus';
 
 export default {
     data: function () {
@@ -50,6 +53,11 @@ export default {
         if (localStorage.getItem("token") != "") {
             this.isLogin = true;
         }
+    },
+    mounted() {
+        EventBus.$on('login-success', () => {
+            this.isLogin = true;
+        })
     }
 }
 </script>
