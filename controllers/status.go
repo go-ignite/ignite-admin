@@ -20,7 +20,11 @@ func (router *MainRouter) PanelStatusListHandler(c *gin.Context) {
 	router.db.Desc("created").Limit(pageSize, pageSize*(pageIndex-1)).Find(users)
 	for _, user := range *users {
 		if user.ServiceType == "" {
-			user.ServiceType = "SS"
+			if user.ServiceId != "" {
+				user.ServiceType = "SS"
+			} else {
+				user.ServiceType = "N/A"
+			}
 		}
 	}
 
