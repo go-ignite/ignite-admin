@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"flag"
+	"net/http"
 
 	"github.com/gin-gonic/contrib/jwt"
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,9 @@ func (self *MainRouter) Initialize(r *gin.Engine, db *xorm.Engine) {
 	self.db = db
 	self.router.GET("/", self.PanelIndexHandler)
 	self.router.POST("/login", self.PanelLoginHandler)
+	self.router.NoRoute(func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
 
 	pg := self.router.Group("/auth")
 	pg.Use(jwt.Auth(utility.Auth_Secret))
