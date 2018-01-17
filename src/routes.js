@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import EventBus, {Event} from './utils/EventBus'
 import About from './views/About';
 import Code from './views/Code';
 import Index from './views/Index';
@@ -8,7 +9,7 @@ import Container from './components/Container.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -39,3 +40,9 @@ export default new Router({
     },
   ],
 });
+
+router.afterEach((to, from) => {
+  EventBus.$emit(Event.ROUTE_CHANGE, to.name);
+})
+
+export default router;

@@ -14,7 +14,7 @@
 
 <script>
 import axios from 'axios';
-import EventBus from '../utils/EventBus';
+import EventBus, {Event} from '../utils/EventBus';
 
 export default {
     data() {
@@ -35,7 +35,7 @@ export default {
                     if (response.data.success) {
                         console.log(response.data.message);
                         localStorage.setItem("token", response.data.data);
-                        EventBus.$emit('login-success');
+                        EventBus.$emit(Event.LOGIN_SUCCESS);
                         this.$router.push({name: 'status'});
 
                     } else {

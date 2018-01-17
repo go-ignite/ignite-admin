@@ -8,17 +8,17 @@
     
                 <template v-if="isLogin">
                     <router-link class="nav-item is-tab" :to="{name: 'status'}"
-                        :class="{'is-active': page === 1}">用户管理</router-link>
+                        :class="{'is-active': currentRoute === 'status'}">用户管理</router-link>
                     <router-link class="nav-item is-tab" :to="{name: 'code'}"
-                        :class="{'is-active': page === 2}">邀请码管理</router-link>
+                        :class="{'is-active': currentRoute === 'code'}">邀请码管理</router-link>
                 </template>
                 <template v-else>
-                    <router-link class="nav-item is-tab" :class="{'is-active': page === 0}"
+                    <router-link class="nav-item is-tab" :class="{'is-active': currentRoute === 'index'}"
                       :to="{name: 'index'}">首页</router-link>
                 </template>
     
                 <router-link class="nav-item is-tab" :to="{name: 'about'}"
-                    :class="{'is-active': page === 3}">关于</router-link>
+                    :class="{'is-active': currentRoute === 'about'}">关于</router-link>
             </div>
             <div class="nav-right">
                 <span v-if="isLogin" class="nav-item is-tab" @click="onLogout">退出</span>
@@ -33,20 +33,23 @@
 </template>
 
 <script>
-import EventBus from '../utils/EventBus';
+import EventBus, {Event} from '../utils/EventBus'
 
 export default {
     data: function () {
         return {
-            isLogin: false
+            isLogin: false,
+            currentRoute: '',
         }
     },
-    props: ['page'],
     methods: {
         onLogout(event) {
             console.log('logout clicked...');
             localStorage.setItem("token", "");
             location.href = '/';
+        },
+        changeNavActive(routeName) {
+            this.currentRoute = routeName;
         }
     },
     created() {
@@ -55,9 +58,11 @@ export default {
         }
     },
     mounted() {
-        EventBus.$on('login-success', () => {
+        this.changeNavActive(this.$router.currentRoute.name);
+        EventBus.$on(Event.LOGIN_SUCCESS, () => {
             this.isLogin = true;
         })
+        EventBus.$on(Event.ROUTE_CHANGE, this.changeNavActive);
     }
 }
 </script>
@@ -68,5 +73,9 @@ export default {
     left: 0px;
     top: 0px;
     width: 100%;
+}
+
+.nav-item {
+    cursor: pointer;
 }
 </style>
