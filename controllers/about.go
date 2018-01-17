@@ -9,5 +9,5 @@ import (
 
 func (router *MainRouter) AboutHandler(c *gin.Context) {
 	fmt.Println("come here...")
-	c.HTML(http.StatusOK, "about.html", nil)
+	c.HTML(http.StatusOK, "index.html", nil)
 }

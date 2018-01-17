@@ -9,7 +9,7 @@ import (
 )
 
 func (router *MainRouter) PanelStatusHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "status.html", nil)
+	c.HTML(http.StatusOK, "index.html", nil)
 }
 
 func (router *MainRouter) PanelStatusListHandler(c *gin.Context) {

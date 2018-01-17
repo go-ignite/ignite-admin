@@ -11,7 +11,7 @@ import (
 )
 
 func (router *MainRouter) InviteCodeHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "code.html", nil)
+	c.HTML(http.StatusOK, "index.html", nil)
 }
 
 func (router *MainRouter) InviteCodeListHandler(c *gin.Context) {
