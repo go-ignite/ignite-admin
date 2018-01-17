@@ -27,7 +27,7 @@ export default {
         onLogin(event) {
             console.log('Username:' + this.username + ' Password:' + this.password);
 
-            axios.post("/login", {
+            axios.post("/api/login", {
                 "username": this.username,
                 "password": this.password
             })

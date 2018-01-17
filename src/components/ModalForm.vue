@@ -41,7 +41,7 @@ export default {
     methods: {
         onSubmit() {
             let self = this;
-            axios.post("/auth/code_generate", {
+            axios.post("/api/auth/code_generate", {
                 "amount": self.amount,
                 "limit": self.limit,
                 "available": self.available,

@@ -78,7 +78,7 @@ export default {
     pageChanged(value) {
       let self = this;
 
-      axios.get("/auth/status_list?pageIndex=" + value.toString() + "&pageSize=12")
+      axios.get("/api/auth/status_list?pageIndex=" + value.toString() + "&pageSize=12")
         .then(function (response) {
           if (response.status == 200) {
             if (response.data.success) {
@@ -104,7 +104,7 @@ export default {
         type: 'is-warning',
         hasIcon: true,
         onConfirm: () => {
-          axios.put("/auth/" + item.Id.toString() + "/stop")
+          axios.put("/api/auth/" + item.Id.toString() + "/stop")
             .then((response) => {
               if (response.status == 200) {
                 if (response.data.success) {
@@ -137,7 +137,7 @@ export default {
         type: 'is-primary',
         hasIcon: true,
         onConfirm: () => {
-          axios.put("/auth/" + item.Id.toString() + "/start")
+          axios.put("/api/auth/" + item.Id.toString() + "/start")
             .then((response) => {
               if (response.status == 200) {
                 if (response.data.success) {
@@ -170,7 +170,7 @@ export default {
         type: 'is-info',
         hasIcon: true,
         onConfirm: () => {
-          axios.put("/auth/" + item.Id.toString() + "/reset")
+          axios.put("/api/auth/" + item.Id.toString() + "/reset")
             .then((response) => {
               if (response.status == 200) {
                 if (response.data.success) {
@@ -203,7 +203,7 @@ export default {
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => {
-          axios.put("/auth/" + item.Id.toString() + "/destroy")
+          axios.put("/api/auth/" + item.Id.toString() + "/destroy")
             .then((response) => {
               if (response.status == 200) {
                 if (response.data.success) {
@@ -233,7 +233,7 @@ export default {
     }
     let self = this;
 
-    axios.get("/auth/status_list?pageIndex=1&pageSize=12")
+    axios.get("/api/auth/status_list?pageIndex=1&pageSize=12")
       .then(function (response) {
         if (response.status == 200) {
           if (response.data.success) {

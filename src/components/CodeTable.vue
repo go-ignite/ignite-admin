@@ -68,7 +68,7 @@ export default {
             let self = this;
 
             //Refresh all the valid invite codes.
-            axios.get("/auth/code_list?pageIndex=1&pageSize=12")
+            axios.get("/api/auth/code_list?pageIndex=1&pageSize=12")
                 .then(function (response) {
                     if (response.status == 200) {
                         if (response.data.success) {
@@ -94,7 +94,7 @@ export default {
                 type: 'is-warning',
                 hasIcon: true,
                 onConfirm: () => {
-                    axios.put("/auth/" + item.Id.toString() + "/remove")
+                    axios.put("/api/auth/" + item.Id.toString() + "/remove")
                         .then((response) => {
                             if (response.status == 200) {
                                 if (response.data.success) {
@@ -121,7 +121,7 @@ export default {
         pageChanged(value) {
             let self = this;
 
-            axios.get("/auth/code_list?pageIndex=" + value.toString() + "&pageSize=12")
+            axios.get("/api/auth/code_list?pageIndex=" + value.toString() + "&pageSize=12")
                 .then(function (response) {
                     if (response.status == 200) {
                         if (response.data.success) {
@@ -141,7 +141,7 @@ export default {
     created() {
         let self = this;
 
-        axios.get("/auth/code_list?pageIndex=1&pageSize=12")
+        axios.get("/api/auth/code_list?pageIndex=1&pageSize=12")
             .then(function (response) {
                 if (response.status == 200) {
                     if (response.data.success) {
