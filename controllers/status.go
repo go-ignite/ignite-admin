@@ -8,10 +8,6 @@ import (
 	"github.com/go-ignite/ignite/models"
 )
 
-func (router *MainRouter) PanelStatusHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", nil)
-}
-
 func (router *MainRouter) PanelStatusListHandler(c *gin.Context) {
 	pageIndex, _ := strconv.Atoi(c.Query("pageIndex"))
 	pageSize, _ := strconv.Atoi(c.Query("pageSize"))

@@ -10,10 +10,6 @@ import (
 	"github.com/go-ignite/ignite/utils"
 )
 
-func (router *MainRouter) InviteCodeHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", nil)
-}
-
 func (router *MainRouter) InviteCodeListHandler(c *gin.Context) {
 	pageIndex, _ := strconv.Atoi(c.Query("pageIndex"))
 	pageSize, _ := strconv.Atoi(c.Query("pageSize"))

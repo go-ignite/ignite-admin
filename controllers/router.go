@@ -21,9 +21,6 @@ func (self *MainRouter) Initialize(r *gin.Engine, db *xorm.Engine) {
 	self.db = db
 	self.router.GET("/", self.PanelIndexHandler)
 	self.router.POST("/login", self.PanelLoginHandler)
-	self.router.GET("/status", self.PanelStatusHandler)
-	self.router.GET("/code", self.InviteCodeHandler)
-	self.router.GET("/about", self.AboutHandler)
 
 	pg := self.router.Group("/auth")
 	pg.Use(jwt.Auth(utility.Auth_Secret))
