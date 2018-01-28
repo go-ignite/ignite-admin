@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import request from '../apis/request';
 
 export default {
   data() {
@@ -76,26 +76,15 @@ export default {
   },
   methods: {
     pageChanged(value) {
-      let self = this;
-
-      axios.get("/api/auth/status_list?pageIndex=" + value.toString() + "&pageSize=12")
-        .then(function (response) {
-          if (response.status == 200) {
-            if (response.data.success) {
-              self.statusList = response.data.data.data;
-              self.total = response.data.data.total;
-            }
+      request.get("/api/auth/status_list?pageIndex=" + value.toString() + "&pageSize=12")
+        .then((response) => {
+          if (response.success) {
+            this.statusList = response.data.data;
+            this.total = response.data.total;
           }
         })
-        .catch(function (error) {
-          if (error.response.status == 401) {
-            localStorage.setItem("token", "");
-            location.href = '/';
-          }
-        });
     },
     stop(item, index) {
-      self = this;
       this.$dialog.confirm({
         title: '停止服务',
         message: '是否确定 <strong>停止</strong> 用户帐号 <strong>' + item.Username + '</strong> 的服务?',
@@ -104,31 +93,22 @@ export default {
         type: 'is-warning',
         hasIcon: true,
         onConfirm: () => {
-          axios.put("/api/auth/" + item.Id.toString() + "/stop")
+          request.put("/api/auth/" + item.Id.toString() + "/stop")
             .then((response) => {
-              if (response.status == 200) {
-                if (response.data.success) {
-                  self.statusList[index].Status = 2;
-                  self.$toast.open('用户帐号对应服务已停止!');
-                } else {
-                  self.$toast.open('停止服务失败!');
-                }
+              if (response.success) {
+                this.statusList[index].Status = 2;
+                this.$toast.open('用户帐号对应服务已停止!');
               } else {
-                self.$toast.open('停止服务失败!');
+                this.$toast.open('停止服务失败!');
               }
             })
-            .catch((error) => {
-              console.log(error);
-              if (error.response.status == 401) {
-                localStorage.setItem("token", "");
-                location.href = '/';
-              }
+            .catch(() => {
+              this.$toast.open('停止服务失败!');
             });
         }
       })
     },
     start(item, index) {
-      self = this;
       this.$dialog.confirm({
         title: '启动服务',
         message: '是否确定 <strong>启动</strong> 用户帐号 <strong>' + item.Username + '</strong> 的服务?',
@@ -137,31 +117,22 @@ export default {
         type: 'is-primary',
         hasIcon: true,
         onConfirm: () => {
-          axios.put("/api/auth/" + item.Id.toString() + "/start")
+          request.put("/api/auth/" + item.Id.toString() + "/start")
             .then((response) => {
-              if (response.status == 200) {
-                if (response.data.success) {
-                  self.statusList[index].Status = 1;
-                  self.$toast.open('用户帐号对应服务已成功启动!');
-                } else {
-                  self.$toast.open('停止服务失败!');
-                }
+              if (response.success) {
+                this.statusList[index].Status = 1;
+                this.$toast.open('用户帐号对应服务已成功启动!');
               } else {
-                self.$toast.open('启动服务失败!');
+                this.$toast.open('停止服务失败!');
               }
             })
             .catch((error) => {
-              console.log(error);
-              if (error.response.status == 401) {
-                localStorage.setItem("token", "");
-                location.href = '/';
-              }
+              this.$toast.open('启动服务失败!');
             });
         }
       })
     },
     reset(item, index) {
-      self = this;
       this.$dialog.confirm({
         title: '重置流量',
         message: '是否确定 <strong>重置</strong> 用户帐号 <strong>' + item.Username + '</strong> 的本月流量?',
@@ -170,25 +141,17 @@ export default {
         type: 'is-info',
         hasIcon: true,
         onConfirm: () => {
-          axios.put("/api/auth/" + item.Id.toString() + "/reset")
+          request.put("/api/auth/" + item.Id.toString() + "/reset")
             .then((response) => {
-              if (response.status == 200) {
-                if (response.data.success) {
-                  self.statusList[index].PackageUsed = 0;
-                  self.$toast.open('用户帐号本月流量已重置!');
-                } else {
-                  self.$toast.open('重置用户帐号本月流量失败!');
-                }
+              if (response.success) {
+                this.statusList[index].PackageUsed = 0;
+                this.$toast.open('用户帐号本月流量已重置!');
               } else {
-                self.$toast.open('重置用户帐号本月流量失败!');
+                this.$toast.open('重置用户帐号本月流量失败!');
               }
             })
             .catch((error) => {
-              console.log(error);
-              if (error.response.status == 401) {
-                localStorage.setItem("token", "");
-                location.href = '/';
-              }
+              this.$toast.open('重置用户帐号本月流量失败!');
             });
         }
       })
@@ -203,52 +166,30 @@ export default {
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => {
-          axios.put("/api/auth/" + item.Id.toString() + "/destroy")
+          request.put("/api/auth/" + item.Id.toString() + "/destroy")
             .then((response) => {
-              if (response.status == 200) {
-                if (response.data.success) {
-                  self.statusList.splice(index, 1);
-                  self.$toast.open('用户帐号已销毁!');
-                } else {
-                  self.$toast.open('销毁用户帐号失败!');
-                }
+              if (response.success) {
+                self.statusList.splice(index, 1);
+                self.$toast.open('用户帐号已销毁!');
               } else {
                 self.$toast.open('销毁用户帐号失败!');
               }
             })
             .catch((error) => {
-              console.log(error);
-              if (error.response.status == 401) {
-                localStorage.setItem("token", "");
-                location.href = '/';
-              }
+              self.$toast.open('销毁用户帐号失败!');
             });
         }
       })
     }
   },
   created() {
-    if (localStorage.getItem("token") != "") {
-      axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
-    }
-    let self = this;
-
-    axios.get("/api/auth/status_list?pageIndex=1&pageSize=12")
-      .then(function (response) {
-        if (response.status == 200) {
-          if (response.data.success) {
-            console.log(response.data.data);
-            self.statusList = response.data.data.data;
-            self.total = response.data.data.total;
-          }
+    request.get("/api/auth/status_list?pageIndex=1&pageSize=12")
+      .then((response) => {
+        if (response.success) {
+          this.statusList = response.data.data;
+          this.total = response.data.total;
         }
       })
-      .catch(function (error) {
-        if (error.response.status == 401) {
-          localStorage.setItem("token", "");
-          location.href = '/';
-        }
-      });
   }
 }
 </script>

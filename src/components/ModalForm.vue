@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import request from '../apis/request';
 
 export default {
 
@@ -41,22 +41,18 @@ export default {
     methods: {
         onSubmit() {
             let self = this;
-            axios.post("/api/auth/code_generate", {
+            request.post("/api/auth/code_generate", {
                 "amount": self.amount,
                 "limit": self.limit,
                 "available": self.available,
             }).then((response) => {
-                if (response.data.success) {
-                    self.$toast.open('生成邀请码成功!');
-                    self.$emit('close');
-                } else {
-                    self.$toast.open({
-                        message: '生成邀请码失败!',
-                        type: 'is-danger'
-                    })
-                }
+                self.$toast.open('生成邀请码成功!');
+                self.$emit('close');
             }).catch((error) => {
-                console.log(error);
+                self.$toast.open({
+                    message: '生成邀请码失败!',
+                    type: 'is-danger'
+                })
             });
         }
     }

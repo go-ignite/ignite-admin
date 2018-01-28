@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import request from '../apis/request'
 import EventBus, {Event} from '../utils/EventBus';
 
 export default {
@@ -25,19 +25,15 @@ export default {
     },
     methods: {
         onLogin(event) {
-            console.log('Username:' + this.username + ' Password:' + this.password);
-
-            axios.post("/api/login", {
+            request.post("/api/login", {
                 "username": this.username,
                 "password": this.password
             })
                 .then((response) => {
-                    if (response.data.success) {
-                        console.log(response.data.message);
-                        localStorage.setItem("token", response.data.data);
+                    if (response.success) {
+                        localStorage.setItem("token", response.data);
                         EventBus.$emit(Event.LOGIN_SUCCESS);
                         this.$router.push({name: 'status'});
-
                     } else {
                         this.$toast.open({
                             message: '用户名或者密码不正确!',
@@ -45,9 +41,6 @@ export default {
                         })
                     }
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
         }
     },
 }

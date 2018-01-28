@@ -36,12 +36,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import request from '../apis/request';
 import ModalForm from './ModalForm.vue';
-
-if (localStorage.getItem("token") != "") {
-    axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
-}
 
 export default {
     data() {
@@ -68,21 +64,13 @@ export default {
             let self = this;
 
             //Refresh all the valid invite codes.
-            axios.get("/api/auth/code_list?pageIndex=1&pageSize=12")
+            request.get("/api/auth/code_list?pageIndex=1&pageSize=12")
                 .then(function (response) {
-                    if (response.status == 200) {
-                        if (response.data.success) {
-                            self.codeList = response.data.data.data;
-                            self.total = response.data.data.total;
-                        }
+                    if (response.success) {
+                        self.codeList = response.data.data;
+                        self.total = response.data.total;
                     }
                 })
-                .catch(function (error) {
-                    if (error.response.status == 401) {
-                        localStorage.setItem("token", "");
-                        location.href = '/';
-                    }
-                });
         },
         remove(item, index) {
             self = this;
@@ -94,26 +82,19 @@ export default {
                 type: 'is-warning',
                 hasIcon: true,
                 onConfirm: () => {
-                    axios.put("/api/auth/" + item.Id.toString() + "/remove")
+                    request.put("/api/auth/" + item.Id.toString() + "/remove")
                         .then((response) => {
-                            if (response.status == 200) {
-                                if (response.data.success) {
+                                if (response.success) {
                                     self.codeList.splice(index, 1);
                                     self.$toast.open('邀请码已删除!');
                                 } else {
                                     self.$toast.open('删除邀请码失败!');
                                 }
-                            } else {
-                                self.$toast.open('删除邀请码失败!');
-                            }
+                            })
+                        .catch(() => {
+                            self.$toast.open('删除邀请码失败!');
+
                         })
-                        .catch((error) => {
-                            console.log(error);
-                            if (error.response.status == 401) {
-                                localStorage.setItem("token", "");
-                                location.href = '/';
-                            }
-                        });
                 }
             })
 
@@ -121,42 +102,25 @@ export default {
         pageChanged(value) {
             let self = this;
 
-            axios.get("/api/auth/code_list?pageIndex=" + value.toString() + "&pageSize=12")
+            request.get("/api/auth/code_list?pageIndex=" + value.toString() + "&pageSize=12")
                 .then(function (response) {
-                    if (response.status == 200) {
-                        if (response.data.success) {
-                            self.codeList = response.data.data.data;
-                            self.total = response.data.data.total;
-                        }
+                    if (response.success) {
+                        self.codeList = response.data.data;
+                        self.total = response.data.total;
                     }
                 })
-                .catch(function (error) {
-                    if (error.response.status == 401) {
-                        localStorage.setItem("token", "");
-                        location.href = '/';
-                    }
-                });
         }
     },
     created() {
         let self = this;
 
-        axios.get("/api/auth/code_list?pageIndex=1&pageSize=12")
+        request.get("/api/auth/code_list?pageIndex=1&pageSize=12")
             .then(function (response) {
-                if (response.status == 200) {
-                    if (response.data.success) {
-                        console.log(response.data.data);
-                        self.codeList = response.data.data.data;
-                        self.total = response.data.data.total;
-                    }
+                if (response.success) {
+                    self.codeList = response.data.data;
+                    self.total = response.data.total;
                 }
             })
-            .catch(function (error) {
-                if (error.response.status == 401) {
-                    localStorage.setItem("token", "");
-                    location.href = '/';
-                }
-            });
     }
 }
 </script>
