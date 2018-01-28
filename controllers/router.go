@@ -43,6 +43,7 @@ func (self *MainRouter) Initialize(r *gin.Engine, db *xorm.Engine) {
 			pg.PUT("/:id/destroy", self.DestroyAccountHandler)
 			pg.PUT("/:id/stop", self.StopServiceHandler)
 			pg.PUT("/:id/start", self.StartServiceHandler)
+			pg.PUT("/:id/renew", self.RenewServiceHandler)
 
 			//invite code related operations
 			pg.GET("/code_list", self.InviteCodeListHandler)
