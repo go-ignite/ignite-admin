@@ -36,11 +36,11 @@ export default {
                 expired: this.date.valueOf() / 1000,
             }).then((response) => {
                 if (response.success) {
-                    this.$toast.open('生成邀请码成功!');
+                    this.$toast.open('账号续期成功!');
                     this.$emit('renew-success')
                 } else {
                     this.$toast.open({
-                        message: '生成邀请码失败!',
+                        message: response.message,
                         type: 'is-danger'
                     })
                 }
