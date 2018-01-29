@@ -49,7 +49,7 @@
       </tbody>
     </table>
   
-    <b-pagination v-on:change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
+    <b-pagination :change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
     </b-pagination>
   </div>
 </template>
@@ -203,6 +203,7 @@ export default {
 <style scoped>
 .table {
   margin: 80px auto 20px auto;
+  width: 100%;
 }
 
 .table th,
@@ -210,7 +211,5 @@ export default {
   text-align: center;
 }
 
-.pagination {
-  margin: 20px auto 80px auto;
-}
+
 </style>
