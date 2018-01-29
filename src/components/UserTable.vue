@@ -1,5 +1,7 @@
 <template>
   <div>
+    <b-modal :active.sync="showModal" :component="RenewForm" :width="360">
+    </b-modal>
     <table class="table">
       <thead>
         <tr>
@@ -40,7 +42,7 @@
             <a v-if="item.Status === 1" @click="stop(item, index)" class="button is-warning is-small">停止服务</a>
             <a v-if="item.Status === 2" @click="start(item, index)" class="button is-primary is-small">启动服务</a>
             <a @click="reset(item, index)" class="button is-success is-small">重置流量</a>
-            <a @click="renew(item, index)" class="button is-info is-small">续期</a>
+            <a @click="showModal = true" class="button is-info is-small">续期</a>
             <a @click="destroy(item, index)" class="button is-danger is-small">一键销毁</a>
           </td>
         </tr>
@@ -54,6 +56,7 @@
 
 <script>
 import request from '../apis/request';
+import RenewForm from './RenewForm.vue';
 
 export default {
   data() {
@@ -64,7 +67,8 @@ export default {
       perPage: 12,
       order: '',
       size: 'is-small',
-      isSimple: false
+      isSimple: false,
+      showModal: false,
     }
   },
   filters: {
@@ -156,9 +160,6 @@ export default {
             });
         }
       })
-    },
-    renew(item, index) {
-      console.log("clicked...");
     },
     destroy(item, index) {
       self = this;
