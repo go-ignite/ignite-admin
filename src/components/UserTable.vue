@@ -1,6 +1,7 @@
 <template>
   <div>
-    <b-modal :active.sync="showModal" :component="RenewForm" :height="550" :width="380">
+    <b-modal :active.sync="showModal" :height="550" :width="380" :cancel="cancelRenew">
+      <renew-form @renew-success="fetchData" :showModal="showModal" :selectUser="selectUser" :cancel="cancelRenew"></renew-form>
     </b-modal>
     <table class="table">
       <thead>
@@ -42,7 +43,7 @@
             <a v-if="item.Status === 1" @click="stop(item, index)" class="button is-warning is-small">停止服务</a>
             <a v-if="item.Status === 2" @click="start(item, index)" class="button is-primary is-small">启动服务</a>
             <a @click="reset(item, index)" class="button is-success is-small">重置流量</a>
-            <a @click="showModal = true" class="button is-info is-small">续期</a>
+            <a @click="renew(item)" class="button is-info is-small">续期</a>
             <a @click="destroy(item, index)" class="button is-danger is-small">一键销毁</a>
           </td>
         </tr>
@@ -59,6 +60,9 @@ import request from '../apis/request';
 import RenewForm from './RenewForm.vue';
 
 export default {
+  components: {
+    RenewForm,
+  },
   data() {
     return {
       statusList: [],
@@ -69,7 +73,7 @@ export default {
       size: 'is-small',
       isSimple: false,
       showModal: false,
-      RenewForm
+      selectUser: {},
     }
   },
   filters: {
@@ -186,16 +190,27 @@ export default {
             });
         }
       })
+    },
+    renew(item) {
+      this.selectUser = item;
+      this.showModal = true;
+    },
+    cancelRenew() {
+      this.selectUser = {};
+      this.showModal = false;
+    },
+    fetchData() {
+      request.get("/api/auth/status_list?pageIndex=1&pageSize=12")
+        .then((response) => {
+          if (response.success) {
+            this.statusList = response.data.data;
+            this.total = response.data.total;
+          }
+        })
     }
   },
   created() {
-    request.get("/api/auth/status_list?pageIndex=1&pageSize=12")
-      .then((response) => {
-        if (response.success) {
-          this.statusList = response.data.data;
-          this.total = response.data.total;
-        }
-      })
+    this.fetchData();
   }
 }
 </script>

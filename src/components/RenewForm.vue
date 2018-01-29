@@ -4,10 +4,10 @@
             <p class="modal-card-title">帐号续期</p>
         </header>
         <section class="modal-card-body">
-            <b-datepicker v-model="date" inline></b-datepicker>
+            <b-datepicker v-model="date" inline :dayNames="dayNames" :monthNames="monthNames"></b-datepicker>
         </section>
         <footer class="modal-card-foot">
-            <button class="button" type="button" @click="$emit('close')">关闭</button>
+            <button class="button" type="button" @click="cancel">关闭</button>
             <button class="button is-primary" type="button" @click="onSubmit">更新</button>
         </footer>
     </div>
@@ -17,28 +17,40 @@
 import request from '../apis/request';
 
 export default {
+    props: {
+        cancel: Function,
+        selectUser: Object,
+    },
+
     data() {
         return {
-            date: new Date()
+            date: new Date(),
+            dayNames: ['日', '一', '二', '三', '四', '五', '六'],
+            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
         }
     },
+
     methods: {
         onSubmit() {
-            let self = this;
-            request.post("/api/auth/code_generate", {
-                "amount": self.amount,
-                "limit": self.limit,
-                "available": self.available,
+            request.put(`/api/auth/${this.selectUser.Id}/renew`, {
+                expired: this.date.valueOf() / 1000,
             }).then((response) => {
-                self.$toast.open('生成邀请码成功!');
-                self.$emit('close');
-            }).catch((error) => {
-                self.$toast.open({
-                    message: '生成邀请码失败!',
-                    type: 'is-danger'
-                })
+                if (response.success) {
+                    this.$toast.open('生成邀请码成功!');
+                    this.$emit('renew-success')
+                } else {
+                    this.$toast.open({
+                        message: '生成邀请码失败!',
+                        type: 'is-danger'
+                    })
+                }
+                this.cancel()
             });
         }
+    },
+
+    mounted() {
+        this.date = new Date(this.selectUser.Expired);
     }
 }
 </script>
