@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal :active.sync="showModal" :component="RenewForm" :width="360">
+    <b-modal :active.sync="showModal" :component="RenewForm" :height="550" :width="380">
     </b-modal>
     <table class="table">
       <thead>
@@ -69,6 +69,7 @@ export default {
       size: 'is-small',
       isSimple: false,
       showModal: false,
+      RenewForm
     }
   },
   filters: {
