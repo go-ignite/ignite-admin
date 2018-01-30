@@ -4,7 +4,7 @@
             <p class="modal-card-title">帐号续期</p>
         </header>
         <section class="modal-card-body">
-            <b-datepicker v-model="date" inline :dayNames="dayNames" :monthNames="monthNames"></b-datepicker>
+            <b-datepicker v-model="date" inline :dayNames="dayNames" :monthNames="monthNames" :min-date="minDate"></b-datepicker>
         </section>
         <footer class="modal-card-foot">
             <button class="button" type="button" @click="cancel">关闭</button>
@@ -23,10 +23,12 @@ export default {
     },
 
     data() {
+        const today = new Date()
         return {
-            date: new Date(),
+            date: today,
             dayNames: ['日', '一', '二', '三', '四', '五', '六'],
-            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate())
         }
     },
 
