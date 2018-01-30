@@ -43,7 +43,7 @@
             <a v-if="item.Status === 1" @click="stop(item, index)" class="button is-warning is-small">停止服务</a>
             <a v-if="item.Status === 2" @click="start(item, index)" class="button is-primary is-small">启动服务</a>
             <a @click="reset(item, index)" class="button is-success is-small">重置流量</a>
-            <a @click="renew(item)" class="button is-info is-small">续期</a>
+            <a @click="renew(item)" class="button is-info is-small">服务续期</a>
             <a @click="destroy(item, index)" class="button is-danger is-small">一键销毁</a>
           </td>
         </tr>
