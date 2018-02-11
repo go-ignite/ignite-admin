@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-ignite/ignite-admin/controllers"
@@ -17,9 +19,16 @@ var confPath = flag.String("c", "./conf/config.toml", "config file")
 func main() {
 	utility.InitConf(*confPath)
 	db := utils.InitDB(utility.DB_Driver, utility.DB_Connect)
-	go initRouter(db)
-	go initJob(db)
-	select {}
+
+	// For normal mode
+	if len(os.Args) == 1 {
+		go initRouter(db)
+		go initJob(db)
+		select {}
+	} else if os.Args[1] == "recover" {
+		// TODO: Restore docker containers from DB
+		fmt.Println("Entering recover mode...")
+	}
 }
 
 func initRouter(db *xorm.Engine) {
