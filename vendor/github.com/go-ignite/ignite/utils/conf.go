@@ -15,9 +15,6 @@ var (
 	// for db config
 	DB_Driver, DB_Connect string
 
-	// for ss config
-	SS_Image string
-
 	// for host config
 	HOST_Address       string
 	HOST_From, HOST_To int
@@ -28,8 +25,6 @@ func InitConf(confPath string) {
 	if _, err := os.Stat(confPath); !os.IsNotExist(err) {
 		if config, err := toml.LoadFile(confPath); err == nil {
 			APP_Address = config.Get("app.address").(string)
-
-			SS_Image = config.Get("ss.image").(string)
 
 			HOST_Address = config.Get("host.address").(string)
 			HOST_From = int(config.Get("host.from").(int64))
@@ -45,23 +40,19 @@ func InitConf(confPath string) {
 	if connect := os.Getenv("DB_CONNECT"); connect != "" {
 		DB_Connect = connect
 	}
-	if image := os.Getenv("SS_IMAGE"); image != "" {
-		SS_Image = image
-	}
 	if address := os.Getenv("HOST_ADDRESS"); address != "" {
 		HOST_Address = address
 	}
 	if from := os.Getenv("HOST_FROM"); from != "" {
 		HOST_From, _ = strconv.Atoi(from)
 	}
-	if to := os.Getenv("HOST_To"); to != "" {
+	if to := os.Getenv("HOST_TO"); to != "" {
 		HOST_To, _ = strconv.Atoi(to)
 	}
 	fmt.Println("config: ", map[string]interface{}{
 		"address":      APP_Address,
 		"db_driver":    DB_Driver,
 		"db_connect":   DB_Connect,
-		"ss_image":     SS_Image,
 		"host_address": HOST_Address,
 		"host_from":    HOST_From,
 		"host_to":      HOST_To,

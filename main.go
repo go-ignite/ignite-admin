@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -27,7 +26,7 @@ func main() {
 		select {}
 	} else if os.Args[1] == "recover" {
 		// TODO: Restore docker containers from DB
-		fmt.Println("Entering recover mode...")
+		jobs.RecoverTask(db)
 	}
 }
 
