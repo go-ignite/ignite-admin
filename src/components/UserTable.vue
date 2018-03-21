@@ -50,7 +50,7 @@
       </tbody>
     </table>
   
-    <b-pagination :change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
+    <b-pagination @change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
     </b-pagination>
   </div>
 </template>
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     pageChanged(value) {
-      request.get("/api/auth/status_list?pageIndex=" + value.toString() + "&pageSize=12")
+      request.get(`/api/auth/status_list?pageIndex=${value.toString()}&pageSize=${this.perPage}`)
         .then((response) => {
           if (response.success) {
             this.statusList = response.data.data;
@@ -200,7 +200,7 @@ export default {
       this.showModal = false;
     },
     fetchData() {
-      request.get("/api/auth/status_list?pageIndex=1&pageSize=12")
+      request.get(`/api/auth/status_list?pageIndex=1&pageSize=${this.perPage}`)
         .then((response) => {
           if (response.success) {
             this.statusList = response.data.data;

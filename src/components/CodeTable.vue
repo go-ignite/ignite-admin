@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in codeList">
+                <tr v-for="(item, index) in codeList" :key="item.Id">
                     <td>{{ item.InviteCode }}</td>
                     <td>
                         <span class="tag is-primary">{{ item.Created | dateFilter}}</span>
@@ -30,7 +30,7 @@
             </tbody>
         </table>
     
-        <b-pagination v-on:change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
+        <b-pagination @change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
         </b-pagination>
     </div>
 </template>
@@ -64,7 +64,7 @@ export default {
             let self = this;
 
             //Refresh all the valid invite codes.
-            request.get("/api/auth/code_list?pageIndex=1&pageSize=12")
+            request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`)
                 .then(function (response) {
                     if (response.success) {
                         self.codeList = response.data.data;
@@ -100,25 +100,21 @@ export default {
 
         },
         pageChanged(value) {
-            let self = this;
-
-            request.get("/api/auth/code_list?pageIndex=" + value.toString() + "&pageSize=12")
+            request.get(`/api/auth/code_list?pageIndex=${value.toString()}&pageSize=${this.perPage}`)
                 .then(function (response) {
                     if (response.success) {
-                        self.codeList = response.data.data;
-                        self.total = response.data.total;
+                        this.codeList = response.data.data;
+                        this.total = response.data.total;
                     }
                 })
         }
     },
     created() {
-        let self = this;
-
-        request.get("/api/auth/code_list?pageIndex=1&pageSize=12")
+        request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`)
             .then(function (response) {
                 if (response.success) {
-                    self.codeList = response.data.data;
-                    self.total = response.data.total;
+                    this.codeList = response.data.data;
+                    this.total = response.data.total;
                 }
             })
     }
