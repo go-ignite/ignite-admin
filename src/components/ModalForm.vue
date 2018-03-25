@@ -40,16 +40,15 @@ export default {
     },
     methods: {
         onSubmit() {
-            let self = this;
             request.post("/api/auth/code_generate", {
-                "amount": self.amount,
-                "limit": self.limit,
-                "available": self.available,
+                "amount": this.amount,
+                "limit": this.limit,
+                "available": this.available,
             }).then((response) => {
-                self.$toast.open('生成邀请码成功!');
-                self.$emit('close');
+                this.$toast.open('生成邀请码成功!');
+                this.$emit('close');
             }).catch((error) => {
-                self.$toast.open({
+                this.$toast.open({
                     message: '生成邀请码失败!',
                     type: 'is-danger'
                 })

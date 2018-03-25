@@ -61,19 +61,17 @@ export default {
     methods: {
         closed() {
             console.log("modal dialog closed...");
-            let self = this;
 
             //Refresh all the valid invite codes.
             request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`)
-                .then(function (response) {
+                .then((response) => {
                     if (response.success) {
-                        self.codeList = response.data.data;
-                        self.total = response.data.total;
+                        this.codeList = response.data.data;
+                        this.total = response.data.total;
                     }
                 })
         },
         remove(item, index) {
-            self = this;
             this.$dialog.confirm({
                 title: '删除邀请码',
                 message: '是否确定 <strong>删除</strong> 邀请码 <strong>' + item.InviteCode + '</strong> ?',
@@ -85,15 +83,14 @@ export default {
                     request.put("/api/auth/" + item.Id.toString() + "/remove")
                         .then((response) => {
                                 if (response.success) {
-                                    self.codeList.splice(index, 1);
-                                    self.$toast.open('邀请码已删除!');
+                                    this.codeList.splice(index, 1);
+                                    this.$toast.open('邀请码已删除!');
                                 } else {
-                                    self.$toast.open('删除邀请码失败!');
+                                    this.$toast.open('删除邀请码失败!');
                                 }
                             })
                         .catch(() => {
-                            self.$toast.open('删除邀请码失败!');
-
+                            this.$toast.open('删除邀请码失败!');
                         })
                 }
             })
@@ -101,7 +98,7 @@ export default {
         },
         pageChanged(value) {
             request.get(`/api/auth/code_list?pageIndex=${value.toString()}&pageSize=${this.perPage}`)
-                .then(function (response) {
+                .then((response) => {
                     if (response.success) {
                         this.codeList = response.data.data;
                         this.total = response.data.total;
@@ -111,7 +108,7 @@ export default {
     },
     created() {
         request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`)
-            .then(function (response) {
+            .then((response) => {
                 if (response.success) {
                     this.codeList = response.data.data;
                     this.total = response.data.total;

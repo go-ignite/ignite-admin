@@ -167,7 +167,6 @@ export default {
       })
     },
     destroy(item, index) {
-      self = this;
       this.$dialog.confirm({
         title: '销毁账户',
         message: '是否确定 <strong>销毁</strong> 用户帐号 <strong>' + item.Username + '</strong> ? 该操作将不可逆转',
@@ -179,14 +178,14 @@ export default {
           request.put("/api/auth/" + item.Id.toString() + "/destroy")
             .then((response) => {
               if (response.success) {
-                self.statusList.splice(index, 1);
-                self.$toast.open('用户帐号已销毁!');
+                this.statusList.splice(index, 1);
+                this.$toast.open('用户帐号已销毁!');
               } else {
-                self.$toast.open('销毁用户帐号失败!');
+                this.$toast.open('销毁用户帐号失败!');
               }
             })
             .catch((error) => {
-              self.$toast.open('销毁用户帐号失败!');
+              this.$toast.open('销毁用户帐号失败!');
             });
         }
       })
