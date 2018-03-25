@@ -50,7 +50,7 @@
       </tbody>
     </table>
   
-    <b-pagination :change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
+    <b-pagination v-on:change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
     </b-pagination>
   </div>
 </template>
