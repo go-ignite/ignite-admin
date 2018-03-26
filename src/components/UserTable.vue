@@ -50,7 +50,7 @@
       </tbody>
     </table>
   
-    <b-pagination v-on:change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
+    <b-pagination @change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
     </b-pagination>
   </div>
 </template>
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     pageChanged(value) {
-      request.get("/api/auth/status_list?pageIndex=" + value.toString() + "&pageSize=12")
+      request.get(`/api/auth/status_list?pageIndex=${value.toString()}&pageSize=${this.perPage}`)
         .then((response) => {
           if (response.success) {
             this.statusList = response.data.data;
@@ -167,7 +167,6 @@ export default {
       })
     },
     destroy(item, index) {
-      self = this;
       this.$dialog.confirm({
         title: '销毁账户',
         message: '是否确定 <strong>销毁</strong> 用户帐号 <strong>' + item.Username + '</strong> ? 该操作将不可逆转',
@@ -179,14 +178,14 @@ export default {
           request.put("/api/auth/" + item.Id.toString() + "/destroy")
             .then((response) => {
               if (response.success) {
-                self.statusList.splice(index, 1);
-                self.$toast.open('用户帐号已销毁!');
+                this.statusList.splice(index, 1);
+                this.$toast.open('用户帐号已销毁!');
               } else {
-                self.$toast.open('销毁用户帐号失败!');
+                this.$toast.open('销毁用户帐号失败!');
               }
             })
             .catch((error) => {
-              self.$toast.open('销毁用户帐号失败!');
+              this.$toast.open('销毁用户帐号失败!');
             });
         }
       })
@@ -200,7 +199,7 @@ export default {
       this.showModal = false;
     },
     fetchData() {
-      request.get("/api/auth/status_list?pageIndex=1&pageSize=12")
+      request.get(`/api/auth/status_list?pageIndex=1&pageSize=${this.perPage}`)
         .then((response) => {
           if (response.success) {
             this.statusList = response.data.data;

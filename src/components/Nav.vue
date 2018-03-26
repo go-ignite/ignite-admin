@@ -5,8 +5,13 @@
                 <a class="navbar-item">
                     <img src="./images/favicon-96x96.png" alt="ignite">
                 </a>
+                <div class="navbar-burger" @click="toggleBurger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-            <div class="navbar-menu container">
+            <div class="navbar-menu container" :class="{'is-active': buggerActive}">
                 <div class="navbar-start">
                     <template v-if="isLogin">
                         <router-link class="navbar-item is-tab" :to="{name: 'status'}"
@@ -25,11 +30,6 @@
                 <div class="navbar-end">
                     <span v-if="isLogin" class="navbar-item is-tab" @click="onLogout">退出</span>
                 </div>
-                <span class="nav-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
             </div>
         </div>
     </nav>
@@ -39,10 +39,11 @@
 import EventBus, {Event} from '../utils/EventBus'
 
 export default {
-    data: function () {
+    data() {
         return {
             isLogin: false,
             currentRoute: '',
+            buggerActive: false,
         }
     },
     methods: {
@@ -53,7 +54,10 @@ export default {
         },
         changeNavActive(routeName) {
             this.currentRoute = routeName;
-        }
+        },
+        toggleBurger() {
+            this.buggerActive = !this.buggerActive
+        },
     },
     created() {
         if (localStorage.getItem("token") != "") {
@@ -82,5 +86,10 @@ export default {
 }
 .nav-item img {
     max-height: 1.75rem;
+}
+@media screen and (max-width: 1023px) {
+    .navbar-menu .navbar-item.is-tab.is-active {
+        border-bottom: none;
+    }
 }
 </style>

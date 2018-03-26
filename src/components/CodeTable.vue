@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in codeList">
+                <tr v-for="(item, index) in codeList" :key="item.Id">
                     <td>{{ item.InviteCode }}</td>
                     <td>
                         <span class="tag is-primary">{{ item.Created | dateFilter}}</span>
@@ -30,7 +30,7 @@
             </tbody>
         </table>
     
-        <b-pagination v-on:change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
+        <b-pagination @change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
         </b-pagination>
     </div>
 </template>
@@ -61,19 +61,17 @@ export default {
     methods: {
         closed() {
             console.log("modal dialog closed...");
-            let self = this;
 
             //Refresh all the valid invite codes.
-            request.get("/api/auth/code_list?pageIndex=1&pageSize=12")
-                .then(function (response) {
+            request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`)
+                .then((response) => {
                     if (response.success) {
-                        self.codeList = response.data.data;
-                        self.total = response.data.total;
+                        this.codeList = response.data.data;
+                        this.total = response.data.total;
                     }
                 })
         },
         remove(item, index) {
-            self = this;
             this.$dialog.confirm({
                 title: '删除邀请码',
                 message: '是否确定 <strong>删除</strong> 邀请码 <strong>' + item.InviteCode + '</strong> ?',
@@ -85,40 +83,35 @@ export default {
                     request.put("/api/auth/" + item.Id.toString() + "/remove")
                         .then((response) => {
                                 if (response.success) {
-                                    self.codeList.splice(index, 1);
-                                    self.$toast.open('邀请码已删除!');
+                                    this.codeList.splice(index, 1);
+                                    this.$toast.open('邀请码已删除!');
                                 } else {
-                                    self.$toast.open('删除邀请码失败!');
+                                    this.$toast.open('删除邀请码失败!');
                                 }
                             })
                         .catch(() => {
-                            self.$toast.open('删除邀请码失败!');
-
+                            this.$toast.open('删除邀请码失败!');
                         })
                 }
             })
 
         },
         pageChanged(value) {
-            let self = this;
-
-            request.get("/api/auth/code_list?pageIndex=" + value.toString() + "&pageSize=12")
-                .then(function (response) {
+            request.get(`/api/auth/code_list?pageIndex=${value.toString()}&pageSize=${this.perPage}`)
+                .then((response) => {
                     if (response.success) {
-                        self.codeList = response.data.data;
-                        self.total = response.data.total;
+                        this.codeList = response.data.data;
+                        this.total = response.data.total;
                     }
                 })
         }
     },
     created() {
-        let self = this;
-
-        request.get("/api/auth/code_list?pageIndex=1&pageSize=12")
-            .then(function (response) {
+        request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`)
+            .then((response) => {
                 if (response.success) {
-                    self.codeList = response.data.data;
-                    self.total = response.data.total;
+                    this.codeList = response.data.data;
+                    this.total = response.data.total;
                 }
             })
     }
