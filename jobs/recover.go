@@ -44,7 +44,7 @@ func recoverUser(db *xorm.Engine, wg *sync.WaitGroup, user *models.User) {
 		// Check port available
 		ln, err := net.Listen("tcp", fmt.Sprintf(":%d", user.ServicePort))
 		if err != nil {
-			fmt.Printf("%s [%s] port[%d] unavailable\n", crossSymbol, user.Username, user.ServicePort)
+			fmt.Printf("%s [%s] port[%d] is unavailable\n", crossSymbol, user.Username, user.ServicePort)
 			return
 		}
 		ln.Close()
@@ -74,8 +74,8 @@ func recoverUser(db *xorm.Engine, wg *sync.WaitGroup, user *models.User) {
 				return
 			}
 		}
-		fmt.Printf("%s [%s] service recover success\n", checkSymbol, user.Username)
+		fmt.Printf("%s [%s] container recovery succeeded\n", checkSymbol, user.Username)
 		return
 	}
-	fmt.Printf("%s [%s] service is normal\n", checkSymbol, user.Username)
+	fmt.Printf("%s [%s] container is running\n", checkSymbol, user.Username)
 }
