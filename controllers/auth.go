@@ -118,6 +118,9 @@ func (router *MainRouter) StartServiceHandler(c *gin.Context) {
 		//2. Update service status
 		user.Status = 1
 		router.db.Id(uid).Cols("status").Update(user)
+	} else if user.Status == 2 {
+		user.Status = 1
+		router.db.Id(uid).Cols("status").Update(user)
 	}
 
 	resp := models.Response{Success: true, Message: "success"}

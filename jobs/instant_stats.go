@@ -1,6 +1,7 @@
 package jobs
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -71,8 +72,8 @@ func InstantStats() {
 			now := time.Now()
 			user.LastStatsResult = raw
 			user.LastStatsTime = &now
-			if bandwidth > 0 {
-				log.Printf("STATS: user(%d-%s)-container(%s)-bandwidth(%.2f)\n", user.Id, user.Username, user.ServiceId[:12], bandwidth)
+			if b := fmt.Sprintf("%.2f", bandwidth); b != "0.00" {
+				log.Printf("STATS: user(%d-%s)-container(%s)-bandwidth(%s)\n", user.Id, user.Username, user.ServiceId[:12], b)
 			}
 		} else {
 			user.Status = 2
