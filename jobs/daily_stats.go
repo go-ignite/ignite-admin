@@ -9,10 +9,14 @@ import (
 	"github.com/go-ignite/ignite/ss"
 )
 
+type CronJob struct {
+	mux sync.Mutex
+}
+
 //dailyStats: Daily task, check & stop expired containers.
-func DailyStats(mux sync.Mutex) {
-	mux.Lock()
-	defer mux.Unlock()
+func (ctx *CronJob) DailyStats() {
+	ctx.mux.Lock()
+	defer ctx.mux.Unlock()
 
 	//1. Load all services from users
 	users := []models.User{}

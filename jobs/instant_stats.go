@@ -3,7 +3,6 @@ package jobs
 import (
 	"fmt"
 	"log"
-	"sync"
 	"time"
 
 	"github.com/go-ignite/ignite/models"
@@ -24,10 +23,10 @@ func SetDB(engine *xorm.Engine) {
 }
 
 //instantStats: Instant task, check & update used bandwidth, stop containers which exceeded the package limit.
-func InstantStats(mux sync.Mutex) {
+func (ctx *CronJob) InstantStats() {
 
-	mux.Lock()
-	defer mux.Unlock()
+	ctx.mux.Lock()
+	defer ctx.mux.Unlock()
 	// 1. Load all service from user
 	users := []models.User{}
 	err := db.Where("service_id != ''").Find(&users)

@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"os"
-	"sync"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-ignite/ignite-admin/controllers"
@@ -15,7 +14,6 @@ import (
 )
 
 var confPath = flag.String("c", "./conf/config.toml", "config file")
-var mux sync.Mutex
 
 func main() {
 	utility.InitConf(*confPath)
@@ -46,9 +44,11 @@ func initRouter(db *xorm.Engine) {
 func initJob(db *xorm.Engine) {
 	jobs.SetDB(db)
 	c := cron.New()
-	c.AddFunc("0 */5 * * * *", jobs.InstantStats(mux))
-	c.AddFunc("0 0 0 * * *", jobs.DailyStats(mux))
-	c.AddFunc("0 0 0 1 * *", jobs.MonthlyStats(mux))
+	cj := &jobs.CronJob{}
+
+	c.AddFunc("0 */5 * * * *", cj.InstantStats)
+	c.AddFunc("0 0 0 * * *", cj.DailyStats)
+	c.AddFunc("0 0 0 1 * *", cj.MonthlyStats)
 	c.Start()
 	select {}
 }
