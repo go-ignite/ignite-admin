@@ -2,6 +2,7 @@ package jobs
 
 import (
 	"log"
+	"sync"
 	"time"
 
 	"github.com/go-ignite/ignite/models"
@@ -9,7 +10,10 @@ import (
 )
 
 //dailyStats: Daily task, check & stop expired containers.
-func DailyStats() {
+func DailyStats(mux sync.Mutex) {
+	mux.Lock()
+	defer mux.Unlock()
+
 	//1. Load all services from users
 	users := []models.User{}
 	err := db.Where("service_id != '' AND status = 1").Find(&users)

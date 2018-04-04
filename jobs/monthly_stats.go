@@ -2,6 +2,7 @@ package jobs
 
 import (
 	"log"
+	"sync"
 	"time"
 
 	"github.com/go-ignite/ignite/models"
@@ -9,7 +10,11 @@ import (
 )
 
 //monthlyStats: Restart stopped containers and restore the bandwidth.
-func MonthlyStats() {
+func MonthlyStats(mux sync.Mutex) {
+
+	mux.Lock()
+	defer mux.Unlock()
+
 	log.Println("In MonthlyStats")
 	log.Println("Load all stopped services from users")
 	//1. Load all stopped services from users
