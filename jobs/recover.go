@@ -56,7 +56,7 @@ func recoverUser(db *xorm.Engine, wg *sync.WaitGroup, user *models.User) {
 			user.ServiceMethod = "aes-256-cfb"
 		}
 		// Create container
-		result, err := ss.CreateAndStartContainer(user.ServiceType, strings.ToLower(user.Username), user.ServiceMethod, user.ServicePort)
+		result, err := ss.CreateAndStartContainer(user.ServiceType, strings.ToLower(user.Username), user.ServiceMethod, user.ServicePwd, user.ServicePort)
 		if err != nil {
 			fmt.Printf("%s [%s] create container error:%v\n", crossSymbol, user.Username, err)
 			return

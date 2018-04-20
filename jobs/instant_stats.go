@@ -1,6 +1,7 @@
 package jobs
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -22,7 +23,10 @@ func SetDB(engine *xorm.Engine) {
 }
 
 //instantStats: Instant task, check & update used bandwidth, stop containers which exceeded the package limit.
-func InstantStats() {
+func (ctx *CronJob) InstantStats() {
+
+	ctx.mux.Lock()
+	defer ctx.mux.Unlock()
 	// 1. Load all service from user
 	users := []models.User{}
 	err := db.Where("service_id != ''").Find(&users)
@@ -71,8 +75,8 @@ func InstantStats() {
 			now := time.Now()
 			user.LastStatsResult = raw
 			user.LastStatsTime = &now
-			if bandwidth > 0 {
-				log.Printf("STATS: user(%d-%s)-container(%s)-bandwidth(%.2f)\n", user.Id, user.Username, user.ServiceId[:12], bandwidth)
+			if b := fmt.Sprintf("%.2f", bandwidth); b != "0.00" {
+				log.Printf("STATS: user(%d-%s)-container(%s)-bandwidth(%s)\n", user.Id, user.Username, user.ServiceId[:12], b)
 			}
 		} else {
 			user.Status = 2

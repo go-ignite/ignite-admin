@@ -45,8 +45,12 @@ export default {
                 "limit": this.limit,
                 "available": this.available,
             }).then((response) => {
-                this.$toast.open('生成邀请码成功!');
-                this.$emit('close');
+              if (response.success) {
+				this.$toast.open('生成邀请码成功!');
+              } else {
+                this.$toast.open('生成邀请码失败!');
+              }
+				this.$emit('close');
             }).catch((error) => {
                 this.$toast.open({
                     message: '生成邀请码失败!',
