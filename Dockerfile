@@ -4,9 +4,10 @@ COPY . .
 RUN yarn install && webpack
 
 FROM golang:1.9 as builder-backend
+ARG VERSION
 WORKDIR /go/src/github.com/go-ignite/ignite-admin
 COPY . .
-RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o ignite-admin .
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags "-X main.version=${VERSION}" -o ignite-admin 
 
 FROM alpine
 LABEL maintainer="go-ignite"
@@ -25,4 +26,4 @@ COPY --from=builder-frontend /ignite-admin/static ./static
 RUN mv ./conf/config-temp.toml ./conf/config.toml
 
 EXPOSE 8000
-CMD ["/bin/sh", "-c", "./ignite-admin"]
+ENTRYPOINT ["./ignite-admin"]
