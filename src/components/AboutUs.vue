@@ -2,14 +2,14 @@
     <div class="card">
         <div class="card-image">
             <figure class="image is-4by4">
-                <img src="./images/gopher.jpg" alt="Image">
+                <img src="../assets/images/gopher.jpg" alt="Image">
             </figure>
         </div>
         <div class="card-content">
             <div class="media">
                 <div class="media-left">
                     <figure class="image is-48x48">
-                        <img src="./images/favicon-96x96.png" alt="Image">
+                        <img src="../assets/images/favicon-96x96.png" alt="Image">
                     </figure>
                 </div>
                 <div class="media-content">

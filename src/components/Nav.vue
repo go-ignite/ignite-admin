@@ -3,7 +3,7 @@
         <div class="container">
             <div class="navbar-brand">
                 <a class="navbar-item">
-                    <img src="./images/favicon-96x96.png" alt="ignite">
+                    <img src="../assets/images/favicon-96x96.png" alt="ignite">
                 </a>
                 <div class="navbar-burger" @click="toggleBurger">
                     <span></span>
