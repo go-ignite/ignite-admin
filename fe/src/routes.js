@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import EventBus, { Event } from './utils/EventBus'
-import App from './App.vue'
 
 Vue.use(Router)
 
@@ -10,7 +9,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      component: App,
+      component: () => import('./views/Entry'),
       children: [
         {
           path: '',

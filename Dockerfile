@@ -1,7 +1,7 @@
 FROM jmfirth/webpack:6-slim as builder-frontend
 WORKDIR /ignite-admin
 COPY . .
-RUN yarn install && webpack
+RUN cd fe && yarn install && webpack
 
 FROM golang:1.9 as builder-backend
 ARG VERSION

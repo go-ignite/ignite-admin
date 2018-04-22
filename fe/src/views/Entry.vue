@@ -1,14 +1,16 @@
 <template>
-  <div>
+  <div class="iadmin">
     <g-navbar></g-navbar>
-    <router-view />
+    <div class="iadmin_views">
+      <router-view />
+    </div>
     <g-footer></g-footer>
   </div>
 </template>
 
 <script>
-import GNavbar from './components/Nav.vue';
-import GFooter from './components/Footer.vue';
+import GNavbar from '@/components/Nav.vue';
+import GFooter from '@/components/Footer.vue';
 
 export default {
   name: 'app',

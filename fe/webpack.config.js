@@ -11,10 +11,10 @@ function resolve (dir) {
 
 module.exports = {
     entry: {
-        index: "./src/index.js",
+        index: "./src/main.js",
     },
     output: {
-        path: path.resolve(__dirname, './static'),
+        path: path.resolve(__dirname, '../static'),
         filename: "js/[name].bundle.js",
         publicPath: '/static/'
     },
