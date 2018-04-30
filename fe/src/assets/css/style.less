@@ -8,6 +8,8 @@ html,
 body {
   width: 100%;
   min-width: 1080px;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .table {
@@ -38,6 +40,26 @@ body {
   min-height: 410px;
   max-width: 500px;
   margin: auto;
+}
+
+.iadmin_aboutus {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: 450px;
+  .ia_card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ia_card_content {
+    padding-top: 15px;
+  }
+}
+
+.iadmin_codetable {
+  padding-top: 50px;
 }
 
 .h_fr {

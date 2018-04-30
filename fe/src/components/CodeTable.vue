@@ -1,56 +1,94 @@
 <template>
-    <div>
-        <a class="button is-primary batch" @click="showModal = true">批量生成</a>
-    
-        <b-modal v-on:close="closed" :active.sync="showModal" :component="ModalForm" :width="360">
-        </b-modal>
-    
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>邀请码</th>
-                    <th>创建时间</th>
-                    <th>有效期限</th>
-                    <th>总流量</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item, index) in codeList" :key="item.Id">
-                    <td>{{ item.InviteCode }}</td>
-                    <td>
-                        <span class="tag is-primary">{{ item.Created | dateFilter}}</span>
-                    </td>
-                    <td>{{ item.AvailableLimit }} 个月</td>
-                    <td>{{ item.PackageLimit }} GB</td>
-                    <td>
-                        <a @click="remove(item, index)" class="button is-warning is-small">删除</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    
-        <b-pagination @change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
-        </b-pagination>
+    <div class="iadmin_codetable">
+        <el-button @click="showModal = true" type="primary">批量生成</el-button>
+        <t-c-r
+          :tableData="codeList"
+          :tableCols="tableCols"
+          :pagination="pagination"
+          @page-change="pageChanged"
+        >
+        </t-c-r>
+        <el-dialog
+          @close="closed"
+          :visible.sync="showModal"
+          title="批量生成邀请码"
+          width="360">
+          <modal-form @closeModal="showModal = false"></modal-form>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+import TCR from '@/components/TableColumnRender.vue'
 import request from '../apis/request'
 import ModalForm from './ModalForm.vue'
 
 export default {
+  computed: {
+    tableCols() {
+      const removeFn = this.remove
+      return [
+        {
+          raw: {
+            label: '邀请码',
+            prop: 'InviteCode',
+          },
+        },
+        {
+          raw: {
+            label: '创建时间',
+            prop: 'Created',
+          },
+          formatter: (v) => this.dateFilter(v)
+        },
+        {
+          raw: {
+            label: '有效期限',
+            prop: 'AvailableLimit',
+          },
+          formatter: (v) => `${v}个月`
+        },
+        {
+          raw: {
+            label: '总流量',
+            prop: 'PackageLimit',
+          },
+          formatter: (v) => `${v} GB`
+        },
+        {
+          raw: {
+            label: '操作',
+          },
+          render: {
+            props: {
+              row: {
+                type: Object,
+                default: () => ({}),
+              },
+            },
+            render() {
+              return (
+                <el-button onClick={() => removeFn(this.row)} type="danger" icon="el-icon-delete" circle></el-button>
+              )
+            },
+          },
+        },
+      ]
+    },
+  },
   data() {
     return {
       codeList: [],
-      total: 0,
-      current: 1,
+      pagination: {
+        total: 0,
+        size: 12,
+
+      },
       perPage: 12,
       order: '',
       size: 'is-small',
       isSimple: false,
       showModal: false,
-      ModalForm,
     }
   },
   filters: {
@@ -61,14 +99,15 @@ export default {
   methods: {
     closed() {
       //Refresh all the valid invite codes.
-      request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`).then((response) => {
+      request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.pagination.size}`).then((response) => {
         if (response.success) {
           this.codeList = response.data.data
-          this.total = response.data.total
+          this.pagination.total = response.data.total
         }
       })
     },
     remove(item, index) {
+      // TODO: FIX remove effect page
       this.$dialog.confirm({
         title: '删除邀请码',
         message: '是否确定 <strong>删除</strong> 邀请码 <strong>' + item.InviteCode + '</strong> ?',
@@ -77,12 +116,16 @@ export default {
         type: 'is-warning',
         hasIcon: true,
         onConfirm: () => {
+          const removeId = item.Id
           request
-            .put('/api/auth/' + item.Id.toString() + '/remove')
+            .put(`/api/auth/${removeId}/remove`)
             .then((response) => {
               if (response.success) {
-                this.codeList.splice(index, 1)
-                this.$toast.open('邀请码已删除!')
+                const index = this.codeList.findIndex(e => e.Id === removeId)
+                if (index > -1) {
+                  this.codeList.splice(index, 1)
+                  this.$toast.open('邀请码已删除!')
+                }
               } else {
                 this.$toast.open('删除邀请码失败!')
               }
@@ -95,22 +138,29 @@ export default {
     },
     pageChanged(value) {
       request
-        .get(`/api/auth/code_list?pageIndex=${value.toString()}&pageSize=${this.perPage}`)
+        .get(`/api/auth/code_list?pageIndex=${value}&pageSize=${this.pagination.size}`)
         .then((response) => {
           if (response.success) {
             this.codeList = response.data.data
-            this.total = response.data.total
+            this.pagination.total = response.data.total
           }
         })
     },
+    dateFilter: (value) => {
+      return value.split('T')[0]
+    },
   },
   created() {
-    request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`).then((response) => {
+    request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.pagination.size}`).then((response) => {
       if (response.success) {
         this.codeList = response.data.data
-        this.total = response.data.total
+        this.pagination.total = response.data.total
       }
     })
+  },
+  components: {
+    TCR,
+    ModalForm,
   },
 }
 </script>

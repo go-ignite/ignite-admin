@@ -19,7 +19,7 @@ const router = new Router({
         {
           path: 'about',
           name: 'about',
-          component: () => import('./views/About'),
+          component: () => import('./views/AboutUs'),
         },
         {
           path: 'code',
