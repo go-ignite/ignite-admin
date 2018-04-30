@@ -35,6 +35,6 @@
 
 <style scoped>
 .card {
-    margin-top: 150px;
+  margin-top: 150px;
 }
 </style>

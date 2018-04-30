@@ -14,52 +14,67 @@
 </template>
 
 <script>
-import request from '../apis/request';
+import request from '../apis/request'
 
 export default {
-    props: {
-        cancel: Function,
-        selectUser: Object,
-    },
+  props: {
+    cancel: Function,
+    selectUser: Object,
+  },
 
-    data() {
-        const today = new Date()
-        return {
-            date: today,
-            dayNames: ['日', '一', '二', '三', '四', '五', '六'],
-            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-            minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
-        }
-    },
-
-    methods: {
-        onSubmit() {
-            request.put(`/api/auth/${this.selectUser.Id}/renew`, {
-                expired: this.date.valueOf() / 1000,
-            }).then((response) => {
-                if (response.success) {
-                    this.$toast.open('账号续期成功!');
-                    this.$emit('renew-success')
-                } else {
-                    this.$toast.open({
-                        message: response.message,
-                        type: 'is-danger'
-                    })
-                }
-                this.cancel()
-            });
-        }
-    },
-
-    mounted() {
-        this.date = new Date(this.selectUser.Expired);
+  data() {
+    const today = new Date()
+    return {
+      date: today,
+      dayNames: ['日', '一', '二', '三', '四', '五', '六'],
+      monthNames: [
+        '一月',
+        '二月',
+        '三月',
+        '四月',
+        '五月',
+        '六月',
+        '七月',
+        '八月',
+        '九月',
+        '十月',
+        '十一月',
+        '十二月',
+      ],
+      minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
     }
+  },
+
+  methods: {
+    onSubmit() {
+      request
+        .put(`/api/auth/${this.selectUser.Id}/renew`, {
+          expired: this.date.valueOf() / 1000,
+        })
+        .then((response) => {
+          if (response.success) {
+            this.$toast.open('账号续期成功!')
+            this.$emit('renew-success')
+          } else {
+            this.$toast.open({
+              message: response.message,
+              type: 'is-danger',
+            })
+          }
+          this.cancel()
+        })
+    },
+  },
+
+  mounted() {
+    this.date = new Date(this.selectUser.Expired)
+  },
 }
 </script>
 
 <style scoped>
 .modal-card {
-    margin: 0 auto;
-    width: auto;
+  margin: 0 auto;
+  width: auto;
 }
 </style>

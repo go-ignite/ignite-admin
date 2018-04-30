@@ -36,60 +36,59 @@
 </template>
 
 <script>
-import EventBus, {Event} from '../utils/EventBus'
+import EventBus, { Event } from '../utils/EventBus'
 
 export default {
-    data() {
-        return {
-            isLogin: false,
-            currentRoute: '',
-            buggerActive: false,
-        }
-    },
-    methods: {
-        onLogout(event) {
-            console.log('logout clicked...');
-            localStorage.setItem("token", "");
-            location.href = '/';
-        },
-        changeNavActive(routeName) {
-            this.currentRoute = routeName;
-        },
-        toggleBurger() {
-            this.buggerActive = !this.buggerActive
-        },
-    },
-    created() {
-        if (localStorage.getItem("token") != "") {
-            this.isLogin = true;
-        }
-    },
-    mounted() {
-        this.changeNavActive(this.$router.currentRoute.name);
-        EventBus.$on(Event.LOGIN_SUCCESS, () => {
-            this.isLogin = true;
-        })
-        EventBus.$on(Event.ROUTE_CHANGE, this.changeNavActive);
+  data() {
+    return {
+      isLogin: false,
+      currentRoute: '',
+      buggerActive: false,
     }
+  },
+  methods: {
+    onLogout() {
+      localStorage.setItem('token', '')
+      location.href = '/'
+    },
+    changeNavActive(routeName) {
+      this.currentRoute = routeName
+    },
+    toggleBurger() {
+      this.buggerActive = !this.buggerActive
+    },
+  },
+  created() {
+    if (localStorage.getItem('token') != '') {
+      this.isLogin = true
+    }
+  },
+  mounted() {
+    this.changeNavActive(this.$router.currentRoute.name)
+    EventBus.$on(Event.LOGIN_SUCCESS, () => {
+      this.isLogin = true
+    })
+    EventBus.$on(Event.ROUTE_CHANGE, this.changeNavActive)
+  },
 }
 </script>
 
 <style scoped>
 .navbar {
-    box-shadow: 0 2px 3px hsla(0,0%,4%,.1);
+  box-shadow: 0 2px 3px hsla(0, 0%, 4%, 0.1);
 }
 
 .nav-item {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 .nav-item img {
-    max-height: 1.75rem;
+  max-height: 1.75rem;
 }
 @media screen and (max-width: 1023px) {
-    .navbar-menu .navbar-item.is-tab.is-active {
-        border-bottom: none;
-    }
+  .navbar-menu .navbar-item.is-tab.is-active {
+    border-bottom: none;
+  }
 }
 </style>

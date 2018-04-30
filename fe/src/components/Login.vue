@@ -14,38 +14,38 @@
 
 <script>
 import request from '../apis/request'
-import EventBus, {Event} from '../utils/EventBus';
+import EventBus, { Event } from '../utils/EventBus'
 
 export default {
-    data() {
-        return {
-            username: '',
-            password: ''
-        }
-    },
-    methods: {
-        onLogin(event) {
-            request.post("/api/login", {
-                "username": this.username,
-                "password": this.password
+  data() {
+    return {
+      username: '',
+      password: '',
+    }
+  },
+  methods: {
+    onLogin(event) {
+      request
+        .post('/api/login', {
+          username: this.username,
+          password: this.password,
+        })
+        .then((response) => {
+          if (response.success) {
+            localStorage.setItem('token', response.data)
+            EventBus.$emit(Event.LOGIN_SUCCESS)
+            this.$router.push({ name: 'status' })
+          } else {
+            this.$toast.open({
+              message: '用户名或者密码不正确!',
+              type: 'is-danger',
             })
-                .then((response) => {
-                    if (response.success) {
-                        localStorage.setItem("token", response.data);
-                        EventBus.$emit(Event.LOGIN_SUCCESS);
-                        this.$router.push({name: 'status'});
-                    } else {
-                        this.$toast.open({
-                            message: '用户名或者密码不正确!',
-                            type: 'is-danger'
-                        })
-                    }
-                })
-        }
+          }
+        })
     },
+  },
 }
 </script>
 
 <style scoped>
-
 </style>

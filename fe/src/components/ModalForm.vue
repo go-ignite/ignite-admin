@@ -27,44 +27,46 @@
 </template>
 
 <script>
-import request from '../apis/request';
+import request from '../apis/request'
 
 export default {
-
-    data() {
-        return {
-            amount: 1,
-            limit: 1,
-            available: 1,
-        }
-    },
-    methods: {
-        onSubmit() {
-            request.post("/api/auth/code_generate", {
-                "amount": this.amount,
-                "limit": this.limit,
-                "available": this.available,
-            }).then((response) => {
-              if (response.success) {
-				this.$toast.open('生成邀请码成功!');
-              } else {
-                this.$toast.open('生成邀请码失败!');
-              }
-				this.$emit('close');
-            }).catch((error) => {
-                this.$toast.open({
-                    message: '生成邀请码失败!',
-                    type: 'is-danger'
-                })
-            });
-        }
+  data() {
+    return {
+      amount: 1,
+      limit: 1,
+      available: 1,
     }
+  },
+  methods: {
+    onSubmit() {
+      request
+        .post('/api/auth/code_generate', {
+          amount: this.amount,
+          limit: this.limit,
+          available: this.available,
+        })
+        .then((response) => {
+          if (response.success) {
+            this.$toast.open('生成邀请码成功!')
+          } else {
+            this.$toast.open('生成邀请码失败!')
+          }
+          this.$emit('close')
+        })
+        .catch((error) => {
+          this.$toast.open({
+            message: '生成邀请码失败!',
+            type: 'is-danger',
+          })
+        })
+    },
+  },
 }
 </script>
 
 <style scoped>
 .modal-card {
-    margin: 0 auto;
-    width: auto;
+  margin: 0 auto;
+  width: auto;
 }
 </style>

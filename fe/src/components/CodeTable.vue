@@ -36,103 +36,100 @@
 </template>
 
 <script>
-import request from '../apis/request';
-import ModalForm from './ModalForm.vue';
+import request from '../apis/request'
+import ModalForm from './ModalForm.vue'
 
 export default {
-    data() {
-        return {
-            codeList: [],
-            total: 0,
-            current: 1,
-            perPage: 12,
-            order: '',
-            size: 'is-small',
-            isSimple: false,
-            showModal: false,
-            ModalForm
-        }
-    },
-    filters: {
-        dateFilter: (value) => {
-            return value.split('T')[0];
-        }
-    },
-    methods: {
-        closed() {
-            console.log("modal dialog closed...");
-
-            //Refresh all the valid invite codes.
-            request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`)
-                .then((response) => {
-                    if (response.success) {
-                        this.codeList = response.data.data;
-                        this.total = response.data.total;
-                    }
-                })
-        },
-        remove(item, index) {
-            this.$dialog.confirm({
-                title: '删除邀请码',
-                message: '是否确定 <strong>删除</strong> 邀请码 <strong>' + item.InviteCode + '</strong> ?',
-                confirmText: '确认删除',
-                cancelText: '取消',
-                type: 'is-warning',
-                hasIcon: true,
-                onConfirm: () => {
-                    request.put("/api/auth/" + item.Id.toString() + "/remove")
-                        .then((response) => {
-                                if (response.success) {
-                                    this.codeList.splice(index, 1);
-                                    this.$toast.open('邀请码已删除!');
-                                } else {
-                                    this.$toast.open('删除邀请码失败!');
-                                }
-                            })
-                        .catch(() => {
-                            this.$toast.open('删除邀请码失败!');
-                        })
-                }
-            })
-
-        },
-        pageChanged(value) {
-            request.get(`/api/auth/code_list?pageIndex=${value.toString()}&pageSize=${this.perPage}`)
-                .then((response) => {
-                    if (response.success) {
-                        this.codeList = response.data.data;
-                        this.total = response.data.total;
-                    }
-                })
-        }
-    },
-    created() {
-        request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`)
-            .then((response) => {
-                if (response.success) {
-                    this.codeList = response.data.data;
-                    this.total = response.data.total;
-                }
-            })
+  data() {
+    return {
+      codeList: [],
+      total: 0,
+      current: 1,
+      perPage: 12,
+      order: '',
+      size: 'is-small',
+      isSimple: false,
+      showModal: false,
+      ModalForm,
     }
+  },
+  filters: {
+    dateFilter: (value) => {
+      return value.split('T')[0]
+    },
+  },
+  methods: {
+    closed() {
+      //Refresh all the valid invite codes.
+      request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`).then((response) => {
+        if (response.success) {
+          this.codeList = response.data.data
+          this.total = response.data.total
+        }
+      })
+    },
+    remove(item, index) {
+      this.$dialog.confirm({
+        title: '删除邀请码',
+        message: '是否确定 <strong>删除</strong> 邀请码 <strong>' + item.InviteCode + '</strong> ?',
+        confirmText: '确认删除',
+        cancelText: '取消',
+        type: 'is-warning',
+        hasIcon: true,
+        onConfirm: () => {
+          request
+            .put('/api/auth/' + item.Id.toString() + '/remove')
+            .then((response) => {
+              if (response.success) {
+                this.codeList.splice(index, 1)
+                this.$toast.open('邀请码已删除!')
+              } else {
+                this.$toast.open('删除邀请码失败!')
+              }
+            })
+            .catch(() => {
+              this.$toast.open('删除邀请码失败!')
+            })
+        },
+      })
+    },
+    pageChanged(value) {
+      request
+        .get(`/api/auth/code_list?pageIndex=${value.toString()}&pageSize=${this.perPage}`)
+        .then((response) => {
+          if (response.success) {
+            this.codeList = response.data.data
+            this.total = response.data.total
+          }
+        })
+    },
+  },
+  created() {
+    request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.perPage}`).then((response) => {
+      if (response.success) {
+        this.codeList = response.data.data
+        this.total = response.data.total
+      }
+    })
+  },
 }
 </script>
 
 <style scoped>
 .batch {
-    margin: 80px auto 0px auto;
+  margin: 80px auto 0px auto;
 }
 
 .table {
-    margin: 20px auto 20px auto;
+  margin: 20px auto 20px auto;
 }
 
 .table th,
 .table td {
-    text-align: center;
+  text-align: center;
 }
 
 .pagination {
-    margin: 20px auto 80px auto;
+  margin: 20px auto 80px auto;
 }
 </style>

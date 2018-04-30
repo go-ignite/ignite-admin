@@ -14,5 +14,5 @@ export default {
   components: {
     UserTable,
   },
-};
+}
 </script>

@@ -9,14 +9,14 @@
 </template>
 
 <script>
-import GNavbar from '@/components/Nav.vue';
-import GFooter from '@/components/Footer.vue';
+import GNavbar from '@/components/Nav.vue'
+import GFooter from '@/components/Footer.vue'
 
 export default {
   name: 'app',
   components: {
     GNavbar,
     GFooter,
-  }
-};
+  },
+}
 </script>
