@@ -13,8 +13,8 @@ const router = new Router({
       children: [
         {
           path: '',
-          name: 'index',
-          component: () => import('./views/Index'),
+          name: 'login',
+          component: () => import('./views/Login'),
         },
         {
           path: 'about',
