@@ -1,24 +1,23 @@
 <template>
     <div class="modal-card">
-        <section class="modal-card-body">
-            <b-field label="数量">
-                <b-input v-model.number="amount" placeholder="输入邀请码数量" type="number" min="1" max="100" required>
-                </b-input>
-            </b-field>
-    
-            <b-field label="流量 (GB)">
-                <b-input v-model.number="limit" placeholder="输入月流量" type="number" min="1" max="999999" required>
-                </b-input>
-            </b-field>
-    
-            <b-field label="有效期 (月)">
-                <b-input v-model.number="available" placeholder="输入有效月数" type="number" min="1" max="999999" required>
-                </b-input>
-            </b-field>
-        </section>
-        <footer class="modal-card-foot">
-            <button class="button" type="button" @click="$emit('closeModal')">关闭</button>
-            <button class="button is-primary" type="button" @click="onSubmit">批量生成</button>
+        <el-form>
+          <el-form-item label="数量">
+            <el-input v-model.number="amount" placeholder="输入邀请码数量" type="number" min="1" max="100" required>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="流量（GB）">
+            <el-input v-model.number="limit" placeholder="输入月流量" type="number" min="1" max="999999" required>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="有效期（月）">
+            <el-input v-model.number="available" placeholder="输入有效月数" type="number" min="1" max="999999" required></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="$emit('closeModal')">关闭</el-button>
+          <el-button type="primary" @click="onSubmit">批量生成</el-button>
+        </span>
+        <footer>
         </footer>
     </div>
 </template>
@@ -44,17 +43,14 @@ export default {
         })
         .then((response) => {
           if (response.success) {
-            this.$toast.open('生成邀请码成功!')
+            this.$message.success('生成邀请码成功!')
           } else {
-            this.$toast.open('生成邀请码失败!')
+            this.$message.error('生成邀请码失败!')
           }
           this.$emit('closeModal')
         })
         .catch((error) => {
-          this.$toast.open({
-            message: '生成邀请码失败!',
-            type: 'is-danger',
-          })
+          this.$message.error('生成邀请码失败!')
         })
     },
   },

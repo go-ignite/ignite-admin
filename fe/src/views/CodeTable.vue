@@ -1,5 +1,5 @@
 <template>
-    <div class="iadmin_codetable">
+    <div class="iadmin_codetable g_wrap">
         <el-button @click="showModal = true" type="primary">批量生成</el-button>
         <t-c-r
           :tableData="codeList"
@@ -20,8 +20,8 @@
 
 <script>
 import TCR from '@/components/TableColumnRender.vue'
+import ModalForm from '@/components/ModalForm.vue'
 import request from '../apis/request'
-import ModalForm from './ModalForm.vue'
 
 export default {
   computed: {
@@ -120,14 +120,14 @@ export default {
               const index = this.codeList.findIndex(e => e.Id === removeId)
               if (index > -1) {
                 this.codeList.splice(index, 1)
-                this.$toast.open('邀请码已删除!')
+                this.$message.success('邀请码已删除')
               }
             } else {
-              this.$toast.open('删除邀请码失败!')
+              this.$message.error('删除邀请码失败!')
             }
           })
           .catch(() => {
-            this.$toast.open('删除邀请码失败!')
+            this.$message.error('删除邀请码失败!')
           })
       }).catch(() => {})
     },

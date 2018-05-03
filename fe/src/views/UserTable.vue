@@ -1,28 +1,39 @@
 <template>
-  <div class="iadmin_usertable">
-    <b-modal :active.sync="showModal" :height="550" :width="380" :cancel="cancelRenew">
+  <div class="iadmin_usertable g_wrap">
+    <el-dialog
+      @close="cancelRenew"
+      :visible.sync="showModal"
+      title="批量生成邀请码"
+      width="380">
       <renew-form @renew-success="fetchData" :showModal="showModal" :selectUser="selectUser" :cancel="cancelRenew"></renew-form>
-    </b-modal>
+    </el-dialog>
     <t-c-r
       :tableData="statusList"
       :tableCols="tableCols"
       :pagination="pagination"
     >
       <template slot="operator" slot-scope="{ col, row }">
-        <a v-if="row.Status === 1" @click="stop(item)" class="button is-warning is-small">停止服务</a>
-          <a v-if="row.Status === 2" @click="start(row)" class="button is-primary is-small">启动服务</a>
-          <a @click="reset(row)" class="button is-success is-small">重置流量</a>
-          <a @click="renew(row)" class="button is-info is-small">服务续期</a>
-          <a @click="destroy(row)" class="button is-danger is-small">一键销毁</a>
-      </template>
+        <el-dropdown>
+           <el-button type="primary" size="mini">
+            操作<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-if="row.Status === 0" @click.native="start(row)">启动服务</el-dropdown-item>
+            <el-dropdown-item v-if="row.Status === 1" @click.native="stop(row)">停止服务</el-dropdown-item>
+            <el-dropdown-item @click.native="reset(row)" divided>重置流量</el-dropdown-item>
+            <el-dropdown-item @click.native="renew(row)">服务续期</el-dropdown-item>
+            <el-dropdown-item @click.native="destroy(row)">一键销毁</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+    </template>
     </t-c-r>
   </div>
 </template>
 
 <script>
 import TCR from '@/components/TableColumnRender.vue'
-import request from '../apis/request'
-import RenewForm from './RenewForm.vue'
+import RenewForm from '@/components/RenewForm.vue'
+import request from '@/apis/request'
 
 export default {
   computed: {
@@ -84,7 +95,8 @@ export default {
         },
         {
           raw: {
-            label: '操作',
+            label: '',
+            width: '150px',
           },
           slot: 'operator',
         },
@@ -124,7 +136,7 @@ export default {
         })
     },
     stop(item) {
-      const index = this.statusList.findIndex(e => e.Id === iten.Id)
+      const index = this.statusList.findIndex(e => e.Id === item.Id)
       this.$dialog.confirm({
         title: '停止服务',
         message:
@@ -139,19 +151,19 @@ export default {
             .then((response) => {
               if (response.success) {
                 this.statusList[index].Status = 2
-                this.$toast.open('用户帐号对应服务已停止!')
+                this.$message('用户帐号对应服务已停止!')
               } else {
-                this.$toast.open('停止服务失败!')
+                this.$message('停止服务失败!')
               }
             })
             .catch(() => {
-              this.$toast.open('停止服务失败!')
+              this.$message('停止服务失败!')
             })
         },
       })
     },
     start(item) {
-      const index = this.statusList.findIndex(e => e.Id === iten.Id)
+      const index = this.statusList.findIndex(e => e.Id === item.Id)
       this.$dialog.confirm({
         title: '启动服务',
         message:
@@ -166,19 +178,19 @@ export default {
             .then((response) => {
               if (response.success) {
                 this.statusList[index].Status = 1
-                this.$toast.open('用户帐号对应服务已成功启动!')
+                this.$message('用户帐号对应服务已成功启动!')
               } else {
-                this.$toast.open('停止服务失败!')
+                this.$message.error(response.message)
               }
             })
             .catch(() => {
-              this.$toast.open('启动服务失败!')
+              this.$message.error('启动服务失败')
             })
         },
       })
     },
     reset(item) {
-      const index = this.statusList.findIndex(e => e.Id === iten.Id)
+      const index = this.statusList.findIndex(e => e.Id === item.Id)
       this.$dialog.confirm({
         title: '重置流量',
         message:
@@ -195,19 +207,19 @@ export default {
             .then((response) => {
               if (response.success) {
                 this.statusList[index].PackageUsed = 0
-                this.$toast.open('用户帐号本月流量已重置!')
+                this.$message('用户帐号本月流量已重置!')
               } else {
-                this.$toast.open('重置用户帐号本月流量失败!')
+                this.$message('重置用户帐号本月流量失败!')
               }
             })
             .catch(() => {
-              this.$toast.open('重置用户帐号本月流量失败!')
+              this.$message('重置用户帐号本月流量失败!')
             })
         },
       })
     },
     destroy(item) {
-      const index = this.statusList.findIndex(e => e.Id === iten.Id)
+      const index = this.statusList.findIndex(e => e.Id === item.Id)
       this.$dialog.confirm({
         title: '销毁账户',
         message:
@@ -224,13 +236,13 @@ export default {
             .then((response) => {
               if (response.success) {
                 this.statusList.splice(index, 1)
-                this.$toast.open('用户帐号已销毁!')
+                this.$message('用户帐号已销毁!')
               } else {
-                this.$toast.open('销毁用户帐号失败!')
+                this.$message('销毁用户帐号失败!')
               }
             })
             .catch(() => {
-              this.$toast.open('销毁用户帐号失败!')
+              this.$message('销毁用户帐号失败!')
             })
         },
       })

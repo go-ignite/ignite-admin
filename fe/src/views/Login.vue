@@ -37,10 +37,7 @@ export default {
             EventBus.$emit(Event.LOGIN_SUCCESS)
             this.$router.push({ name: 'status' })
           } else {
-            this.$toast.open({
-              message: '用户名或者密码不正确!',
-              type: 'is-danger',
-            })
+            this.$message.error('用户名或密码不正确！')
           }
         })
     },

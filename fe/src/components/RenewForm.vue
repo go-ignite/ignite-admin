@@ -53,13 +53,10 @@ export default {
         })
         .then((response) => {
           if (response.success) {
-            this.$toast.open('账号续期成功!')
+            this.$message.success('账号续期成功!')
             this.$emit('renew-success')
           } else {
-            this.$toast.open({
-              message: response.message,
-              type: 'is-danger',
-            })
+            this.$message.error(response.message)
           }
           this.cancel()
         })

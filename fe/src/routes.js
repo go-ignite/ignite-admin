@@ -24,12 +24,12 @@ const router = new Router({
         {
           path: 'code',
           name: 'code',
-          component: () => import('./views/Code'),
+          component: () => import('./views/CodeTable'),
         },
         {
           path: 'status',
           name: 'status',
-          component: () => import('./views/Status'),
+          component: () => import('./views/UserTable'),
         },
       ],
     },
