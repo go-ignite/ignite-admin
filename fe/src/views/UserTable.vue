@@ -3,7 +3,7 @@
     <el-dialog
       @close="cancelRenew"
       :visible.sync="showModal"
-      title="批量生成邀请码"
+      title="服务续期"
       width="380">
       <renew-form @renew-success="fetchData" :showModal="showModal" :selectUser="selectUser" :cancel="cancelRenew"></renew-form>
     </el-dialog>
@@ -137,15 +137,11 @@ export default {
     },
     stop(item) {
       const index = this.statusList.findIndex(e => e.Id === item.Id)
-      this.$dialog.confirm({
-        title: '停止服务',
-        message:
-          '是否确定 <strong>停止</strong> 用户帐号 <strong>' + item.Username + '</strong> 的服务?',
-        confirmText: '停止服务',
-        cancelText: '取消',
-        type: 'is-warning',
-        hasIcon: true,
-        onConfirm: () => {
+      this.$confirm(`是否确定停止用户${item.Username}的服务?`, '停止服务', {
+        confirmButtonText: '停止服务',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
           request
             .put('/api/auth/' + item.Id.toString() + '/stop')
             .then((response) => {
@@ -159,20 +155,15 @@ export default {
             .catch(() => {
               this.$message('停止服务失败!')
             })
-        },
-      })
+        })
     },
     start(item) {
       const index = this.statusList.findIndex(e => e.Id === item.Id)
-      this.$dialog.confirm({
-        title: '启动服务',
-        message:
-          '是否确定 <strong>启动</strong> 用户帐号 <strong>' + item.Username + '</strong> 的服务?',
-        confirmText: '启动服务',
-        cancelText: '取消',
-        type: 'is-primary',
-        hasIcon: true,
-        onConfirm: () => {
+      this.$confirm(`是否确定启动用户${item.Username}的服务?`, '启动服务', {
+        confirmButtonText: '启动服务',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
           request
             .put('/api/auth/' + item.Id.toString() + '/start')
             .then((response) => {
@@ -186,22 +177,15 @@ export default {
             .catch(() => {
               this.$message.error('启动服务失败')
             })
-        },
       })
     },
     reset(item) {
       const index = this.statusList.findIndex(e => e.Id === item.Id)
-      this.$dialog.confirm({
-        title: '重置流量',
-        message:
-          '是否确定 <strong>重置</strong> 用户帐号 <strong>' +
-          item.Username +
-          '</strong> 的本月流量?',
-        confirmText: '重置',
-        cancelText: '取消',
-        type: 'is-info',
-        hasIcon: true,
-        onConfirm: () => {
+      this.$confirm(`是否确定重置用户账号${item.Username}的本月流量?`, '重置流量', {
+        confirmButtonText: '重置',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
           request
             .put('/api/auth/' + item.Id.toString() + '/reset')
             .then((response) => {
@@ -215,22 +199,15 @@ export default {
             .catch(() => {
               this.$message('重置用户帐号本月流量失败!')
             })
-        },
       })
     },
     destroy(item) {
       const index = this.statusList.findIndex(e => e.Id === item.Id)
-      this.$dialog.confirm({
-        title: '销毁账户',
-        message:
-          '是否确定 <strong>销毁</strong> 用户帐号 <strong>' +
-          item.Username +
-          '</strong> ? 该操作将不可逆转',
-        confirmText: '销毁帐号',
-        cancelText: '取消',
-        type: 'is-danger',
-        hasIcon: true,
-        onConfirm: () => {
+      this.$confirm(`是否确定销毁用户账号${item.Username}?该操作将不可逆转`, '销毁账号', {
+        confirmButtonText: '销毁账号',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
           request
             .put('/api/auth/' + item.Id.toString() + '/destroy')
             .then((response) => {
@@ -244,7 +221,6 @@ export default {
             .catch(() => {
               this.$message('销毁用户帐号失败!')
             })
-        },
       })
     },
     renew(item) {

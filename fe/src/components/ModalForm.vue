@@ -17,8 +17,6 @@
           <el-button @click="$emit('closeModal')">关闭</el-button>
           <el-button type="primary" @click="onSubmit">批量生成</el-button>
         </span>
-        <footer>
-        </footer>
     </div>
 </template>
 
