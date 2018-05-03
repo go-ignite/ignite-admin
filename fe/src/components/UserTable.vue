@@ -1,76 +1,104 @@
 <template>
-  <div>
+  <div class="iadmin_usertable">
     <b-modal :active.sync="showModal" :height="550" :width="380" :cancel="cancelRenew">
       <renew-form @renew-success="fetchData" :showModal="showModal" :selectUser="selectUser" :cancel="cancelRenew"></renew-form>
     </b-modal>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>用户名</th>
-          <th>服务类型</th>
-          <th>创建时间</th>
-          <th>过期时间</th>
-          <th>总流量</th>
-          <th>已使用</th>
-          <th>端口号</th>
-          <th>状态</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in statusList" :key="item.Id">
-          <th>{{ item.Username }}</th>
-          <td>{{ item.ServiceType }}</td>
-          <td>
-            <span class="tag is-primary">{{ item.Created | dateFilter}}</span>
-          </td>
-          <td>
-            <span class="tag is-primary">{{ item.Expired | dateFilter}}</span>
-          </td>
-          <td>{{ item.PackageLimit }} GB</td>
-          <td>{{ statusList[index].PackageUsed | bandwidth }}</td>
-          <td>{{ item.ServicePort }}</td>
-          <td v-if="item.Status === 0 ">
-            <font color="gray">未创建</font>
-          </td>
-          <td v-else-if="item.Status === 1 ">
-            <font color="green">运行中</font>
-          </td>
-          <td v-else>
-            <font color="red">已停止</font>
-          </td>
-          <td>
-            <a v-if="item.Status === 1" @click="stop(item, index)" class="button is-warning is-small">停止服务</a>
-            <a v-if="item.Status === 2" @click="start(item, index)" class="button is-primary is-small">启动服务</a>
-            <a @click="reset(item, index)" class="button is-success is-small">重置流量</a>
-            <a @click="renew(item)" class="button is-info is-small">服务续期</a>
-            <a @click="destroy(item, index)" class="button is-danger is-small">一键销毁</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <b-pagination @change="pageChanged" :total="total" :current.sync="current" :order="order" :size="size" :simple="isSimple" :per-page="perPage">
-    </b-pagination>
+    <t-c-r
+      :tableData="statusList"
+      :tableCols="tableCols"
+      :pagination="pagination"
+    >
+      <template slot="operator" slot-scope="{ col, row }">
+        <a v-if="row.Status === 1" @click="stop(item)" class="button is-warning is-small">停止服务</a>
+          <a v-if="row.Status === 2" @click="start(row)" class="button is-primary is-small">启动服务</a>
+          <a @click="reset(row)" class="button is-success is-small">重置流量</a>
+          <a @click="renew(row)" class="button is-info is-small">服务续期</a>
+          <a @click="destroy(row)" class="button is-danger is-small">一键销毁</a>
+      </template>
+    </t-c-r>
   </div>
 </template>
 
 <script>
+import TCR from '@/components/TableColumnRender.vue'
 import request from '../apis/request'
 import RenewForm from './RenewForm.vue'
 
 export default {
-  components: {
-    RenewForm,
+  computed: {
+    tableCols() {
+      return [
+        {
+          raw: {
+            label: '用户名',
+            prop: 'Username',
+          },
+        },
+        {
+          raw: {
+            label: '服务类型',
+            prop: 'ServiceType',
+          },
+        },
+        {
+          raw: {
+            label: '创建时间',
+            prop: 'Created',
+          },
+          formatter: (v) => this.dateFilter(v)
+        },
+        {
+          raw: {
+            label: '过期时间',
+            prop: 'Expired',
+          },
+          formatter: (v) => this.dateFilter(v)
+        },
+        {
+          raw: {
+            label: '总流量',
+            prop: 'PackageLimit',
+          },
+          formatter: (v) => `${v} GB`
+        },
+        {
+          raw: {
+            label: '已使用',
+            prop: 'PackageUsed',
+          },
+          formatter: (v) => this.bandwidth(v)
+        },
+        {
+          raw: {
+            label: '端口号',
+            prop: 'ServicePort',
+          },
+          formatter: (v) => `${v} GB`
+        },
+        {
+          raw: {
+            label: '状态',
+            prop: 'Status',
+          },
+          formatter: (v) => this.statusFormat(v)
+        },
+        {
+          raw: {
+            label: '操作',
+          },
+          slot: 'operator',
+        },
+      ]
+    },
+
   },
   data() {
     return {
+      pagination: {
+        total: 0,
+        size: 12,
+      },
       statusList: [],
-      total: 0,
-      current: 1,
-      perPage: 12,
-      order: '',
-      size: 'is-small',
       isSimple: false,
       showModal: false,
       selectUser: {},
@@ -87,15 +115,16 @@ export default {
   methods: {
     pageChanged(value) {
       request
-        .get(`/api/auth/status_list?pageIndex=${value.toString()}&pageSize=${this.perPage}`)
+        .get(`/api/auth/status_list?pageIndex=${value.toString()}&pageSize=${this.pagination.size}`)
         .then((response) => {
           if (response.success) {
             this.statusList = response.data.data
-            this.total = response.data.total
+            this.pagination.total = response.data.total
           }
         })
     },
-    stop(item, index) {
+    stop(item) {
+      const index = this.statusList.findIndex(e => e.Id === iten.Id)
       this.$dialog.confirm({
         title: '停止服务',
         message:
@@ -121,7 +150,8 @@ export default {
         },
       })
     },
-    start(item, index) {
+    start(item) {
+      const index = this.statusList.findIndex(e => e.Id === iten.Id)
       this.$dialog.confirm({
         title: '启动服务',
         message:
@@ -147,7 +177,8 @@ export default {
         },
       })
     },
-    reset(item, index) {
+    reset(item) {
+      const index = this.statusList.findIndex(e => e.Id === iten.Id)
       this.$dialog.confirm({
         title: '重置流量',
         message:
@@ -175,7 +206,8 @@ export default {
         },
       })
     },
-    destroy(item, index) {
+    destroy(item) {
+      const index = this.statusList.findIndex(e => e.Id === iten.Id)
       this.$dialog.confirm({
         title: '销毁账户',
         message:
@@ -212,16 +244,31 @@ export default {
       this.showModal = false
     },
     fetchData() {
-      request.get(`/api/auth/status_list?pageIndex=1&pageSize=${this.perPage}`).then((response) => {
+      request.get(`/api/auth/status_list?pageIndex=1&pageSize=${this.pagination.size}`).then((response) => {
         if (response.success) {
           this.statusList = response.data.data
-          this.total = response.data.total
+          this.pagination.total = response.data.total
         }
       })
     },
+    dateFilter: (value) => {
+      return value.split('T')[0]
+    },
+    bandwidth: (value) => {
+      return value.toFixed(2).toString() + ' GB'
+    },
+    statusFormat(v) {
+      if (v === 0) return '未创建'
+      if (v === 1) return '运行中'
+      return '已停止'
+    }
   },
   created() {
     this.fetchData()
+  },
+  components: {
+    RenewForm,
+    TCR,
   },
 }
 </script>

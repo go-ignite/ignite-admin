@@ -82,9 +82,7 @@ export default {
       pagination: {
         total: 0,
         size: 12,
-
       },
-      perPage: 12,
       order: '',
       size: 'is-small',
       isSimple: false,
@@ -108,33 +106,30 @@ export default {
     },
     remove(item, index) {
       // TODO: FIX remove effect page
-      this.$dialog.confirm({
+      this.$confirm('是否确定删除邀请码?', '提示', {
         title: '删除邀请码',
-        message: '是否确定 <strong>删除</strong> 邀请码 <strong>' + item.InviteCode + '</strong> ?',
-        confirmText: '确认删除',
-        cancelText: '取消',
-        type: 'is-warning',
-        hasIcon: true,
-        onConfirm: () => {
-          const removeId = item.Id
-          request
-            .put(`/api/auth/${removeId}/remove`)
-            .then((response) => {
-              if (response.success) {
-                const index = this.codeList.findIndex(e => e.Id === removeId)
-                if (index > -1) {
-                  this.codeList.splice(index, 1)
-                  this.$toast.open('邀请码已删除!')
-                }
-              } else {
-                this.$toast.open('删除邀请码失败!')
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const removeId = item.Id
+        request
+          .put(`/api/auth/${removeId}/remove`)
+          .then((response) => {
+            if (response.success) {
+              const index = this.codeList.findIndex(e => e.Id === removeId)
+              if (index > -1) {
+                this.codeList.splice(index, 1)
+                this.$toast.open('邀请码已删除!')
               }
-            })
-            .catch(() => {
+            } else {
               this.$toast.open('删除邀请码失败!')
-            })
-        },
-      })
+            }
+          })
+          .catch(() => {
+            this.$toast.open('删除邀请码失败!')
+          })
+      }).catch(() => {})
     },
     pageChanged(value) {
       request

@@ -1,3 +1,4 @@
+// HACK USE EL-TABLE
 <template>
   <div class="tcr">
     <el-table
@@ -19,6 +20,7 @@
       >
         <template slot-scope="scope">
           <component v-if="col.render" :is="col.render" :row="scope.row"></component>
+          <slot v-else-if="col.slot" :name="col.slot" :row="scope.row" :col="col"></slot>
           <span v-else>{{displayCellData(scope, col)}}</span>
         </template>
       </el-table-column>
