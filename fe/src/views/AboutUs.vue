@@ -1,10 +1,10 @@
 <template>
     <div class="iadmin_aboutus">
         <el-card class="ia_card" :body-style="{ padding: '0px' }">
-        <img src="../assets/images/gopher.jpg" class="ia_img">
+        <img src="../assets/img/gopher.jpg" class="ia_img">
         <div style="padding: 14px;">
             <div class="ia_textwrap">
-                <img src="../assets/images/favicon-96x96.png" alt="Image">
+                <img src="../assets/img/favicon-96x96.png" alt="Image">
                 <div class="ia_text">
                     <p>Ignite Admin</p>
                     <a href="https://github.com/go-ignite" target="_blank">

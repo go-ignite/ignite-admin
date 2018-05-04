@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="nav_wrap">
-      <img src="../assets/images/favicon-96x96.png" class="nav_logo" alt="ignite">
+      <img src="../assets/img/favicon-96x96.png" class="nav_logo" alt="ignite">
       <el-menu :default-active="activePath" class="nav_items" mode="horizontal" @select="handleSelect">
         <!-- use v-show for active. -->
         <el-menu-item v-show="!isLogin" index="/">首页</el-menu-item>
