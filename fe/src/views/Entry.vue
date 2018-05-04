@@ -1,6 +1,6 @@
 <template>
   <div class="iadmin">
-    <g-navbar></g-navbar>
+    <nav-bar></nav-bar>
     <div class="iadmin_views">
       <router-view />
     </div>
@@ -9,14 +9,14 @@
 </template>
 
 <script>
-import GNavbar from '@/components/Nav.vue';
-import GFooter from '@/components/Footer.vue';
+import NavBar from '@/components/NavBar.vue'
+import GFooter from '@/components/Footer.vue'
 
 export default {
   name: 'app',
   components: {
-    GNavbar,
+    NavBar,
     GFooter,
-  }
-};
+  },
+}
 </script>

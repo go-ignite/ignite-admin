@@ -44,8 +44,7 @@ Please refer to [《ignite中文安装指南》](https://github.com/go-ignite/ig
 To build ignite-admin, you need to prepare your Go development environment first, then follow the steps:
 
 * Clone ignite to your go workspace
-* Use npm or yarn to install related node modules.
-* Use webpack to build frontend pages and resources.
+* Use ```yarn && yarn build``` to build frontend pages and resources in `/fe`.
 * Use ```go build``` to build ignite-admin program.
 * Rename conf/config-temp.toml to conf/config.toml and config it.
 * Run it.

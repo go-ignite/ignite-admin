@@ -13,23 +13,23 @@ const router = new Router({
       children: [
         {
           path: '',
-          name: 'index',
-          component: () => import('./views/Index'),
+          name: 'login',
+          component: () => import('./views/Login'),
         },
         {
           path: 'about',
           name: 'about',
-          component: () => import('./views/About'),
+          component: () => import('./views/AboutUs'),
         },
         {
           path: 'code',
           name: 'code',
-          component: () => import('./views/Code'),
+          component: () => import('./views/CodeTable'),
         },
         {
           path: 'status',
           name: 'status',
-          component: () => import('./views/Status'),
+          component: () => import('./views/UserTable'),
         },
       ],
     },

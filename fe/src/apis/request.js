@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 const $http = axios.create({
   timeout: 3 * 60 * 1000, // 3 minutes
@@ -7,37 +7,36 @@ const $http = axios.create({
     'Content-Type': 'application/json',
     Accept: 'application/json',
   },
-});
+})
 
 $http.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token')
     if (token) {
       Object.defineProperty(config.headers, 'Authorization', {
         value: `Bearer ${token}`,
         configurable: true,
         enumerable: true,
         writable: true,
-      });
+      })
     }
-    return config;
+    return config
   },
   (error) => {
-    return Promise.reject(error);
-  },
-);
+    return Promise.reject(error)
+  }
+)
 
 $http.interceptors.response.use(
-  response => response.data,
+  (response) => response.data,
   (error) => {
-    console.log(error)
     if (error.response.status === 401) {
-      localStorage.setItem("token", "");
-      location.href = '/';
+      localStorage.setItem('token', '')
+      location.href = '/'
     }
 
-    return Promise.reject(error);
-  },
-);
+    return Promise.reject(error)
+  }
+)
 
-export default $http;
+export default $http
