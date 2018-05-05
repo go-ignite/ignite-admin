@@ -21,7 +21,6 @@ export default {
   data() {
     return {
       isLogin: false,
-      currentRoute: '',
       buggerActive: false,
     }
   },
@@ -32,11 +31,8 @@ export default {
   },
   methods: {
     onLogout() {
-      localStorage.setItem('token', '')
+      localStorage.removeItem('ignite_admin_token')
       location.href = '/'
-    },
-    changeNavActive(routeName) {
-      this.currentRoute = routeName
     },
     toggleBurger() {
       this.buggerActive = !this.buggerActive
@@ -48,17 +44,17 @@ export default {
     },
   },
   created() {
-    if (localStorage.getItem('token') != '') {
+    if (localStorage.getItem('ignite_admin_token')) {
       this.isLogin = true
+      this.$router.push({
+        name: 'status',
+      })
     }
   },
   mounted() {
-    console.log(this.$route.path)
-    this.changeNavActive(this.$router.currentRoute.name)
     EventBus.$on(Event.LOGIN_SUCCESS, () => {
       this.isLogin = true
     })
-    EventBus.$on(Event.ROUTE_CHANGE, this.changeNavActive)
   },
 }
 </script>

@@ -33,7 +33,7 @@ export default {
         })
         .then((response) => {
           if (response.success) {
-            localStorage.setItem('token', response.data)
+            localStorage.setItem('ignite_admin_token', response.data)
             EventBus.$emit(Event.LOGIN_SUCCESS)
             this.$router.push({ name: 'status' })
           } else {
@@ -42,5 +42,10 @@ export default {
         })
     },
   },
+  created() {
+    if (localStorage.getItem('ignite_admin_token')) {
+      this.isLogin = true
+    }
+  }
 }
 </script>

@@ -11,7 +11,7 @@ const $http = axios.create({
 
 $http.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('ignite_admin_token')
     if (token) {
       Object.defineProperty(config.headers, 'Authorization', {
         value: `Bearer ${token}`,
@@ -31,7 +31,7 @@ $http.interceptors.response.use(
   (response) => response.data,
   (error) => {
     if (error.response.status === 401) {
-      localStorage.setItem('token', '')
+      localStorage.removeItem('ignite_admin_token')
       location.href = '/'
     }
 

@@ -36,8 +36,4 @@ const router = new Router({
   ],
 })
 
-router.afterEach((to, from) => {
-  EventBus.$emit(Event.ROUTE_CHANGE, to.name)
-})
-
 export default router
