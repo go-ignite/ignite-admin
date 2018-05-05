@@ -84,7 +84,6 @@ export default {
             label: '端口号',
             prop: 'ServicePort',
           },
-          formatter: (v) => `${v} GB`
         },
         {
           raw: {

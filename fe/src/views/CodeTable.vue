@@ -9,7 +9,6 @@
         >
         </t-c-r>
         <el-dialog
-          @close="closed"
           :visible.sync="showModal"
           title="批量生成邀请码"
           width="360">
@@ -39,21 +38,21 @@ export default {
             label: '创建时间',
             prop: 'Created',
           },
-          formatter: (v) => this.dateFilter(v)
+          formatter: (v) => this.dateFilter(v),
         },
         {
           raw: {
             label: '有效期限',
             prop: 'AvailableLimit',
           },
-          formatter: (v) => `${v}个月`
+          formatter: (v) => `${v}个月`,
         },
         {
           raw: {
             label: '总流量',
             prop: 'PackageLimit',
           },
-          formatter: (v) => `${v} GB`
+          formatter: (v) => `${v} GB`,
         },
         {
           raw: {
@@ -68,7 +67,12 @@ export default {
             },
             render() {
               return (
-                <el-button onClick={() => removeFn(this.row)} type="danger" icon="el-icon-delete" circle></el-button>
+                <el-button
+                  onClick={() => removeFn(this.row)}
+                  type="danger"
+                  icon="el-icon-delete"
+                  circle
+                />
               )
             },
           },
@@ -82,6 +86,7 @@ export default {
       pagination: {
         total: 0,
         size: 12,
+        index: 1,
       },
       order: '',
       size: 'is-small',
@@ -95,45 +100,9 @@ export default {
     },
   },
   methods: {
-    closed() {
-      //Refresh all the valid invite codes.
-      request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.pagination.size}`).then((response) => {
-        if (response.success) {
-          this.codeList = response.data.data
-          this.pagination.total = response.data.total
-        }
-      })
-    },
-    remove(item, index) {
-      // TODO: FIX remove effect page
-      this.$confirm('是否确定删除邀请码?', '提示', {
-        title: '删除邀请码',
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const removeId = item.Id
-        request
-          .put(`/api/auth/${removeId}/remove`)
-          .then((response) => {
-            if (response.success) {
-              const index = this.codeList.findIndex(e => e.Id === removeId)
-              if (index > -1) {
-                this.codeList.splice(index, 1)
-                this.$message.success('邀请码已删除')
-              }
-            } else {
-              this.$message.error('删除邀请码失败!')
-            }
-          })
-          .catch(() => {
-            this.$message.error('删除邀请码失败!')
-          })
-      }).catch(() => {})
-    },
-    pageChanged(value) {
+    fetchCode(index = 1) {
       request
-        .get(`/api/auth/code_list?pageIndex=${value}&pageSize=${this.pagination.size}`)
+        .get(`/api/auth/code_list?pageIndex=${index}&pageSize=${this.pagination.size}`)
         .then((response) => {
           if (response.success) {
             this.codeList = response.data.data
@@ -141,17 +110,55 @@ export default {
           }
         })
     },
+    remove(item, index) {
+      // TODO: FIX remove effect page
+      this.$confirm('是否确定删除邀请码?', '提示', {
+        title: '删除邀请码',
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          const removeId = item.Id
+          request
+            .put(`/api/auth/${removeId}/remove`)
+            .then((response) => {
+              if (response.success) {
+                const index = this.codeList.findIndex((e) => e.Id === removeId)
+                if (index > -1) {
+                  this.codeList.splice(index, 1)
+                  this.$message.success('邀请码已删除')
+                  this.removePaginationCheck()
+                  this.fetchCode(this.pagination.index)
+                }
+              } else {
+                this.$message.error('删除邀请码失败!')
+              }
+            })
+            .catch(() => {
+              this.$message.error('删除邀请码失败!')
+            })
+        })
+        .catch(() => {})
+    },
+    pageChanged(value) {
+      this.pagination.index = value
+      this.fetchCode(value)
+    },
     dateFilter: (value) => {
       return value.split('T')[0]
     },
+    removePaginationCheck() {
+      const { total, size, index } = this.pagination
+      if (index === 1 || !index) return
+      const limit = size * (index - 1) + 1
+      if (total === limit) {
+        this.pagination.index -= 1
+      }
+    },
   },
   created() {
-    request.get(`/api/auth/code_list?pageIndex=1&pageSize=${this.pagination.size}`).then((response) => {
-      if (response.success) {
-        this.codeList = response.data.data
-        this.pagination.total = response.data.total
-      }
-    })
+    this.fetchCode()
   },
   components: {
     TCR,

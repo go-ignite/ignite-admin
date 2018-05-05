@@ -44,7 +44,10 @@ export default {
   },
   created() {
     if (localStorage.getItem('ignite_admin_token')) {
-      this.isLogin = true
+      EventBus.$emit(Event.LOGIN_SUCCESS)
+      this.$router.push({
+        name: 'status',
+      })
     }
   }
 }

@@ -26,13 +26,15 @@
       </el-table-column>
     </el-table>
     <el-pagination
-      class="t_pagination"
       v-if="pagination && pagination.total"
-      background
-      layout="total, prev, pager, next"
       @current-change="pageChange"
+      :current-page="pagination.index"
       :page-size="pagination.size"
-      :total="pagination.total">
+      :total="pagination.total"
+      layout="total, prev, pager, next"
+      class="t_pagination"
+      background
+    >
     </el-pagination>
   </div>
 </template>
