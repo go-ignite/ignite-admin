@@ -18,9 +18,9 @@
             操作<i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-if="row.Status === 0" @click.native="start(row)">启动服务</el-dropdown-item>
+            <el-dropdown-item v-if="row.Status === 2" @click.native="start(row)">启动服务</el-dropdown-item>
             <el-dropdown-item v-if="row.Status === 1" @click.native="stop(row)">停止服务</el-dropdown-item>
-            <el-dropdown-item @click.native="reset(row)" divided>重置流量</el-dropdown-item>
+            <el-dropdown-item v-if="row.Status !== 0" @click.native="reset(row)" divided>重置流量</el-dropdown-item>
             <el-dropdown-item @click.native="renew(row)">服务续期</el-dropdown-item>
             <el-dropdown-item @click.native="destroy(row)">一键销毁</el-dropdown-item>
           </el-dropdown-menu>
