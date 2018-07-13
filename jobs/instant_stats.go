@@ -54,7 +54,7 @@ func (ctx *CronJob) InstantStats() {
 
 			// Update user package used
 			var bandwidth float32
-			if user.LastStatsTime == nil || user.LastStatsTime.Before(*startTime) {
+			if user.LastStatsTime == nil || user.LastStatsTime.Before(*startTime) || raw < user.LastStatsResult {
 				bandwidth = float32(float64(raw) / GB)
 			} else {
 				bandwidth = float32(float64(raw-user.LastStatsResult) / GB)
