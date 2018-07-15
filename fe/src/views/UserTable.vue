@@ -11,6 +11,7 @@
       :tableData="statusList"
       :tableCols="tableCols"
       :pagination="pagination"
+      @page-change="pageChanged"
     >
       <template slot="operator" slot-scope="{ col, row }">
         <el-dropdown>
