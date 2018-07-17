@@ -6,7 +6,7 @@
             <div class="ia_textwrap">
                 <img src="../assets/img/favicon-96x96.png" alt="Image">
                 <div class="ia_text">
-                    <p>Ignite Admin V1.4</p>
+                    <p>Ignite Admin V1.5</p>
                     <a href="https://github.com/go-ignite" target="_blank">
                         <el-button type="text" class="button">@go-ignite</el-button>
                     </a>
